@@ -1,15 +1,18 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
-import { Settings2 } from 'lucide-react';
+import { Settings2, Clock } from 'lucide-react';
 import IngredientInput from './components/IngredientInput';
 import FloatingIngredients from './components/FloatingIngredients';
 import RecipeCard from './components/RecipeCard';
 import PreferencesPanel from './components/PreferencesPanel';
 import AdBanner from './components/AdBanner';
 import AffiliateLinks from './components/AffiliateLinks';
+import HistoryPanel from './components/HistoryPanel';
+import ShareButton from './components/ShareButton';
 import ScrollIndicator from './components/ScrollIndicator';
 import Logo from './components/Logo';
 import { useCountryDetection } from './hooks/useCountry';
 import { useLocalStorage } from './hooks/useLocalStorage';
+import { useHistory } from './hooks/useHistory';
 import { getRandomTagline } from './data/phrases';
 import { generateRecipe, checkHealth } from './services/api';
 import type { Recipe } from './types/recipe';
@@ -249,6 +252,8 @@ function App() {
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showPrefs, setShowPrefs] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
+  const { addToHistory } = useHistory();
   const [backendReady, setBackendReady] = useState<boolean | null>(null);
   const [preferences, setPreferences] = useLocalStorage<UserPreferences>(
     'esloquehay-prefs',
@@ -287,7 +292,9 @@ function App() {
 
       if (variationName !== undefined && variationName in variationMocks) {
         await new Promise((resolve) => setTimeout(resolve, 800));
-        setRecipe(variationMocks[variationName]);
+        const result = variationMocks[variationName];
+        setRecipe(result);
+        addToHistory(result);
         setIsLoading(false);
         return;
       }
@@ -304,18 +311,19 @@ function App() {
             additionalIngredient: preferences.additionalIngredient,
           });
           setRecipe(result);
+          addToHistory(result);
         } catch {
-          // Fallback a mock si la API falla
           setRecipe(mockRecipe);
+          addToHistory(mockRecipe);
         }
       } else {
-        // Modo demo sin backend
         await new Promise((resolve) => setTimeout(resolve, 1500));
         setRecipe(mockRecipe);
+        addToHistory(mockRecipe);
       }
       setIsLoading(false);
     },
-    [backendReady, ingredients, country, preferences]
+    [backendReady, ingredients, country, preferences, addToHistory]
   );
 
   const handleGenerateVariation = useCallback(
@@ -354,15 +362,26 @@ function App() {
             </span>
           )}
         </div>
-        <button
-          onClick={() => {
-            setShowPrefs(true);
-          }}
-          className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-white rounded-xl shadow-sm text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-        >
-          <Settings2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-          <span className="hidden sm:inline">Preferencias</span>
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => {
+              setShowHistory(true);
+            }}
+            className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 bg-white rounded-xl shadow-sm text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+          >
+            <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            <span className="hidden sm:inline">Historial</span>
+          </button>
+          <button
+            onClick={() => {
+              setShowPrefs(true);
+            }}
+            className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-white rounded-xl shadow-sm text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+          >
+            <Settings2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            <span className="hidden sm:inline">Preferencias</span>
+          </button>
+        </div>
       </div>
 
       {/* Floating Ingredients Cloud */}
@@ -389,12 +408,40 @@ function App() {
       {/* Ad Banner — debajo del botón generar */}
       <AdBanner variant="horizontal" />
 
+      {showHistory && (
+        <HistoryPanel
+          history={[]}
+          onSelect={(r) => {
+            setRecipe(r);
+            setShowHistory(false);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          onClear={() => undefined}
+          onRemove={() => undefined}
+          onClose={() => {
+            setShowHistory(false);
+          }}
+        />
+      )}
+
       {/* Scroll indicator cuando la receta está lista */}
       <ScrollIndicator visible={!!recipe && !isLoading} />
 
       {/* Recipe Result */}
       {recipe && !isLoading && (
         <div className="mt-6 sm:mt-8">
+          <div className="max-w-2xl mx-auto flex items-center justify-between mb-3">
+            <ShareButton recipe={recipe} />
+            <button
+              onClick={() => {
+                setShowHistory(true);
+              }}
+              className="inline-flex items-center gap-1.5 px-3 py-2 bg-white rounded-xl shadow-sm text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+            >
+              <Clock className="w-3.5 h-3.5" />
+              Historial
+            </button>
+          </div>
           <RecipeCard recipe={recipe} onGenerateVariation={handleGenerateVariation} />
           <AffiliateLinks recipeCategory={recipe.title.split(' ')[0]} />
           <AdBanner variant="horizontal" />
