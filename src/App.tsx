@@ -9,7 +9,7 @@ import AffiliateLinks from './components/AffiliateLinks';
 import HistoryPanel from './components/HistoryPanel';
 import ShareButton from './components/ShareButton';
 import ScrollIndicator from './components/ScrollIndicator';
-import Logo from './components/Logo';
+
 import { useCountryDetection } from './hooks/useCountry';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { useHistory } from './hooks/useHistory';
@@ -349,9 +349,20 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-6 sm:py-8 px-3 sm:px-4">
+    <div className="min-h-screen bg-gray-50 py-6 sm:py-8 px-3 sm:px-4 relative overflow-x-hidden">
+      {/* Logo de fondo — chef kawaii, 3/4 pantalla, 50% transparencia */}
+      <div
+        className="fixed inset-0 pointer-events-none z-0"
+        style={{
+          backgroundImage: 'url(/logo.png)',
+          backgroundPosition: 'center center',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: '75%',
+          opacity: 0.5,
+        }}
+      />
       {/* Header */}
-      <div className="max-w-2xl mx-auto flex items-center justify-between mb-3 sm:mb-4">
+      <div className="relative z-10 max-w-2xl mx-auto flex items-center justify-between mb-3 sm:mb-4">
         <div className="flex items-center gap-2">
           <span className="text-[10px] sm:text-xs text-gray-400 font-medium">📍 {countryName}</span>
           {backendReady !== null && (
@@ -385,7 +396,7 @@ function App() {
       </div>
 
       {/* Floating Ingredients Cloud */}
-      <div className="max-w-2xl mx-auto">
+      <div className="relative z-10 max-w-2xl mx-auto">
         <FloatingIngredients
           country={country}
           onSelect={addIngredient}
@@ -395,18 +406,22 @@ function App() {
       </div>
 
       {/* Manual Input */}
-      <IngredientInput
-        ingredients={ingredients}
-        tagline={tagline}
-        spanishVariant={spanishVariant}
-        onAdd={addIngredient}
-        onRemove={removeIngredient}
-        onGenerate={() => void handleGenerate()}
-        isLoading={isLoading}
-      />
+      <div className="relative z-10">
+        <IngredientInput
+          ingredients={ingredients}
+          tagline={tagline}
+          spanishVariant={spanishVariant}
+          onAdd={addIngredient}
+          onRemove={removeIngredient}
+          onGenerate={() => void handleGenerate()}
+          isLoading={isLoading}
+        />
+      </div>
 
       {/* Ad Banner — debajo del botón generar */}
-      <AdBanner variant="horizontal" />
+      <div className="relative z-10">
+        <AdBanner variant="horizontal" />
+      </div>
 
       {showHistory && (
         <HistoryPanel
@@ -429,7 +444,7 @@ function App() {
 
       {/* Recipe Result */}
       {recipe && !isLoading && (
-        <div className="mt-6 sm:mt-8">
+        <div className="relative z-10 mt-6 sm:mt-8">
           <div className="max-w-2xl mx-auto flex items-center justify-between mb-3">
             <ShareButton recipe={recipe} />
             <button
@@ -459,12 +474,9 @@ function App() {
         />
       )}
 
-      <footer className="mt-12 sm:mt-16 text-center text-gray-400 text-xs sm:text-sm px-4 pb-8">
-        <div className="mb-6 opacity-40 hover:opacity-70 transition-opacity duration-500">
-          <Logo size="giant" showText={false} animated={false} />
-        </div>
-        <p>EsLoQueHay © 2026 — Vendemos experiencias, no recetas</p>
-        <p className="text-[10px] text-gray-300 mt-1">Hecho con amor y hambre</p>
+      <footer className="relative z-10 mt-12 sm:mt-16 text-center text-gray-400 text-xs sm:text-sm px-4 pb-8">
+        <p>EsLoQueHay © 2026 — Creemos momentos, no solo comidas</p>
+        <p className="text-[10px] text-gray-300 mt-1">Hecho con curiosidad y hambre de crear</p>
       </footer>
     </div>
   );
