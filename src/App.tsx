@@ -16,9 +16,9 @@ import { useHistory } from './hooks/useHistory';
 import { getRandomTagline } from './data/phrases';
 import { generateRecipe, checkHealth } from './services/api';
 import type { Recipe } from './types/recipe';
-import type { UserPreferences } from './types/preferences';
+import type { UserPreferences, Country } from './types/preferences';
 import { DEFAULT_PREFERENCES } from './types/preferences';
-import { useI18n, loadTranslations } from './i18n';
+import { useI18n, loadTranslations, LANGUAGE_NAMES, type LanguageCode } from './i18n';
 
 const mockRecipe: Recipe = {
   id: '1',
@@ -264,6 +264,8 @@ function App() {
   const { lang, switchLanguage, t } = useI18n();
 
   const { country, countryName, spanishVariant, loading: countryLoading } = useCountryDetection();
+  const [recipeCountryOverride, setRecipeCountryOverride] = useState<Country | null>(null);
+  const recipeCountry = recipeCountryOverride ?? country;
 
   // Initialize language from saved preferences
   useEffect(() => {
@@ -320,7 +322,7 @@ function App() {
         try {
           const result = await generateRecipe({
             ingredients,
-            country,
+            country: recipeCountry,
             flavorProfile: preferences.flavorProfile,
             skillLevel: preferences.skillLevel,
             servings: preferences.servings,
@@ -342,7 +344,7 @@ function App() {
       }
       setIsLoading(false);
     },
-    [backendReady, ingredients, country, preferences, addToHistory]
+    [backendReady, ingredients, recipeCountry, preferences, addToHistory]
   );
 
   const handleGenerateVariation = useCallback(
@@ -393,6 +395,22 @@ function App() {
           )}
         </div>
         <div className="flex items-center gap-2">
+          {/* Language selector — visible always */}
+          <select
+            value={preferences.language}
+            onChange={(e) => {
+              const code = e.target.value as LanguageCode;
+              setPreferences((prev) => ({ ...prev, language: code }));
+            }}
+            className="px-2 py-2 bg-white rounded-xl shadow-sm text-xs font-medium text-gray-700 border-none focus:ring-2 focus:ring-brand-500 cursor-pointer"
+            title="Idioma"
+          >
+            {Object.entries(LANGUAGE_NAMES).map(([key, label]) => (
+              <option key={key} value={key}>
+                {label}
+              </option>
+            ))}
+          </select>
           <button
             onClick={() => {
               setShowHistory(true);
@@ -438,6 +456,8 @@ function App() {
           ingredients={ingredients}
           tagline={tagline}
           spanishVariant={spanishVariant}
+          country={recipeCountry}
+          onCountryChange={setRecipeCountryOverride}
           onAdd={addIngredient}
           onRemove={removeIngredient}
           onGenerate={() => void handleGenerate()}

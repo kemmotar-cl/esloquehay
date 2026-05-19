@@ -1,24 +1,7 @@
 import { useState } from 'react';
-import {
-  Globe,
-  Flame,
-  ChefHat,
-  Users,
-  Clock,
-  Zap,
-  X,
-  Settings2,
-  Wallet,
-  Languages,
-} from 'lucide-react';
+import { Flame, ChefHat, Users, Clock, Zap, X, Settings2, Wallet } from 'lucide-react';
 import type { UserPreferences } from '../types/preferences';
-import {
-  COUNTRY_LABELS,
-  FLAVOR_LABELS,
-  BUDGET_LABELS,
-  DEFAULT_PREFERENCES,
-} from '../types/preferences';
-import { LANGUAGE_NAMES, type LanguageCode } from '../i18n';
+import { FLAVOR_LABELS, BUDGET_LABELS, DEFAULT_PREFERENCES } from '../types/preferences';
 
 interface PreferencesPanelProps {
   preferences: UserPreferences;
@@ -66,49 +49,6 @@ export default function PreferencesPanel({
         </div>
 
         <div className="p-6 space-y-6">
-          {/* País */}
-          <div>
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-              <Globe className="w-4 h-4 text-brand-500" />
-              País de origen
-            </label>
-            <select
-              value={local.country}
-              onChange={(e) => {
-                update('country', e.target.value as UserPreferences['country']);
-              }}
-              className="w-full px-3 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm"
-            >
-              {Object.entries(COUNTRY_LABELS).map(([key, label]) => (
-                <option key={key} value={key}>
-                  {label}
-                </option>
-              ))}
-            </select>
-            <p className="text-xs text-gray-400 mt-1">Adaptamos ingredientes y términos locales</p>
-          </div>
-
-          {/* Idioma */}
-          <div>
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-              <Languages className="w-4 h-4 text-brand-500" />
-              Idioma
-            </label>
-            <select
-              value={local.language}
-              onChange={(e) => {
-                update('language', e.target.value as LanguageCode);
-              }}
-              className="w-full px-3 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm"
-            >
-              {Object.entries(LANGUAGE_NAMES).map(([key, label]) => (
-                <option key={key} value={key}>
-                  {label}
-                </option>
-              ))}
-            </select>
-          </div>
-
           {/* Tipo de sabor */}
           <div>
             <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
@@ -258,11 +198,11 @@ export default function PreferencesPanel({
               <span>Caótico</span>
             </div>
             <p className="text-xs text-gray-400 mt-1">
-              Controlá qué tan rápido chocan y se mueven los ingredientes
+              Controla qué tan rápido chocan y se mueven los ingredientes
             </p>
           </div>
 
-          {/* Tiempo máximo — ahora hasta 2 días */}
+          {/* Tiempo máximo */}
           <div>
             <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
               <Clock className="w-4 h-4 text-brand-500" />

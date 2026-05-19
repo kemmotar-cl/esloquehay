@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import { Plus, X, Sparkles } from 'lucide-react';
+import { Plus, X, Sparkles, Globe } from 'lucide-react';
 
 import { getRandomLoadingPhrase } from '../data/phrases';
 import type { SpanishVariant } from '../data/phrases';
+import type { Country } from '../types/preferences';
+import { COUNTRY_LABELS } from '../types/preferences';
 
 const FUNNY_BUTTON_PHRASES = [
   'Derritete del placer',
@@ -26,6 +28,8 @@ interface IngredientInputProps {
   ingredients: string[];
   tagline?: string;
   spanishVariant?: SpanishVariant;
+  country: Country;
+  onCountryChange: (country: Country) => void;
   onAdd: (ingredient: string) => void;
   onRemove: (index: number) => void;
   onGenerate: () => void;
@@ -36,6 +40,8 @@ interface IngredientInputProps {
 export default function IngredientInput({
   ingredients,
   tagline,
+  country,
+  onCountryChange,
   onAdd,
   onRemove,
   onGenerate,
@@ -90,9 +96,28 @@ export default function IngredientInput({
           <div className="w-2 h-2 rounded-full bg-brand-200" />
           <div className="w-1.5 h-1.5 rounded-full bg-brand-100" />
         </div>
-        <label className="block text-sm font-semibold text-gray-800 mb-2 drop-shadow-sm">
-          {t?.('input.label', '¿Qué más tienes?')}
-        </label>
+        <div className="flex items-center justify-between mb-2">
+          <label className="text-sm font-semibold text-gray-800 drop-shadow-sm">
+            {t?.('input.label', '¿Qué más tienes?')}
+          </label>
+          <div className="flex items-center gap-1">
+            <Globe className="w-3.5 h-3.5 text-gray-400" />
+            <select
+              value={country}
+              onChange={(e) => {
+                onCountryChange(e.target.value as Country);
+              }}
+              className="text-xs font-medium text-gray-600 bg-transparent border-none focus:ring-0 cursor-pointer"
+              title="País de la receta"
+            >
+              {Object.entries(COUNTRY_LABELS).map(([key, label]) => (
+                <option key={key} value={key}>
+                  {label}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
         <div className="flex gap-2">
           <input
             type="text"

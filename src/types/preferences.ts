@@ -42,7 +42,6 @@ export type DietaryRestriction =
 import type { LanguageCode } from '../i18n';
 
 export interface UserPreferences {
-  country: Country;
   flavorProfile: FlavorProfile;
   additionalIngredient: string;
   skillLevel: SkillLevel;
@@ -55,7 +54,6 @@ export interface UserPreferences {
 }
 
 export const DEFAULT_PREFERENCES: UserPreferences = {
-  country: 'chile',
   flavorProfile: 'traditional',
   additionalIngredient: '',
   skillLevel: 'intermediate',
