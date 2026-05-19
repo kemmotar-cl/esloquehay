@@ -19,6 +19,7 @@ interface FloatingIngredientsProps {
   onSelect: (ingredient: string) => void;
   selected: string[];
   speedMultiplier?: number;
+  t?: (path: string, fallback?: string) => string;
 }
 
 function createParticles(
@@ -66,6 +67,7 @@ export default function FloatingIngredients({
   onSelect,
   selected,
   speedMultiplier = 1,
+  t,
 }: FloatingIngredientsProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -268,8 +270,8 @@ export default function FloatingIngredients({
       ref={containerRef}
       className="relative w-full h-56 sm:h-72 md:h-80 overflow-hidden rounded-2xl bg-white/60 backdrop-blur-sm border border-gray-100 mb-4 sm:mb-6"
     >
-      <div className="absolute top-3 left-4 text-xs font-medium text-gray-400 uppercase tracking-wider pointer-events-none z-10">
-        Tocá los ingredientes — chocan entre sí
+      <div className="absolute top-3 left-4 text-xs font-medium text-gray-500 uppercase tracking-wider pointer-events-none z-10 drop-shadow-sm">
+        {t?.('floatingIngredients.hint', 'Toca los ingredientes flotantes o escribe los tuyos')}
       </div>
       <canvas
         ref={canvasRef}

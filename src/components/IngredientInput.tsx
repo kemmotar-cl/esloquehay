@@ -10,7 +10,7 @@ const FUNNY_BUTTON_PHRASES = [
   'Abrí bien la boca',
   'Esto va a ser épico',
   'Llamá a la familia',
-  'Apretá acá, no tengás miedo',
+  'Apreta acá, no tengas miedo',
   'Magia en proceso',
   'Transformando lo simple en arte',
   'Tu cena se viene con todo',
@@ -30,6 +30,7 @@ interface IngredientInputProps {
   onRemove: (index: number) => void;
   onGenerate: () => void;
   isLoading: boolean;
+  t?: (path: string, fallback?: string) => string;
 }
 
 export default function IngredientInput({
@@ -39,6 +40,7 @@ export default function IngredientInput({
   onRemove,
   onGenerate,
   isLoading,
+  t,
 }: IngredientInputProps) {
   const [inputValue, setInputValue] = useState('');
   const [loadingPhrase] = useState(() => getRandomLoadingPhrase());
@@ -89,7 +91,7 @@ export default function IngredientInput({
           <div className="w-1.5 h-1.5 rounded-full bg-brand-100" />
         </div>
         <label className="block text-sm font-semibold text-gray-800 mb-2 drop-shadow-sm">
-          ¿Qué más tenés?
+          {t?.('input.label', '¿Qué más tienes?')}
         </label>
         <div className="flex gap-2">
           <input
@@ -99,7 +101,7 @@ export default function IngredientInput({
               setInputValue(e.target.value);
             }}
             onKeyDown={handleKeyDown}
-            placeholder="Escribe o toca los ingredientes de arriba..."
+            placeholder={t?.('input.placeholder', 'Escribe o toca los ingredientes de arriba...')}
             className="flex-1 px-4 py-3 bg-white/80 backdrop-blur-sm border border-white/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent shadow-sm"
           />
           <button

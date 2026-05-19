@@ -1,0 +1,24 @@
+{
+  "floatingIngredients": {
+    "hint": "Chạm vào nguyên liệu nổi hoặc nhập của bạn"
+  },
+  "input": {
+    "label": "Bạn còn gì nữa?",
+    "placeholder": "Nhập hoặc chạm vào nguyên liệu bên trên..."
+  },
+  "button": {
+    "generate": "Tạo"
+  },
+  "footer": {
+    "motto": "Chúng tôi tạo ra khoảnh khắc, không chỉ bữa ăn",
+    "tagline": "Làm với sự tò mò và khát khao sáng tạo"
+  },
+  "preferences": {
+    "title": "Tùy chỉnh",
+    "budget": {
+      "low": "Tiết kiệm — ít nguyên liệu, nhiều hương vị",
+      "medium": "Cân bằng",
+      "high": "Không giới hạn"
+    }
+  }
+}

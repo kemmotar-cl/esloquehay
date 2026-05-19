@@ -1,0 +1,24 @@
+{
+  "floatingIngredients": {
+    "hint": "Touche les ingrédients flottants ou écris les tiens"
+  },
+  "input": {
+    "label": "Qu'est-ce que tu as d'autre?",
+    "placeholder": "Écris ou touche les ingrédients ci-dessus..."
+  },
+  "button": {
+    "generate": "Générer"
+  },
+  "footer": {
+    "motto": "Nous créons des moments, pas juste des repas",
+    "tagline": "Fait avec curiosité et envie de créer"
+  },
+  "preferences": {
+    "title": "Préférences",
+    "budget": {
+      "low": "Économique — peu d'ingrédients, beaucoup de goût",
+      "medium": "Équilibré",
+      "high": "Sans limite"
+    }
+  }
+}

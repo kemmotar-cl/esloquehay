@@ -1,0 +1,24 @@
+{
+  "floatingIngredients": {
+    "hint": "떠다니는 재료를 탭하거나 직접 입력하세요"
+  },
+  "input": {
+    "label": "또 뭐가 있어요?",
+    "placeholder": "위의 재료를 입력하거나 탭하세요..."
+  },
+  "button": {
+    "generate": "생성"
+  },
+  "footer": {
+    "motto": "우리는 식사뿐만 아니라 순간을 만듭니다",
+    "tagline": "호기심과 창작 욕구로 만들었습니다"
+  },
+  "preferences": {
+    "title": "설정",
+    "budget": {
+      "low": "경제 — 적은 재료, 풍부한 맛",
+      "medium": "균형",
+      "high": "제한 없음"
+    }
+  }
+}

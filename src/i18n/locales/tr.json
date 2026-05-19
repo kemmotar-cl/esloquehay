@@ -1,0 +1,24 @@
+{
+  "floatingIngredients": {
+    "hint": "Yüzen malzemelere dokun veya kendininkini yaz"
+  },
+  "input": {
+    "label": "Başka neyin var?",
+    "placeholder": "Yukarıdaki malzemeleri yaz veya dokun..."
+  },
+  "button": {
+    "generate": "Oluştur"
+  },
+  "footer": {
+    "motto": "Sadece yemek değil, anlar yaratıyoruz",
+    "tagline": "Merak ve yaratma açlığıyla yapıldı"
+  },
+  "preferences": {
+    "title": "Tercihler",
+    "budget": {
+      "low": "Ekonomik — az malzeme, çok lezzet",
+      "medium": "Dengeli",
+      "high": "Sınır yok"
+    }
+  }
+}

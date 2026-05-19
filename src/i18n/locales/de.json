@@ -1,0 +1,24 @@
+{
+  "floatingIngredients": {
+    "hint": "Tippe auf die schwebenden Zutaten oder gib deine eigenen ein"
+  },
+  "input": {
+    "label": "Was hast du noch?",
+    "placeholder": "Schreibe oder tippe auf die Zutaten oben..."
+  },
+  "button": {
+    "generate": "Erstellen"
+  },
+  "footer": {
+    "motto": "Wir schaffen Momente, nicht nur Mahlzeiten",
+    "tagline": "Mit Neugier und Hunger zum Schaffen gemacht"
+  },
+  "preferences": {
+    "title": "Einstellungen",
+    "budget": {
+      "low": "Wirtschaftlich — wenige Zutaten, viel Geschmack",
+      "medium": "Ausgewogen",
+      "high": "Kein Limit"
+    }
+  }
+}

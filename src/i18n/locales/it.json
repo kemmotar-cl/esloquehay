@@ -1,0 +1,24 @@
+{
+  "floatingIngredients": {
+    "hint": "Tocca gli ingredienti fluttuanti o scrivi i tuoi"
+  },
+  "input": {
+    "label": "Cosa altro hai?",
+    "placeholder": "Scrivi o tocca gli ingredienti sopra..."
+  },
+  "button": {
+    "generate": "Genera"
+  },
+  "footer": {
+    "motto": "Creiamo momenti, non solo pasti",
+    "tagline": "Fatto con curiosità e voglia di creare"
+  },
+  "preferences": {
+    "title": "Preferenze",
+    "budget": {
+      "low": "Economico — pochi ingredienti, tanto sapore",
+      "medium": "Bilanciato",
+      "high": "Senza limiti"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "floatingIngredients": {
+    "hint": "Ketuk bahan yang mengambang atau ketik milikmu"
+  },
+  "input": {
+    "label": "Apa lagi yang kamu punya?",
+    "placeholder": "Ketik atau ketuk bahan di atas..."
+  },
+  "button": {
+    "generate": "Buat"
+  },
+  "footer": {
+    "motto": "Kami menciptakan momen, bukan hanya makanan",
+    "tagline": "Dibuat dengan rasa ingin tahu dan hasrat mencipta"
+  },
+  "preferences": {
+    "title": "Preferensi",
+    "budget": {
+      "low": "Hemat — sedikit bahan, banyak rasa",
+      "medium": "Seimbang",
+      "high": "Tanpa batas"
+    }
+  }
+}

@@ -27,6 +27,8 @@ export type FlavorProfile =
 
 export type SkillLevel = 'beginner' | 'intermediate' | 'advanced';
 
+export type Budget = 'low' | 'medium' | 'high';
+
 export type DietaryRestriction =
   | 'none'
   | 'vegetarian'
@@ -37,6 +39,8 @@ export type DietaryRestriction =
   | 'low_sodium'
   | 'diabetic';
 
+import type { LanguageCode } from '../i18n';
+
 export interface UserPreferences {
   country: Country;
   flavorProfile: FlavorProfile;
@@ -45,8 +49,9 @@ export interface UserPreferences {
   dietaryRestriction: DietaryRestriction;
   servings: number;
   maxPrepTime: number;
-  language: 'es' | 'es_mx' | 'es_ar';
+  language: LanguageCode;
   particleSpeed: number;
+  budget: Budget;
 }
 
 export const DEFAULT_PREFERENCES: UserPreferences = {
@@ -59,6 +64,7 @@ export const DEFAULT_PREFERENCES: UserPreferences = {
   maxPrepTime: 45,
   language: 'es',
   particleSpeed: 1.0,
+  budget: 'medium',
 };
 
 export const COUNTRY_LABELS: Record<Country, string> = {
@@ -76,6 +82,12 @@ export const COUNTRY_LABELS: Record<Country, string> = {
   costa_rica: 'Costa Rica',
   panama: 'Panamá',
   guatemala: 'Guatemala',
+};
+
+export const BUDGET_LABELS: Record<Budget, string> = {
+  low: 'Económico — pocos ingredientes, mucho sabor',
+  medium: 'Balanceado',
+  high: 'Sin límite',
 };
 
 export const FLAVOR_LABELS: Record<FlavorProfile, string> = {

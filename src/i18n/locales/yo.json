@@ -1,0 +1,24 @@
+{
+  "floatingIngredients": {
+    "hint": "Fa ọjà tí ń fàyé kàn tàbí kọ tirẹ"
+  },
+  "input": {
+    "label": "Kí ni o ní mìíràn?",
+    "placeholder": "Kàn tàbí kọ ọjà lókè..."
+  },
+  "button": {
+    "generate": "Dá"
+  },
+  "footer": {
+    "motto": "A dá àsìkò, kì í ṣe oúnjẹ nìkan",
+    "tagline": "A ṣe pẹ̀lú ìfẹsẹ̀multí àti ìbànújẹ́ láti dá"
+  },
+  "preferences": {
+    "title": "Àwọn ìfẹ́ràn",
+    "budget": {
+      "low": "Oníṣẹ́ — ọjà díẹ̀, ìtọ́wò púpọ̀",
+      "medium": "Dídọ́gba",
+      "high": "Láìlòpò"
+    }
+  }
+}

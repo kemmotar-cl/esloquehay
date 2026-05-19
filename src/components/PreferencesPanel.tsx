@@ -1,7 +1,24 @@
 import { useState } from 'react';
-import { Globe, Flame, ChefHat, Users, Clock, Zap, X, Settings2 } from 'lucide-react';
+import {
+  Globe,
+  Flame,
+  ChefHat,
+  Users,
+  Clock,
+  Zap,
+  X,
+  Settings2,
+  Wallet,
+  Languages,
+} from 'lucide-react';
 import type { UserPreferences } from '../types/preferences';
-import { COUNTRY_LABELS, FLAVOR_LABELS, DEFAULT_PREFERENCES } from '../types/preferences';
+import {
+  COUNTRY_LABELS,
+  FLAVOR_LABELS,
+  BUDGET_LABELS,
+  DEFAULT_PREFERENCES,
+} from '../types/preferences';
+import { LANGUAGE_NAMES, type LanguageCode } from '../i18n';
 
 interface PreferencesPanelProps {
   preferences: UserPreferences;
@@ -71,6 +88,27 @@ export default function PreferencesPanel({
             <p className="text-xs text-gray-400 mt-1">Adaptamos ingredientes y términos locales</p>
           </div>
 
+          {/* Idioma */}
+          <div>
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+              <Languages className="w-4 h-4 text-brand-500" />
+              Idioma
+            </label>
+            <select
+              value={local.language}
+              onChange={(e) => {
+                update('language', e.target.value as LanguageCode);
+              }}
+              className="w-full px-3 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm"
+            >
+              {Object.entries(LANGUAGE_NAMES).map(([key, label]) => (
+                <option key={key} value={key}>
+                  {label}
+                </option>
+              ))}
+            </select>
+          </div>
+
           {/* Tipo de sabor */}
           <div>
             <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
@@ -133,6 +171,37 @@ export default function PreferencesPanel({
                   }}
                   className={`flex-1 px-3 py-2 rounded-xl text-xs font-medium transition-colors ${
                     local.skillLevel === key
+                      ? 'bg-brand-600 text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Presupuesto */}
+          <div>
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+              <Wallet className="w-4 h-4 text-brand-500" />
+              Presupuesto
+            </label>
+            <div className="flex gap-2">
+              {(
+                [
+                  { key: 'low' as const, label: BUDGET_LABELS.low },
+                  { key: 'medium' as const, label: BUDGET_LABELS.medium },
+                  { key: 'high' as const, label: BUDGET_LABELS.high },
+                ] as const
+              ).map(({ key, label }) => (
+                <button
+                  key={key}
+                  onClick={() => {
+                    update('budget', key);
+                  }}
+                  className={`flex-1 px-3 py-2 rounded-xl text-xs font-medium transition-colors ${
+                    local.budget === key
                       ? 'bg-brand-600 text-white'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}

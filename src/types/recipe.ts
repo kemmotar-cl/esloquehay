@@ -38,4 +38,6 @@ export interface RecipeRequest {
   experienceMode?: boolean;
   maxPrepTime?: number;
   additionalIngredient?: string;
+  budget?: 'low' | 'medium' | 'high';
+  language?: string;
 }

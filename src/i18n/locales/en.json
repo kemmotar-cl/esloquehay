@@ -1,0 +1,24 @@
+{
+  "floatingIngredients": {
+    "hint": "Tap the floating ingredients or type your own"
+  },
+  "input": {
+    "label": "What else do you have?",
+    "placeholder": "Type or tap the ingredients above..."
+  },
+  "button": {
+    "generate": "Generate"
+  },
+  "footer": {
+    "motto": "We create moments, not just meals",
+    "tagline": "Made with curiosity and hunger to create"
+  },
+  "preferences": {
+    "title": "Preferences",
+    "budget": {
+      "low": "Budget — few ingredients, lots of flavor",
+      "medium": "Balanced",
+      "high": "No limit"
+    }
+  }
+}

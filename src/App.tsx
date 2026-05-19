@@ -18,6 +18,7 @@ import { generateRecipe, checkHealth } from './services/api';
 import type { Recipe } from './types/recipe';
 import type { UserPreferences } from './types/preferences';
 import { DEFAULT_PREFERENCES } from './types/preferences';
+import { useI18n, loadTranslations } from './i18n';
 
 const mockRecipe: Recipe = {
   id: '1',
@@ -260,8 +261,24 @@ function App() {
     DEFAULT_PREFERENCES
   );
   const [ingredients, setIngredients] = useLocalStorage<string[]>('esloquehay-ingredients', []);
+  const { lang, switchLanguage, t } = useI18n();
 
   const { country, countryName, spanishVariant, loading: countryLoading } = useCountryDetection();
+
+  // Initialize language from saved preferences
+  useEffect(() => {
+    void loadTranslations(preferences.language).then(() => {
+      void switchLanguage(preferences.language);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // React to language preference changes
+  useEffect(() => {
+    if (lang !== preferences.language) {
+      void switchLanguage(preferences.language);
+    }
+  }, [preferences.language, lang, switchLanguage]);
 
   useEffect(() => {
     void checkHealth().then((h) => {
@@ -309,6 +326,8 @@ function App() {
             servings: preferences.servings,
             maxPrepTime: preferences.maxPrepTime,
             additionalIngredient: preferences.additionalIngredient,
+            budget: preferences.budget,
+            language: preferences.language,
           });
           setRecipe(result);
           addToHistory(result);
@@ -357,7 +376,7 @@ function App() {
           backgroundImage: 'url(/logo.png)',
           backgroundPosition: 'center center',
           backgroundRepeat: 'no-repeat',
-          backgroundSize: '50%',
+          backgroundSize: '35%',
           opacity: 0.5,
         }}
       />
@@ -381,7 +400,7 @@ function App() {
             className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 bg-white rounded-xl shadow-sm text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
           >
             <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            <span className="hidden sm:inline">Historial</span>
+            <span className="hidden sm:inline">{t('button.history', 'Historial')}</span>
           </button>
           <button
             onClick={() => {
@@ -390,7 +409,7 @@ function App() {
             className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-white rounded-xl shadow-sm text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
           >
             <Settings2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            <span className="hidden sm:inline">Preferencias</span>
+            <span className="hidden sm:inline">{t('button.preferences', 'Preferencias')}</span>
           </button>
         </div>
       </div>
@@ -409,6 +428,7 @@ function App() {
           onSelect={addIngredient}
           selected={ingredients}
           speedMultiplier={preferences.particleSpeed}
+          t={t}
         />
       </div>
 
@@ -422,6 +442,7 @@ function App() {
           onRemove={removeIngredient}
           onGenerate={() => void handleGenerate()}
           isLoading={isLoading}
+          t={t}
         />
       </div>
 
@@ -461,7 +482,7 @@ function App() {
               className="inline-flex items-center gap-1.5 px-3 py-2 bg-white rounded-xl shadow-sm text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors"
             >
               <Clock className="w-3.5 h-3.5" />
-              Historial
+              {t('button.history', 'Historial')}
             </button>
           </div>
           <RecipeCard recipe={recipe} onGenerateVariation={handleGenerateVariation} />
@@ -482,8 +503,10 @@ function App() {
       )}
 
       <footer className="relative z-10 mt-12 sm:mt-16 text-center text-gray-400 text-xs sm:text-sm px-4 pb-8">
-        <p>EsLoQueHay © 2026 — Creamos momentos, no solo comidas</p>
-        <p className="text-[10px] text-gray-300 mt-1">Hecho con curiosidad y hambre de crear</p>
+        <p>EsLoQueHay © 2026 — {t('footer.motto', 'Creamos momentos, no solo comidas')}</p>
+        <p className="text-[10px] text-gray-300 mt-1">
+          {t('footer.tagline', 'Hecho con curiosidad y hambre de crear')}
+        </p>
       </footer>
     </div>
   );

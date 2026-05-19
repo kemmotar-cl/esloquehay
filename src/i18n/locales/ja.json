@@ -1,0 +1,24 @@
+{
+  "floatingIngredients": {
+    "hint": "浮かぶ食材をタップするか、自分の食材を入力してください"
+  },
+  "input": {
+    "label": "他に何がありますか？",
+    "placeholder": "上の食材を入力またはタップ..."
+  },
+  "button": {
+    "generate": "生成"
+  },
+  "footer": {
+    "motto": "私たちは食事だけでなく、瞬間を作り出します",
+    "tagline": "好奇心と創作への飢えを持って作られました"
+  },
+  "preferences": {
+    "title": "設定",
+    "budget": {
+      "low": "節約 — 少ない食材、多い味",
+      "medium": "バランス",
+      "high": "制限なし"
+    }
+  }
+}

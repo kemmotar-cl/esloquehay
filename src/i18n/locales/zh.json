@@ -1,0 +1,24 @@
+{
+  "floatingIngredients": {
+    "hint": "点击漂浮的食材或输入你自己的"
+  },
+  "input": {
+    "label": "你还有什么？",
+    "placeholder": "输入或点击上方的食材..."
+  },
+  "button": {
+    "generate": "生成"
+  },
+  "footer": {
+    "motto": "我们创造时刻，不仅仅是餐食",
+    "tagline": "用好奇心和创造的渴望制作"
+  },
+  "preferences": {
+    "title": "偏好设置",
+    "budget": {
+      "low": "经济 — 少食材，多风味",
+      "medium": "均衡",
+      "high": "无限制"
+    }
+  }
+}
