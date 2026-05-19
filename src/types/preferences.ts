@@ -1,17 +1,41 @@
-export type Country = 
-  | 'chile' | 'argentina' | 'mexico' | 'colombia' | 'peru' 
-  | 'espana' | 'venezuela' | 'ecuador' | 'bolivia' | 'uruguay' 
-  | 'paraguay' | 'costa_rica' | 'panama' | 'guatemala';
+export type Country =
+  | 'chile'
+  | 'argentina'
+  | 'mexico'
+  | 'colombia'
+  | 'peru'
+  | 'espana'
+  | 'venezuela'
+  | 'ecuador'
+  | 'bolivia'
+  | 'uruguay'
+  | 'paraguay'
+  | 'costa_rica'
+  | 'panama'
+  | 'guatemala';
 
-export type FlavorProfile = 
-  | 'traditional' | 'spicy' | 'sweet' | 'sour' | 'umami' 
-  | 'mild' | 'herbal' | 'smoky' | 'citrus';
+export type FlavorProfile =
+  | 'traditional'
+  | 'spicy'
+  | 'sweet'
+  | 'sour'
+  | 'umami'
+  | 'mild'
+  | 'herbal'
+  | 'smoky'
+  | 'citrus';
 
 export type SkillLevel = 'beginner' | 'intermediate' | 'advanced';
 
-export type DietaryRestriction = 
-  | 'none' | 'vegetarian' | 'vegan' | 'gluten_free' 
-  | 'dairy_free' | 'keto' | 'low_sodium' | 'diabetic';
+export type DietaryRestriction =
+  | 'none'
+  | 'vegetarian'
+  | 'vegan'
+  | 'gluten_free'
+  | 'dairy_free'
+  | 'keto'
+  | 'low_sodium'
+  | 'diabetic';
 
 export interface UserPreferences {
   country: Country;
