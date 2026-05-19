@@ -253,7 +253,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPrefs, setShowPrefs] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
-  const { addToHistory } = useHistory();
+  const { history, addToHistory, clearHistory, removeFromHistory } = useHistory();
   const [backendReady, setBackendReady] = useState<boolean | null>(null);
   const [preferences, setPreferences] = useLocalStorage<UserPreferences>(
     'esloquehay-prefs',
@@ -410,14 +410,14 @@ function App() {
 
       {showHistory && (
         <HistoryPanel
-          history={[]}
+          history={history}
           onSelect={(r) => {
             setRecipe(r);
             setShowHistory(false);
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
-          onClear={() => undefined}
-          onRemove={() => undefined}
+          onClear={clearHistory}
+          onRemove={removeFromHistory}
           onClose={() => {
             setShowHistory(false);
           }}
