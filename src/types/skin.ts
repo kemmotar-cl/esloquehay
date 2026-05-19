@@ -1,9 +1,9 @@
 /**
  * Skin System for EsLoQueHay
- * 
+ *
  * This allows the entire UI to be themed/swapped by a third-party designer.
  * A "skin" is a collection of visual tokens that can be hot-swapped.
- * 
+ *
  * For Fiverr designers: Provide a skin.json file following this schema.
  */
 
@@ -12,7 +12,7 @@ export interface Skin {
   name: string;
   author: string;
   version: string;
-  
+
   // Color tokens
   colors: {
     primary: string;
@@ -63,7 +63,7 @@ export const defaultSkin: Skin = {
   name: 'EsLoQueHay Default',
   author: 'EsLoQueHay Team',
   version: '1.0.0',
-  
+
   colors: {
     primary: '#ed7418',
     primaryLight: '#fdecd5',
@@ -106,16 +106,16 @@ export const defaultSkin: Skin = {
 // Skin loader (in real app, this would fetch from CDN or localStorage)
 export function loadSkin(skinId?: string): Skin {
   if (!skinId || skinId === 'default') return defaultSkin;
-  
+
   // TODO: Load custom skin from localStorage or API
   const stored = localStorage.getItem(`skin_${skinId}`);
   if (stored) {
     try {
-      return { ...defaultSkin, ...JSON.parse(stored) };
+      return { ...defaultSkin, ...(JSON.parse(stored) as Partial<Skin>) };
     } catch {
       return defaultSkin;
     }
   }
-  
+
   return defaultSkin;
 }

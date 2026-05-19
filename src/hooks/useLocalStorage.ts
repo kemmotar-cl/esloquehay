@@ -1,6 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 
-export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T | ((prev: T) => T)) => void] {
+export function useLocalStorage<T>(
+  key: string,
+  initialValue: T
+): [T, (value: T | ((prev: T) => T)) => void] {
   const [stored, setStored] = useState<T>(() => {
     try {
       const item = window.localStorage.getItem(key);
@@ -37,7 +40,9 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T 
       }
     };
     window.addEventListener('storage', handler);
-    return () => window.removeEventListener('storage', handler);
+    return () => {
+      window.removeEventListener('storage', handler);
+    };
   }, [key]);
 
   return [stored, setValue];

@@ -1,4 +1,14 @@
-import { Clock, ChefHat, Users, Flame, Sparkles, Wine, Palette, ArrowRight, Wand2 } from 'lucide-react';
+import {
+  Clock,
+  ChefHat,
+  Users,
+  Flame,
+  Sparkles,
+  Wine,
+  Palette,
+  ArrowRight,
+  Wand2,
+} from 'lucide-react';
 import type { Recipe } from '../types/recipe';
 
 interface RecipeCardProps {
@@ -8,25 +18,26 @@ interface RecipeCardProps {
 
 export default function RecipeCard({ recipe, onGenerateVariation }: RecipeCardProps) {
   const difficultyColor = {
-    'Fácil': 'bg-green-100 text-green-700',
-    'Medio': 'bg-yellow-100 text-yellow-700',
-    'Difícil': 'bg-red-100 text-red-700',
+    Fácil: 'bg-green-100 text-green-700',
+    Medio: 'bg-yellow-100 text-yellow-700',
+    Difícil: 'bg-red-100 text-red-700',
   };
 
   const totalTime = recipe.prepTime + recipe.cookTime;
-  const timeText = totalTime >= 1440
-    ? `${Math.floor(totalTime / 1440)}d ${Math.floor((totalTime % 1440) / 60)}h`
-    : totalTime >= 60
-    ? `${Math.floor(totalTime / 60)}h ${totalTime % 60}m`
-    : `${totalTime} min`;
+  const timeText =
+    totalTime >= 1440
+      ? `${String(Math.floor(totalTime / 1440))}d ${String(Math.floor((totalTime % 1440) / 60))}h`
+      : totalTime >= 60
+        ? `${String(Math.floor(totalTime / 60))}h ${String(totalTime % 60)}m`
+        : `${String(totalTime)} min`;
 
   return (
     <div className="w-full max-w-2xl mx-auto space-y-6">
       {/* Main Recipe Card */}
       <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-        <div className="bg-brand-600 px-6 py-5">
-          <h2 className="text-2xl font-bold text-white">{recipe.title}</h2>
-          <p className="text-brand-100 mt-1">{recipe.description}</p>
+        <div className="bg-brand-600 px-4 sm:px-6 py-4 sm:py-5">
+          <h2 className="text-xl sm:text-2xl font-bold text-white">{recipe.title}</h2>
+          <p className="text-brand-100 mt-1 text-sm sm:text-base">{recipe.description}</p>
           {recipe.experience && (
             <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 bg-white/20 rounded-full text-xs text-white font-medium">
               <Sparkles className="w-3.5 h-3.5" />
@@ -35,10 +46,12 @@ export default function RecipeCard({ recipe, onGenerateVariation }: RecipeCardPr
           )}
         </div>
 
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {/* Meta info */}
           <div className="flex flex-wrap gap-3 mb-6">
-            <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium ${difficultyColor[recipe.difficulty]}`}>
+            <span
+              className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium ${difficultyColor[recipe.difficulty]}`}
+            >
               <Flame className="w-3.5 h-3.5" />
               {recipe.difficulty}
             </span>
@@ -89,7 +102,7 @@ export default function RecipeCard({ recipe, onGenerateVariation }: RecipeCardPr
 
       {/* Gourmet Tips — THE PREMIUM FEATURE */}
       <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-        <div className="bg-amber-50 px-6 py-4 border-b border-amber-100">
+        <div className="bg-amber-50 px-4 sm:px-6 py-3 sm:py-4 border-b border-amber-100">
           <div className="flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-amber-600" />
             <h3 className="text-lg font-bold text-amber-900">Versión Gourmet</h3>
@@ -98,7 +111,7 @@ export default function RecipeCard({ recipe, onGenerateVariation }: RecipeCardPr
             Consejos profesionales para elevar este plato a restaurante
           </p>
         </div>
-        <div className="p-6 space-y-4">
+        <div className="p-4 sm:p-6 space-y-4">
           {recipe.gourmetTips.map((tip, i) => (
             <div key={i} className="flex gap-3">
               <span className="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center text-xs font-bold">
@@ -140,7 +153,7 @@ export default function RecipeCard({ recipe, onGenerateVariation }: RecipeCardPr
 
       {/* Variations — THE EXPERIENCE */}
       <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-        <div className="bg-brand-50 px-6 py-4 border-b border-brand-100">
+        <div className="bg-brand-50 px-4 sm:px-6 py-3 sm:py-4 border-b border-brand-100">
           <div className="flex items-center gap-2">
             <ArrowRight className="w-5 h-5 text-brand-600" />
             <h3 className="text-lg font-bold text-brand-900">Otras Experiencias</h3>
@@ -149,12 +162,12 @@ export default function RecipeCard({ recipe, onGenerateVariation }: RecipeCardPr
             Los mismos ingredientes, un resultado completamente diferente. Tocá para generar.
           </p>
         </div>
-        <div className="p-6 space-y-4">
+        <div className="p-4 sm:p-6 space-y-4">
           {recipe.variations.map((variation, i) => (
             <button
               key={i}
               onClick={() => onGenerateVariation?.(variation.name, variation.extraIngredients)}
-              className="w-full text-left border border-gray-100 rounded-xl p-4 hover:border-brand-300 hover:shadow-md hover:bg-brand-50/30 transition-all active:scale-[0.99]"
+              className="w-full text-left border border-gray-100 rounded-xl p-3 sm:p-4 hover:border-brand-300 hover:shadow-md hover:bg-brand-50/30 transition-all active:scale-[0.99]"
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1">
@@ -165,7 +178,10 @@ export default function RecipeCard({ recipe, onGenerateVariation }: RecipeCardPr
                   <p className="text-gray-600 text-sm mt-1">{variation.description}</p>
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     {variation.extraIngredients.map((ing, j) => (
-                      <span key={j} className="inline-block px-2 py-0.5 bg-brand-50 text-brand-700 rounded text-xs font-medium">
+                      <span
+                        key={j}
+                        className="inline-block px-2 py-0.5 bg-brand-50 text-brand-700 rounded text-xs font-medium"
+                      >
                         + {ing}
                       </span>
                     ))}

@@ -10,18 +10,22 @@ interface PreferencesPanelProps {
 }
 
 function formatTime(minutes: number): string {
-  if (minutes < 60) return `${minutes} min`;
+  if (minutes < 60) return `${String(minutes)} min`;
   if (minutes < 1440) {
     const h = Math.floor(minutes / 60);
     const m = minutes % 60;
-    return m > 0 ? `${h}h ${m}m` : `${h}h`;
+    return m > 0 ? `${String(h)}h ${String(m)}m` : `${String(h)}h`;
   }
   const d = Math.floor(minutes / 1440);
   const h = Math.floor((minutes % 1440) / 60);
-  return h > 0 ? `${d}d ${h}h` : `${d}d`;
+  return h > 0 ? `${String(d)}d ${String(h)}h` : `${String(d)}d`;
 }
 
-export default function PreferencesPanel({ preferences, onChange, onClose }: PreferencesPanelProps) {
+export default function PreferencesPanel({
+  preferences,
+  onChange,
+  onClose,
+}: PreferencesPanelProps) {
   const [local, setLocal] = useState<UserPreferences>(preferences);
 
   const update = <K extends keyof UserPreferences>(key: K, value: UserPreferences[K]) => {
@@ -31,8 +35,8 @@ export default function PreferencesPanel({ preferences, onChange, onClose }: Pre
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 p-0 sm:p-4">
+      <div className="bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl w-full max-w-md max-h-[85vh] sm:max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
           <div className="flex items-center gap-2">
@@ -53,11 +57,15 @@ export default function PreferencesPanel({ preferences, onChange, onClose }: Pre
             </label>
             <select
               value={local.country}
-              onChange={(e) => update('country', e.target.value as UserPreferences['country'])}
+              onChange={(e) => {
+                update('country', e.target.value as UserPreferences['country']);
+              }}
               className="w-full px-3 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm"
             >
               {Object.entries(COUNTRY_LABELS).map(([key, label]) => (
-                <option key={key} value={key}>{label}</option>
+                <option key={key} value={key}>
+                  {label}
+                </option>
               ))}
             </select>
             <p className="text-xs text-gray-400 mt-1">Adaptamos ingredientes y términos locales</p>
@@ -73,7 +81,9 @@ export default function PreferencesPanel({ preferences, onChange, onClose }: Pre
               {Object.entries(FLAVOR_LABELS).map(([key, label]) => (
                 <button
                   key={key}
-                  onClick={() => update('flavorProfile', key as UserPreferences['flavorProfile'])}
+                  onClick={() => {
+                    update('flavorProfile', key as UserPreferences['flavorProfile']);
+                  }}
                   className={`px-3 py-2 rounded-xl text-xs font-medium transition-colors ${
                     local.flavorProfile === key
                       ? 'bg-brand-600 text-white'
@@ -95,7 +105,9 @@ export default function PreferencesPanel({ preferences, onChange, onClose }: Pre
             <input
               type="text"
               value={local.additionalIngredient}
-              onChange={(e) => update('additionalIngredient', e.target.value)}
+              onChange={(e) => {
+                update('additionalIngredient', e.target.value);
+              }}
               placeholder="Ej: huevos, ajo, aceite de oliva..."
               className="w-full px-3 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm"
             />
@@ -116,7 +128,9 @@ export default function PreferencesPanel({ preferences, onChange, onClose }: Pre
               ].map(({ key, label }) => (
                 <button
                   key={key}
-                  onClick={() => update('skillLevel', key)}
+                  onClick={() => {
+                    update('skillLevel', key);
+                  }}
                   className={`flex-1 px-3 py-2 rounded-xl text-xs font-medium transition-colors ${
                     local.skillLevel === key
                       ? 'bg-brand-600 text-white'
@@ -140,7 +154,9 @@ export default function PreferencesPanel({ preferences, onChange, onClose }: Pre
               min={1}
               max={10}
               value={local.servings}
-              onChange={(e) => update('servings', parseInt(e.target.value))}
+              onChange={(e) => {
+                update('servings', parseInt(e.target.value));
+              }}
               className="w-full accent-brand-600"
             />
             <div className="flex justify-between text-xs text-gray-400 mt-1">
@@ -162,7 +178,9 @@ export default function PreferencesPanel({ preferences, onChange, onClose }: Pre
               max={3.0}
               step={0.1}
               value={local.particleSpeed}
-              onChange={(e) => update('particleSpeed', parseFloat(e.target.value))}
+              onChange={(e) => {
+                update('particleSpeed', parseFloat(e.target.value));
+              }}
               className="w-full accent-brand-600"
             />
             <div className="flex justify-between text-xs text-gray-400 mt-1">
@@ -187,7 +205,9 @@ export default function PreferencesPanel({ preferences, onChange, onClose }: Pre
               max={2880}
               step={5}
               value={local.maxPrepTime}
-              onChange={(e) => update('maxPrepTime', parseInt(e.target.value))}
+              onChange={(e) => {
+                update('maxPrepTime', parseInt(e.target.value));
+              }}
               className="w-full accent-brand-600"
             />
             <div className="flex justify-between text-xs text-gray-400 mt-1">

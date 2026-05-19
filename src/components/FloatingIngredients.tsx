@@ -21,7 +21,12 @@ interface FloatingIngredientsProps {
   speedMultiplier?: number;
 }
 
-function createParticles(country: Country, width: number, height: number, speedMultiplier: number): Particle[] {
+function createParticles(
+  country: Country,
+  width: number,
+  height: number,
+  speedMultiplier: number
+): Particle[] {
   const ingredients = getIngredientsForCountry(country);
   const particles: Particle[] = [];
   const count = Math.min(ingredients.length, 24);
@@ -36,9 +41,7 @@ function createParticles(country: Country, width: number, height: number, speedM
       attempts++;
     } while (
       attempts < 50 &&
-      particles.some(
-        (p) => Math.hypot(p.x - x, p.y - y) < p.radius + radius + 5
-      )
+      particles.some((p) => Math.hypot(p.x - x, p.y - y) < p.radius + radius + 5)
     );
 
     const angle = Math.random() * Math.PI * 2;
@@ -58,7 +61,12 @@ function createParticles(country: Country, width: number, height: number, speedM
   return particles;
 }
 
-export default function FloatingIngredients({ country, onSelect, selected, speedMultiplier = 1 }: FloatingIngredientsProps) {
+export default function FloatingIngredients({
+  country,
+  onSelect,
+  selected,
+  speedMultiplier = 1,
+}: FloatingIngredientsProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const particlesRef = useRef<Particle[]>([]);
@@ -109,7 +117,7 @@ export default function FloatingIngredients({ country, onSelect, selected, speed
           const dy = p.y - mouseRef.current.y;
           const dist = Math.hypot(dx, dy);
           if (dist < 80 && dist > 0) {
-            const force = (80 - dist) / 80 * 0.8;
+            const force = ((80 - dist) / 80) * 0.8;
             p.vx += (dx / dist) * force;
             p.vy += (dy / dist) * force;
           }
@@ -191,7 +199,7 @@ export default function FloatingIngredients({ country, onSelect, selected, speed
         // Draw
         const isSelected = selected.includes(p.label);
         ctx.globalAlpha = isSelected ? 0.2 : 0.85;
-        ctx.font = `${p.radius * 1.4}px serif`;
+        ctx.font = `${String(p.radius * 1.4)}px serif`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(p.emoji, p.x, p.y);
@@ -211,7 +219,9 @@ export default function FloatingIngredients({ country, onSelect, selected, speed
     };
 
     animRef.current = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(animRef.current);
+    return () => {
+      cancelAnimationFrame(animRef.current);
+    };
   }, [selected]);
 
   const handleClick = useCallback(
@@ -226,8 +236,10 @@ export default function FloatingIngredients({ country, onSelect, selected, speed
         const dist = Math.hypot(p.x - x, p.y - y);
         if (dist < p.radius * 1.5 && !selected.includes(p.label)) {
           onSelect(p.label);
-          // Give it a little kick
+          // Give it a little kick — refs are mutable by design
+          // eslint-disable-next-line react-hooks/immutability
           p.vx += (Math.random() - 0.5) * 2;
+
           p.vy += (Math.random() - 0.5) * 2;
           break;
         }
@@ -254,7 +266,7 @@ export default function FloatingIngredients({ country, onSelect, selected, speed
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-80 overflow-hidden rounded-2xl bg-white/60 backdrop-blur-sm border border-gray-100 mb-6"
+      className="relative w-full h-56 sm:h-72 md:h-80 overflow-hidden rounded-2xl bg-white/60 backdrop-blur-sm border border-gray-100 mb-4 sm:mb-6"
     >
       <div className="absolute top-3 left-4 text-xs font-medium text-gray-400 uppercase tracking-wider pointer-events-none z-10">
         Tocá los ingredientes — chocan entre sí

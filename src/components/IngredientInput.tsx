@@ -5,21 +5,21 @@ import { getRandomLoadingPhrase } from '../data/phrases';
 import type { SpanishVariant } from '../data/phrases';
 
 const FUNNY_BUTTON_PHRASES = [
-  "Derritete del placer",
-  "Preparate para volar",
-  "Abrí bien la boca",
-  "Esto va a ser épico",
-  "Llamá a la familia",
-  "Apretá acá, no tengás miedo",
-  "Magia en proceso",
-  "Transformando lo simple en arte",
-  "Tu cena se viene con todo",
-  "Hacé espacio en el estómago",
-  "Alerta: sabor inminente",
-  "Cocina con alma, no con plata",
-  "Despertá al chef que llevás dentro",
-  "Ingredientes + amor = esto",
-  "Ahora sí, se viene lo bueno",
+  'Derritete del placer',
+  'Preparate para volar',
+  'Abrí bien la boca',
+  'Esto va a ser épico',
+  'Llamá a la familia',
+  'Apretá acá, no tengás miedo',
+  'Magia en proceso',
+  'Transformando lo simple en arte',
+  'Tu cena se viene con todo',
+  'Hacé espacio en el estómago',
+  'Alerta: sabor inminente',
+  'Cocina con alma, no con plata',
+  'Despertá al chef que llevás dentro',
+  'Ingredientes + amor = esto',
+  'Ahora sí, se viene lo bueno',
 ];
 
 interface IngredientInputProps {
@@ -42,8 +42,8 @@ export default function IngredientInput({
 }: IngredientInputProps) {
   const [inputValue, setInputValue] = useState('');
   const [loadingPhrase] = useState(() => getRandomLoadingPhrase());
-  const [buttonPhrase] = useState(() =>
-    FUNNY_BUTTON_PHRASES[Math.floor(Math.random() * FUNNY_BUTTON_PHRASES.length)]
+  const [buttonPhrase] = useState(
+    () => FUNNY_BUTTON_PHRASES[Math.floor(Math.random() * FUNNY_BUTTON_PHRASES.length)]
   );
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -69,24 +69,24 @@ export default function IngredientInput({
     <div className="w-full max-w-2xl mx-auto">
       {/* Logo + Tagline */}
       <div className="text-center mb-6">
-        <div className="mb-4">
-          <Logo size="lg" showText={true} animated={true} />
+        <div className="mb-3 sm:mb-4">
+          <Logo size="md" showText={true} animated={true} />
         </div>
-        <p className="text-gray-600 text-lg min-h-[1.75rem] max-w-md mx-auto">
-          {tagline || "Abrí la nevera. Nosotros pensamos el resto."}
+        <p className="text-gray-600 text-sm sm:text-lg min-h-[1.5rem] sm:min-h-[1.75rem] max-w-md mx-auto px-2">
+          {tagline ?? 'Abrí la nevera. Nosotros pensamos el resto.'}
         </p>
       </div>
 
       {/* Input area */}
       <div className="bg-white rounded-2xl shadow-lg p-6 mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          ¿Qué más tenés?
-        </label>
+        <label className="block text-sm font-medium text-gray-700 mb-2">¿Qué más tenés?</label>
         <div className="flex gap-2">
           <input
             type="text"
             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={(e) => {
+              setInputValue(e.target.value);
+            }}
             onKeyDown={handleKeyDown}
             placeholder="Escribí o tocá los ingredientes de arriba..."
             className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
@@ -109,7 +109,9 @@ export default function IngredientInput({
               >
                 {ing}
                 <button
-                  onClick={() => onRemove(index)}
+                  onClick={() => {
+                    onRemove(index);
+                  }}
                   className="hover:text-brand-900"
                 >
                   <X className="w-3.5 h-3.5" />

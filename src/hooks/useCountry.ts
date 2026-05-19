@@ -63,18 +63,22 @@ async function detectByCloudflare(): Promise<string | null> {
   try {
     const response = await fetch('https://www.cloudflare.com/cdn-cgi/trace');
     const text = await response.text();
-    const match = text.match(/loc=(\w+)/);
+    const match = /loc=(\w+)/.exec(text);
     return match ? match[1] : null;
   } catch {
     return null;
   }
 }
 
+interface IpApiResponse {
+  country_code?: string;
+}
+
 async function detectByIpApi(): Promise<string | null> {
   try {
     const response = await fetch('https://ipapi.co/json/');
-    const data = await response.json();
-    return data.country_code || null;
+    const data = (await response.json()) as IpApiResponse;
+    return data.country_code ?? null;
   } catch {
     return null;
   }
@@ -90,12 +94,9 @@ export function useCountryDetection() {
 
   useEffect(() => {
     async function detect() {
-      let countryCode: string | null = null;
-      countryCode = await detectByCloudflare();
-      if (!countryCode) {
-        countryCode = await detectByIpApi();
-      }
-      const country = countryCode ? COUNTRY_MAP[countryCode] || 'chile' : 'chile';
+      let countryCode = await detectByCloudflare();
+      countryCode ??= await detectByIpApi();
+      const country = COUNTRY_MAP[countryCode ?? ''] ?? 'chile';
 
       setCountryInfo({
         country,
@@ -104,7 +105,7 @@ export function useCountryDetection() {
       });
       setLoading(false);
     }
-    detect();
+    void detect();
   }, []);
 
   return { ...countryInfo, loading };
