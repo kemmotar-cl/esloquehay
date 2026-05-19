@@ -357,7 +357,7 @@ function App() {
           backgroundImage: 'url(/logo.png)',
           backgroundPosition: 'center center',
           backgroundRepeat: 'no-repeat',
-          backgroundSize: '75%',
+          backgroundSize: '50%',
           opacity: 0.5,
         }}
       />
@@ -395,8 +395,15 @@ function App() {
         </div>
       </div>
 
-      {/* Floating Ingredients Cloud */}
-      <div className="relative z-10 max-w-2xl mx-auto">
+      {/* Floating Ingredients Cloud — forma de nube */}
+      <div
+        className="relative z-10 max-w-2xl mx-auto py-4 px-2"
+        style={{
+          background: 'rgba(255,255,255,0.15)',
+          borderRadius: '55% 45% 50% 50% / 45% 55% 45% 55%',
+          backdropFilter: 'blur(2px)',
+        }}
+      >
         <FloatingIngredients
           country={country}
           onSelect={addIngredient}
@@ -475,7 +482,7 @@ function App() {
       )}
 
       <footer className="relative z-10 mt-12 sm:mt-16 text-center text-gray-400 text-xs sm:text-sm px-4 pb-8">
-        <p>EsLoQueHay © 2026 — Creemos momentos, no solo comidas</p>
+        <p>EsLoQueHay © 2026 — Creamos momentos, no solo comidas</p>
         <p className="text-[10px] text-gray-300 mt-1">Hecho con curiosidad y hambre de crear</p>
       </footer>
     </div>

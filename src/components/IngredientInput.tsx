@@ -99,7 +99,7 @@ export default function IngredientInput({
               setInputValue(e.target.value);
             }}
             onKeyDown={handleKeyDown}
-            placeholder="Escribí o tocá los ingredientes de arriba..."
+            placeholder="Escribe o toca los ingredientes de arriba..."
             className="flex-1 px-4 py-3 bg-white/80 backdrop-blur-sm border border-white/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent shadow-sm"
           />
           <button
@@ -151,12 +151,6 @@ export default function IngredientInput({
           )}
         </button>
       </div>
-
-      {ingredients.length === 0 && (
-        <div className="text-center text-gray-500 text-sm font-medium drop-shadow-sm">
-          Tocá los ingredientes flotantes o escribí los tuyos
-        </div>
-      )}
     </div>
   );
 }
