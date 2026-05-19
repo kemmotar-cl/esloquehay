@@ -31,9 +31,11 @@ export interface Recipe {
 export interface RecipeRequest {
   ingredients: string[];
   dietaryRestrictions?: string[];
-  skillLevel?: 'principiante' | 'intermedio' | 'avanzado';
+  skillLevel?: 'beginner' | 'intermediate' | 'advanced';
   servings?: number;
   flavorProfile?: string;
   country?: string;
   experienceMode?: boolean;
+  maxPrepTime?: number;
+  additionalIngredient?: string;
 }

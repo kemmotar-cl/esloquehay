@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import { Settings2 } from 'lucide-react';
 import IngredientInput from './components/IngredientInput';
 import FloatingIngredients from './components/FloatingIngredients';
@@ -11,6 +11,7 @@ import Logo from './components/Logo';
 import { useCountryDetection } from './hooks/useCountry';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { getRandomTagline } from './data/phrases';
+import { generateRecipe, checkHealth } from './services/api';
 import type { Recipe } from './types/recipe';
 import type { UserPreferences } from './types/preferences';
 import { DEFAULT_PREFERENCES } from './types/preferences';
@@ -248,6 +249,7 @@ function App() {
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showPrefs, setShowPrefs] = useState(false);
+  const [backendReady, setBackendReady] = useState<boolean | null>(null);
   const [preferences, setPreferences] = useLocalStorage<UserPreferences>(
     'esloquehay-prefs',
     DEFAULT_PREFERENCES
@@ -255,6 +257,12 @@ function App() {
   const [ingredients, setIngredients] = useLocalStorage<string[]>('esloquehay-ingredients', []);
 
   const { country, countryName, spanishVariant, loading: countryLoading } = useCountryDetection();
+
+  useEffect(() => {
+    void checkHealth().then((h) => {
+      setBackendReady(h.keyConfigured);
+    });
+  }, []);
 
   const tagline = useMemo(() => getRandomTagline(spanishVariant), [spanishVariant]);
 
@@ -276,15 +284,38 @@ function App() {
   const handleGenerate = useCallback(
     async (variationName?: string, _extraIngredients?: string[]) => {
       setIsLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+
       if (variationName !== undefined && variationName in variationMocks) {
+        await new Promise((resolve) => setTimeout(resolve, 800));
         setRecipe(variationMocks[variationName]);
+        setIsLoading(false);
+        return;
+      }
+
+      if (backendReady) {
+        try {
+          const result = await generateRecipe({
+            ingredients,
+            country,
+            flavorProfile: preferences.flavorProfile,
+            skillLevel: preferences.skillLevel,
+            servings: preferences.servings,
+            maxPrepTime: preferences.maxPrepTime,
+            additionalIngredient: preferences.additionalIngredient,
+          });
+          setRecipe(result);
+        } catch {
+          // Fallback a mock si la API falla
+          setRecipe(mockRecipe);
+        }
       } else {
+        // Modo demo sin backend
+        await new Promise((resolve) => setTimeout(resolve, 1500));
         setRecipe(mockRecipe);
       }
       setIsLoading(false);
     },
-    []
+    [backendReady, ingredients, country, preferences]
   );
 
   const handleGenerateVariation = useCallback(
@@ -313,7 +344,16 @@ function App() {
     <div className="min-h-screen bg-gray-50 py-6 sm:py-8 px-3 sm:px-4">
       {/* Header */}
       <div className="max-w-2xl mx-auto flex items-center justify-between mb-3 sm:mb-4">
-        <span className="text-[10px] sm:text-xs text-gray-400 font-medium">📍 {countryName}</span>
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] sm:text-xs text-gray-400 font-medium">📍 {countryName}</span>
+          {backendReady !== null && (
+            <span
+              className={`text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded-full font-medium ${backendReady ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}
+            >
+              {backendReady ? '🧠 IA activa' : '⚡ Demo'}
+            </span>
+          )}
+        </div>
         <button
           onClick={() => {
             setShowPrefs(true);
