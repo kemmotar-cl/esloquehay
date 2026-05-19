@@ -6,6 +6,8 @@ import RecipeCard from './components/RecipeCard';
 import PreferencesPanel from './components/PreferencesPanel';
 import AdBanner from './components/AdBanner';
 import AffiliateLinks from './components/AffiliateLinks';
+import ScrollIndicator from './components/ScrollIndicator';
+import Logo from './components/Logo';
 import { useCountryDetection } from './hooks/useCountry';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { getRandomTagline } from './data/phrases';
@@ -333,9 +335,6 @@ function App() {
         />
       </div>
 
-      {/* Ad Banner — entre ingredientes e input */}
-      <AdBanner variant="horizontal" />
-
       {/* Manual Input */}
       <IngredientInput
         ingredients={ingredients}
@@ -346,6 +345,12 @@ function App() {
         onGenerate={() => void handleGenerate()}
         isLoading={isLoading}
       />
+
+      {/* Ad Banner — debajo del botón generar */}
+      <AdBanner variant="horizontal" />
+
+      {/* Scroll indicator cuando la receta está lista */}
+      <ScrollIndicator visible={!!recipe && !isLoading} />
 
       {/* Recipe Result */}
       {recipe && !isLoading && (
@@ -367,7 +372,10 @@ function App() {
         />
       )}
 
-      <footer className="mt-8 sm:mt-12 text-center text-gray-400 text-xs sm:text-sm px-4">
+      <footer className="mt-12 sm:mt-16 text-center text-gray-400 text-xs sm:text-sm px-4 pb-8">
+        <div className="mb-6 opacity-40 hover:opacity-70 transition-opacity duration-500">
+          <Logo size="giant" showText={false} animated={false} />
+        </div>
         <p>EsLoQueHay © 2026 — Vendemos experiencias, no recetas</p>
         <p className="text-[10px] text-gray-300 mt-1">Hecho con amor y hambre</p>
       </footer>

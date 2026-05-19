@@ -1,56 +1,57 @@
 interface LogoProps {
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'giant';
   showText?: boolean;
   animated?: boolean;
 }
 
 export default function Logo({ size = 'md', showText = true, animated = true }: LogoProps) {
   const sizes = {
-    sm: { w: 120, h: 100, text: 'text-lg', iconText: 7 },
-    md: { w: 160, h: 130, text: 'text-2xl', iconText: 9 },
-    lg: { w: 200, h: 165, text: 'text-3xl', iconText: 11 },
-    xl: { w: 280, h: 230, text: 'text-5xl', iconText: 15 },
+    sm: { w: 100, h: 90, text: 'text-lg', iconText: 6 },
+    md: { w: 140, h: 125, text: 'text-2xl', iconText: 8 },
+    lg: { w: 180, h: 160, text: 'text-3xl', iconText: 10 },
+    xl: { w: 240, h: 215, text: 'text-5xl', iconText: 14 },
+    giant: { w: 320, h: 290, text: 'text-6xl', iconText: 18 },
   };
 
   const s = sizes[size];
 
   return (
     <div className="flex flex-col items-center gap-2">
-      {/* Logo simbólico: Olla con universo + ingredientes orbitando */}
+      {/* Logo simbólico: Cocinero pensante con nube de ingredientes */}
       <div className={`relative ${animated ? 'group' : ''}`}>
         <svg
           width={s.w}
           height={s.h}
-          viewBox="0 0 200 165"
+          viewBox="0 0 280 250"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           className="drop-shadow-xl"
         >
           <defs>
-            {/* Gradiente cálido de la olla */}
-            <linearGradient id="potGrad" x1="60" y1="60" x2="140" y2="140">
+            <linearGradient id="chefGrad" x1="100" y1="80" x2="180" y2="200">
               <stop offset="0%" stopColor="#f1923f" />
-              <stop offset="50%" stopColor="#de5a0e" />
-              <stop offset="100%" stopColor="#933513" />
+              <stop offset="100%" stopColor="#de5a0e" />
             </linearGradient>
-            {/* Gradiente del universo interior */}
-            <radialGradient id="universeGrad" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#fef7ee" />
-              <stop offset="30%" stopColor="#fdecd5" />
-              <stop offset="70%" stopColor="#f1923f" />
-              <stop offset="100%" stopColor="#b8420f" />
+            <linearGradient id="apronGrad" x1="120" y1="140" x2="160" y2="220">
+              <stop offset="0%" stopColor="#fdecd5" />
+              <stop offset="100%" stopColor="#fad5aa" />
+            </linearGradient>
+            <radialGradient id="cloudGrad" cx="40%" cy="40%" r="60%">
+              <stop offset="0%" stopColor="#ffffff" />
+              <stop offset="70%" stopColor="#f9fafb" />
+              <stop offset="100%" stopColor="#e5e7eb" />
             </radialGradient>
-            {/* Brillo de estrellas */}
-            <filter id="starGlow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="1.2" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
+            <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow
+                dx="0"
+                dy="2"
+                stdDeviation="3"
+                floodColor="#000000"
+                floodOpacity="0.08"
+              />
             </filter>
-            {/* Aura de magia */}
-            <filter id="magicAura" x="-30%" y="-30%" width="160%" height="160%">
-              <feGaussianBlur stdDeviation="3" result="blur" />
+            <filter id="glowSoft">
+              <feGaussianBlur stdDeviation="2" result="blur" />
               <feMerge>
                 <feMergeNode in="blur" />
                 <feMergeNode in="SourceGraphic" />
@@ -58,161 +59,232 @@ export default function Logo({ size = 'md', showText = true, animated = true }: 
             </filter>
           </defs>
 
-          {/* Aura de calor/magia detrás de todo */}
-          <ellipse cx="100" cy="110" rx="55" ry="30" fill="#f1923f" opacity="0.08" filter="url(#magicAura)" />
+          {/* ========== NUBE DE PENSAMIENTO ========== */}
+          <g filter="url(#softShadow)">
+            {/* Cuerpo principal de la nube */}
+            <ellipse cx="200" cy="55" rx="55" ry="32" fill="url(#cloudGrad)" />
+            <circle cx="165" cy="50" r="22" fill="url(#cloudGrad)" />
+            <circle cx="195" cy="38" r="25" fill="url(#cloudGrad)" />
+            <circle cx="230" cy="48" r="20" fill="url(#cloudGrad)" />
+            <circle cx="215" cy="68" r="18" fill="url(#cloudGrad)" />
+            <circle cx="180" cy="70" r="16" fill="url(#cloudGrad)" />
 
-          {/* Órbitas de ingredientes */}
-          <ellipse
-            cx="100" cy="105"
-            rx="70" ry="22"
-            fill="none"
-            stroke="#fad5aa"
-            strokeWidth="0.5"
-            strokeDasharray="3 3"
-            opacity="0.4"
-            className={animated ? 'origin-center' : ''}
-            style={animated ? { animation: 'spin 20s linear infinite' } : undefined}
-          />
-          <ellipse
-            cx="100" cy="105"
-            rx="58" ry="18"
-            fill="none"
-            stroke="#f1923f"
-            strokeWidth="0.5"
-            strokeDasharray="2 4"
-            opacity="0.3"
-            style={animated ? { animation: 'spin 15s linear infinite reverse' } : undefined}
-          />
+            {/* Burbuja de conexión */}
+            <ellipse cx="140" cy="82" rx="10" ry="7" fill="url(#cloudGrad)" />
+            <ellipse cx="125" cy="90" rx="6" ry="4" fill="url(#cloudGrad)" />
 
-          {/* Ingredientes orbitando */}
-          {/* Tomate */}
-          <g transform="translate(30, 95)" opacity="0.9">
-            <circle cx="0" cy="0" r="8" fill="#fca5a5" />
-            <path d="M-3,-5 Q0,-8 3,-5" stroke="#16a34a" strokeWidth="1.5" fill="none" />
-          </g>
-          {/* Cebolla */}
-          <g transform="translate(170, 100)" opacity="0.9">
-            <circle cx="0" cy="0" r="7" fill="#e9d5ff" />
-            <circle cx="0" cy="0" r="4" fill="#c4b5fd" opacity="0.5" />
-          </g>
-          {/* Huevo */}
-          <g transform="translate(55, 78)" opacity="0.9">
-            <ellipse cx="0" cy="0" rx="6" ry="8" fill="#fef3c7" />
-            <circle cx="0" cy="1" r="3" fill="#fbbf24" />
-          </g>
-          {/* Zanahoria */}
-          <g transform="translate(145, 78)" opacity="0.9">
-            <path d="M-2,6 L0,-6 L2,6 Z" fill="#fb923c" />
-            <path d="M-1,-6 L-3,-10 M0,-6 L0,-11 M1,-6 L3,-10" stroke="#16a34a" strokeWidth="1" />
-          </g>
-          {/* Ajo */}
-          <g transform="translate(100, 72)" opacity="0.85">
-            <ellipse cx="0" cy="0" rx="5" ry="7" fill="#fef3c7" />
-            <ellipse cx="-2" cy="0" rx="2" ry="5" fill="#fde68a" opacity="0.6" />
+            {/* Ingredientes flotando dentro de la nube (semitransparentes) */}
+            <g opacity="0.45" filter="url(#glowSoft)">
+              <text x="175" y="48" fontSize="14" textAnchor="middle">
+                🍅
+              </text>
+              <text x="200" y="42" fontSize="12" textAnchor="middle">
+                🧅
+              </text>
+              <text x="220" y="52" fontSize="13" textAnchor="middle">
+                🧄
+              </text>
+              <text x="190" y="62" fontSize="11" textAnchor="middle">
+                🥕
+              </text>
+              <text x="210" y="65" fontSize="10" textAnchor="middle">
+                🌿
+              </text>
+              <text x="185" y="55" fontSize="9" textAnchor="middle">
+                🥚
+              </text>
+            </g>
+
+            {/* Rayitos de idea */}
+            <path
+              d="M245,30 L252,22 M255,35 L264,28 M250,25 L258,18"
+              stroke="#f1923f"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              opacity="0.5"
+              className={animated ? 'animate-pulse' : ''}
+            />
           </g>
 
-          {/* Humo/aroma subiendo */}
+          {/* ========== COCINERO ========== */}
+          {/* Cuerpo / Delantal */}
           <path
-            d="M85,65 Q80,45 90,30 Q95,20 88,10"
-            stroke="#fdecd5"
-            strokeWidth="2"
-            fill="none"
-            strokeLinecap="round"
-            opacity="0.5"
-            filter="url(#starGlow)"
-            className={animated ? 'animate-pulse' : ''}
+            d="M90,200 L85,150 Q82,130 100,125 L140,125 Q158,130 155,150 L150,200 Q145,225 120,230 Q95,225 90,200"
+            fill="url(#apronGrad)"
+            stroke="#b8420f"
+            strokeWidth="1.5"
           />
+          {/* Bolsillo del delantal */}
           <path
-            d="M115,65 Q120,45 110,30 Q105,20 112,10"
-            stroke="#fad5aa"
+            d="M105,170 L135,170 L133,190 Q120,195 107,190 Z"
+            fill="#fef7ee"
+            stroke="#b8420f"
+            strokeWidth="1"
+            opacity="0.6"
+          />
+
+          {/* Cuello / Camisa */}
+          <path d="M105,125 L120,110 L135,125" fill="#ffffff" stroke="#b8420f" strokeWidth="1" />
+
+          {/* Cabeza */}
+          <ellipse
+            cx="120"
+            cy="95"
+            rx="22"
+            ry="26"
+            fill="#fdecd5"
+            stroke="#b8420f"
+            strokeWidth="1.5"
+          />
+
+          {/* Pelo */}
+          <path
+            d="M98,85 Q95,65 110,62 Q120,58 130,62 Q145,65 142,85 Q142,95 138,100 Q135,70 120,68 Q105,70 102,100 Q98,95 98,85"
+            fill="#772d14"
+            stroke="#772d14"
+            strokeWidth="1"
+          />
+
+          {/* Gorro de chef */}
+          <path
+            d="M100,72 Q95,50 105,42 Q115,35 125,38 Q135,35 145,42 Q155,50 150,72 Q140,68 125,70 Q110,68 100,72"
+            fill="#ffffff"
+            stroke="#b8420f"
+            strokeWidth="1.5"
+          />
+          <circle cx="125" cy="50" r="3" fill="#fdecd5" opacity="0.5" />
+
+          {/* Ojos pensantes */}
+          <ellipse cx="113" cy="95" rx="3" ry="4" fill="#111827" />
+          <ellipse cx="127" cy="95" rx="3" ry="4" fill="#111827" />
+          {/* Mirada hacia arriba (pensando en la nube) */}
+          <circle cx="114" cy="93" r="1.2" fill="#ffffff" />
+          <circle cx="128" cy="93" r="1.2" fill="#ffffff" />
+
+          {/* Cejas arqueadas (pensando) */}
+          <path
+            d="M108,88 Q113,84 118,88"
+            stroke="#772d14"
             strokeWidth="1.5"
             fill="none"
             strokeLinecap="round"
-            opacity="0.4"
-            filter="url(#starGlow)"
-            className={animated ? 'animate-pulse' : ''}
-            style={{ animationDelay: '0.5s' }}
+          />
+          <path
+            d="M122,88 Q127,84 132,88"
+            stroke="#772d14"
+            strokeWidth="1.5"
+            fill="none"
+            strokeLinecap="round"
           />
 
-          {/* Estrellas en el humo */}
-          <g className={animated ? 'animate-pulse' : ''}>
-            <path d="M88,18 L89,21 L92,22 L89,23 L88,26 L87,23 L84,22 L87,21 Z" fill="#fef7ee" filter="url(#starGlow)" />
-          </g>
-          <g className={animated ? 'animate-pulse' : ''} style={{ animationDelay: '0.3s' }}>
-            <path d="M112,15 L112.5,16.5 L114,17 L112.5,17.5 L112,19 L111.5,17.5 L110,17 L111.5,16.5 Z" fill="#fef7ee" filter="url(#starGlow)" />
-          </g>
-          <g className={animated ? 'animate-pulse' : ''} style={{ animationDelay: '0.7s' }}>
-            <path d="M100,8 L100.5,9.5 L102,10 L100.5,10.5 L100,12 L99.5,10.5 L98,10 L99.5,9.5 Z" fill="#fdecd5" filter="url(#starGlow)" />
-          </g>
-
-          {/* Olla */}
-          {/* Borde superior */}
-          <ellipse cx="100" cy="65" rx="38" ry="8" fill="#b8420f" />
-          <ellipse cx="100" cy="63" rx="35" ry="7" fill="#933513" />
-          {/* Cuerpo de la olla */}
+          {/* Nariz */}
           <path
-            d="M62,65 L68,120 Q100,132 132,120 L138,65"
-            fill="url(#potGrad)"
-            stroke="#933513"
+            d="M120,98 Q118,104 122,104"
+            stroke="#b8420f"
+            strokeWidth="1"
+            fill="none"
+            strokeLinecap="round"
+          />
+
+          {/* Boca pensativa (línea recta) */}
+          <line
+            x1="116"
+            y1="108"
+            x2="124"
+            y2="108"
+            stroke="#b8420f"
+            strokeWidth="1.2"
+            strokeLinecap="round"
+          />
+
+          {/* Mejillas */}
+          <ellipse cx="108" cy="102" rx="4" ry="2.5" fill="#fca5a5" opacity="0.3" />
+          <ellipse cx="132" cy="102" rx="4" ry="2.5" fill="#fca5a5" opacity="0.3" />
+
+          {/* ========== BRAZOS ========== */}
+          {/* Brazo izquierdo — mano en la barbilla (pensando) */}
+          <path
+            d="M85,145 Q70,155 75,170 Q78,178 88,175"
+            fill="none"
+            stroke="#fdecd5"
+            strokeWidth="10"
+            strokeLinecap="round"
+          />
+          <path
+            d="M85,145 Q70,155 75,170 Q78,178 88,175"
+            fill="none"
+            stroke="#b8420f"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
+          {/* Mano */}
+          <ellipse cx="88" cy="175" rx="7" ry="5" fill="#fdecd5" stroke="#b8420f" strokeWidth="1" />
+          <line
+            x1="85"
+            y1="173"
+            x2="83"
+            y2="168"
+            stroke="#b8420f"
+            strokeWidth="1"
+            strokeLinecap="round"
+          />
+
+          {/* Brazo derecho — con cuchillo */}
+          <path
+            d="M155,145 Q170,155 165,170"
+            fill="none"
+            stroke="#fdecd5"
+            strokeWidth="10"
+            strokeLinecap="round"
+          />
+          <path
+            d="M155,145 Q170,155 165,170"
+            fill="none"
+            stroke="#b8420f"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
+          {/* Mano con cuchillo */}
+          <ellipse
+            cx="165"
+            cy="170"
+            rx="7"
+            ry="5"
+            fill="#fdecd5"
+            stroke="#b8420f"
             strokeWidth="1"
           />
-          {/* Interior del universo */}
-          <ellipse cx="100" cy="65" rx="33" ry="6" fill="url(#universeGrad)" />
-          {/* Estrellas dentro del universo */}
-          <circle cx="85" cy="64" r="1" fill="#fef7ee" opacity="0.9" />
-          <circle cx="95" cy="66" r="0.8" fill="#fef7ee" opacity="0.7" />
-          <circle cx="108" cy="63" r="1.2" fill="#fef7ee" opacity="0.8" />
-          <circle cx="118" cy="65" r="0.6" fill="#fef7ee" opacity="0.9" />
-          <circle cx="90" cy="66" r="0.5" fill="#fef7ee" opacity="0.6" />
-          {/* Brillo central del universo */}
-          <ellipse cx="100" cy="65" rx="8" ry="2" fill="#fef7ee" opacity="0.3" filter="url(#starGlow)" />
-
-          {/* Asas de la olla */}
+          {/* Cuchillo */}
           <path
-            d="M62,72 Q52,75 55,85 Q58,90 64,88"
-            fill="none"
-            stroke="#933513"
-            strokeWidth="3"
-            strokeLinecap="round"
+            d="M162,168 L180,155 L182,158 L164,172 Z"
+            fill="#9ca3af"
+            stroke="#6b7280"
+            strokeWidth="0.5"
           />
-          <path
-            d="M138,72 Q148,75 145,85 Q142,90 136,88"
-            fill="none"
-            stroke="#933513"
-            strokeWidth="3"
-            strokeLinecap="round"
+          <rect
+            x="158"
+            y="166"
+            width="8"
+            height="3"
+            rx="1"
+            fill="#4b5563"
+            transform="rotate(-35 162 167)"
           />
 
-          {/* Base de la olla */}
-          <ellipse cx="100" cy="120" rx="32" ry="5" fill="#772d14" />
-          <ellipse cx="100" cy="118" rx="28" ry="4" fill="#933513" />
+          {/* ========== BASE / SOMBRA ========== */}
+          <ellipse cx="120" cy="232" rx="45" ry="6" fill="#000000" opacity="0.06" />
 
-          {/* Fuego bajo la olla */}
-          <path
-            d="M75,125 Q80,118 85,125 Q90,115 95,125 Q100,112 105,125 Q110,115 115,125 Q120,118 125,125"
-            fill="#f1923f"
-            opacity="0.6"
-            filter="url(#starGlow)"
-            className={animated ? 'animate-pulse' : ''}
-          />
-          <path
-            d="M82,128 Q87,122 92,128 Q97,120 102,128 Q107,120 112,128 Q117,122 122,128"
-            fill="#de5a0e"
-            opacity="0.5"
-            filter="url(#starGlow)"
-            className={animated ? 'animate-pulse' : ''}
-            style={{ animationDelay: '0.3s' }}
-          />
-
-          {/* Chispas del fuego */}
-          <circle cx="78" cy="118" r="1" fill="#f1923f" opacity="0.8" className={animated ? 'animate-ping' : ''} />
-          <circle cx="122" cy="120" r="0.8" fill="#fad5aa" opacity="0.7" className={animated ? 'animate-ping' : ''} style={{ animationDelay: '0.4s' }} />
-          <circle cx="95" cy="114" r="0.6" fill="#fdecd5" opacity="0.9" className={animated ? 'animate-ping' : ''} style={{ animationDelay: '0.8s' }} />
+          {/* ========== BRILLOS DECORATIVOS ========== */}
+          <g className={animated ? 'animate-pulse' : ''} opacity="0.4">
+            <circle cx="260" cy="25" r="2" fill="#f1923f" />
+            <circle cx="270" cy="35" r="1.2" fill="#fad5aa" />
+            <circle cx="255" cy="40" r="1" fill="#fdecd5" />
+          </g>
         </svg>
 
         {/* Halo decorativo */}
         {animated && (
-          <div className="absolute inset-0 -z-10 rounded-full bg-brand-200 opacity-0 group-hover:opacity-25 transition-opacity duration-700 blur-2xl scale-125" />
+          <div className="absolute inset-0 -z-10 rounded-full bg-brand-200 opacity-0 group-hover:opacity-20 transition-opacity duration-700 blur-2xl scale-125" />
         )}
       </div>
 
@@ -225,7 +297,7 @@ export default function Logo({ size = 'md', showText = true, animated = true }: 
             <span className="text-brand-600">Que</span>
             <span className="text-gray-900">Hay</span>
           </h1>
-          {size !== 'sm' && (
+          {size !== 'sm' && size !== 'giant' && (
             <p className="text-xs text-gray-400 font-medium mt-1.5 tracking-widest uppercase">
               Experiencias gastronómicas
             </p>
