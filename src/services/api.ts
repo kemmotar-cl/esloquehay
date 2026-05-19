@@ -1,6 +1,8 @@
 import type { Recipe, RecipeRequest } from '../types/recipe';
 
-const API_URL = (import.meta.env.VITE_API_URL as string | undefined) ?? 'http://localhost:3000';
+const API_URL =
+  (import.meta.env.VITE_API_URL as string | undefined) ??
+  'https://esloquehay-backend.jorge-labbe-a.workers.dev';
 
 export async function generateRecipe(request: RecipeRequest): Promise<Recipe> {
   const response = await fetch(`${API_URL}/api/recipe`, {
