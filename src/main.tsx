@@ -3,6 +3,9 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.tsx';
 import { ErrorBoundary } from './components/ErrorBoundary.tsx';
+import { initGA4 } from './services/ga4.ts';
+
+initGA4();
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
