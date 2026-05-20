@@ -285,7 +285,7 @@ function App() {
             backgroundImage: 'url(/logo.png)',
             backgroundPosition: 'center center',
             backgroundRepeat: 'no-repeat',
-            backgroundSize: '35%',
+            backgroundSize: '44%',
             opacity: 0.5,
           }}
         />
