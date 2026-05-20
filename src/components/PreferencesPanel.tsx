@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Flame, ChefHat, Users, Clock, Zap, X, Settings2, Wallet } from 'lucide-react';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 import type { UserPreferences } from '../types/preferences';
 import { DEFAULT_PREFERENCES } from '../types/preferences';
 
@@ -49,6 +50,7 @@ export default function PreferencesPanel({
   onClose,
   t,
 }: PreferencesPanelProps) {
+  const containerRef = useFocusTrap(true, onClose);
   const [local, setLocal] = useState<UserPreferences>(preferences);
 
   const update = <K extends keyof UserPreferences>(key: K, value: UserPreferences[K]) => {
@@ -59,6 +61,7 @@ export default function PreferencesPanel({
 
   return (
     <div
+      ref={containerRef}
       className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 p-0 sm:p-4"
       role="dialog"
       aria-modal="true"

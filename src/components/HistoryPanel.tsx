@@ -1,5 +1,6 @@
 import { X, Clock, Trash2, FileJson, FileSpreadsheet } from 'lucide-react';
 import type { HistoryEntry } from '../hooks/useHistory';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 
 interface HistoryPanelProps {
   history: HistoryEntry[];
@@ -41,6 +42,8 @@ export default function HistoryPanel({
   t,
   lang,
 }: HistoryPanelProps) {
+  const containerRef = useFocusTrap(true, onClose);
+
   const handleExportJSON = () => {
     const blob = new Blob([onExportJSON()], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -63,6 +66,7 @@ export default function HistoryPanel({
 
   return (
     <div
+      ref={containerRef}
       className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 p-0 sm:p-4"
       role="dialog"
       aria-modal="true"
