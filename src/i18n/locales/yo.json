@@ -106,7 +106,8 @@
   },
   "footer": {
     "motto": "A ṣẹda awọn akoko, kii ṣe awọn ounjẹ nikan",
-    "tagline": "Ṣe pẹlu iwariiri ati ebi lati ṣẹda"
+    "tagline": "Ṣe pẹlu iwariiri ati ebi lati ṣẹda",
+    "manageConsent": "Ṣakoso igbeyewo"
   },
   "toast": {
     "variationReady": "Iyatọ ti ṣetan!",
@@ -325,5 +326,11 @@
   },
   "mock": {
     "disclaimer": "This is a demo recipe. Content may be in Spanish."
+  },
+  "consent": {
+    "title": "Asiri rẹ ṣe pataki",
+    "description": "A lo cookies lati ṣe ayẹwo ijabọ pẹlu Google Analytics ati fi awọn ipolowo aṣaayan han pẹlu Google AdSense. A tún ṣe awari ipo rẹ lati ṣe igbelaruge awọn igbesẹ aṣaayan agbegbe. Awọn ayanfẹ rẹ ni a fi pamọ ninu browser rẹ nikan.",
+    "acceptAll": "Gba gbogbo nkan",
+    "essentialOnly": "Ohun pataki nikan"
   }
 }

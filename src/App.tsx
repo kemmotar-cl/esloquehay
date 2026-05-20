@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback, useEffect, lazy, Suspense } from 'react';
+import { ConsentBanner } from './components/ConsentBanner';
 import { Settings2, Clock, WifiOff, Wallet } from 'lucide-react';
 import IngredientInput from './components/IngredientInput';
 import FloatingIngredients from './components/FloatingIngredients';
@@ -20,6 +21,9 @@ import { getRandomPhrase } from './data/phrases';
 import { generateRecipe, checkHealth } from './services/api';
 import { logger } from './services/logger';
 import { analytics } from './services/analytics';
+import { updateConsent } from './services/ga4';
+import { loadAdSense } from './services/adsense';
+import { useConsent } from './hooks/useConsent';
 import type { Recipe } from './types/recipe';
 import type { UserPreferences, Country } from './types/preferences';
 import { DEFAULT_PREFERENCES } from './types/preferences';
@@ -45,6 +49,21 @@ function App() {
   const { toasts, addToast, removeToast } = useToast();
   const isOnline = useOnlineStatus();
   const visitCount = useVisitCounter();
+  const { consent, saveConsent } = useConsent();
+
+  const resetConsent = useCallback(() => {
+    saveConsent('pending');
+  }, [saveConsent]);
+
+  // Initialize or update GA4 and AdSense based on consent
+  useEffect(() => {
+    if (consent === 'granted') {
+      updateConsent('granted');
+      loadAdSense();
+    } else if (consent === 'denied') {
+      updateConsent('denied');
+    }
+  }, [consent]);
 
   const [sessionId] = useState(() => {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
@@ -260,16 +279,7 @@ function App() {
           {t('app.skipLink', 'Saltar al contenido principal')}
         </a>
         {/* Logo de fondo — chef kawaii, 3/4 pantalla, 50% transparencia */}
-        <div
-          className="fixed inset-0 pointer-events-none z-0"
-          style={{
-            backgroundImage: 'url(/logo.png)',
-            backgroundPosition: 'center center',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: '44%',
-            opacity: 0.5,
-          }}
-        />
+        <div className="fixed inset-0 pointer-events-none z-0 logo-bg opacity-50" />
         {/* Toast notifications */}
         <ToastContainer toasts={toasts} onRemove={removeToast} />
 
@@ -352,14 +362,7 @@ function App() {
         </div>
 
         {/* Floating Ingredients Cloud — forma de nube */}
-        <div
-          className="relative z-10 max-w-2xl mx-auto py-4 px-2"
-          style={{
-            background: 'rgba(255,255,255,0.15)',
-            borderRadius: '55% 45% 50% 50% / 45% 55% 45% 55%',
-            backdropFilter: 'blur(2px)',
-          }}
-        >
+        <div className="relative z-10 max-w-2xl mx-auto py-4 px-2 bg-white/15 ingredient-cloud cloud-backdrop">
           <FloatingIngredients
             country={country}
             onSelect={addIngredient}
@@ -525,8 +528,17 @@ function App() {
             >
               Disclaimer
             </a>
+            <span>·</span>
+            <button
+              onClick={resetConsent}
+              className="hover:text-brand-500 transition-colors underline underline-offset-2"
+            >
+              {t('footer.manageConsent', 'Preferencias de privacidad')}
+            </button>
           </div>
         </footer>
+
+        <ConsentBanner consent={consent} onConsent={saveConsent} t={t} />
       </div>
     </ErrorBoundary>
   );

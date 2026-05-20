@@ -1,6 +1,6 @@
 # 📋 EsLoQueHay — Estado del Proyecto
 
-> **Snapshot oficial del estado actual.** Actualizado: 2026-05-19
+> **Snapshot oficial del estado actual.** Actualizado: 2026-05-20
 
 ---
 
@@ -60,9 +60,11 @@
 - [x] Retry con backoff exponencial en llamadas HTTP
 - [x] Logger centralizado (`services/logger.ts`)
 - [x] Analytics centralizado (`services/analytics.ts`)
-- [x] CSP headers configurados (incl. dominios de ads/analytics)
+- [x] CSP headers configurados sin `unsafe-inline` en `script-src` ni `style-src`
+- [x] Google Consent Mode v2 + banner de consentimiento GDPR
+- [x] Carga diferida de GA4 y AdSense según elección del usuario
 - [x] CI/CD: GitHub Actions → Cloudflare Pages / Workers
-- [x] Tests: 57 frontend + 11 backend — todos pasando
+- [x] Tests: 72 frontend + 17 backend — todos pasando
 - [x] `X-Session-ID` header para trazabilidad
 
 ---
@@ -78,7 +80,10 @@
 
 - [ ] **Configurar `VITE_GA_MEASUREMENT_ID`** — Seguir `docs/GA4_SETUP.md`
 - [ ] Configurar `VITE_ADSENSE_SLOT_TOP` / `VITE_ADSENSE_SLOT_BOTTOM` cuando estén disponibles
-- [ ] Implementar banner de consentimiento GDPR/CCPA (postergado — no requerido en LATAM)
+- [x] ~~Implementar banner de consentimiento GDPR/CCPA~~ ✅ Entregado 2026-05-20
+- [x] Traducciones del banner a los 20 idiomas
+- [x] Tests de `useConsent` y `ConsentBanner`
+- [x] Link "Preferencias de privacidad" en footer
 
 ---
 
@@ -86,37 +91,38 @@
 
 Ver [AUDITORIA_2026-05-19.md](../../AUDITORIA_2026-05-19.md) para detalle completo.
 
-| Prioridad | Issue                                                   | Proyecto |
-| --------- | ------------------------------------------------------- | -------- |
-| ✅        | SEO: Open Graph, Twitter Cards, robots.txt, sitemap     | Frontend |
-| ✅        | `it.json` traducido completo al italiano                | Frontend |
-| ✅        | "papa" corregida en 18 idiomas                          | Frontend |
-| ✅        | CORS restrictivo + Zod validation + rate limiting       | Backend  |
-| ✅        | Prompt injection detection + sanitización               | Backend  |
-| ✅        | Logging estructurado JSON en Worker                     | Backend  |
-| 🟡        | Solo 11 tests backend — 0 de endpoints HTTP             | Backend  |
-| ✅        | `logo.png` optimizado: 325KB → 117KB                    | Frontend |
-| ✅        | Focus trap en modales (HistoryPanel + PreferencesPanel) | Frontend |
-| 🟡        | `unsafe-inline` en CSP                                  | Frontend |
-| 🟡        | Código duplicado Express/Worker en backend              | Backend  |
-| 🟡        | Sin caching en backend (llamadas IA repetidas)          | Backend  |
+| Prioridad | Issue                                                        | Proyecto |
+| --------- | ------------------------------------------------------------ | -------- |
+| ✅        | SEO: Open Graph, Twitter Cards, robots.txt, sitemap          | Frontend |
+| ✅        | `it.json` traducido completo al italiano                     | Frontend |
+| ✅        | "papa" corregida en 18 idiomas                               | Frontend |
+| ✅        | CORS restrictivo + Zod validation + rate limiting            | Backend  |
+| ✅        | Prompt injection detection + sanitización                    | Backend  |
+| ✅        | Logging estructurado JSON en Worker                          | Backend  |
+| ✅        | Tests backend: 17 pasando (6 de handlers HTTP)               | Backend  |
+| ✅        | `logo.png` optimizado: 325KB → 117KB                         | Frontend |
+| ✅        | Focus trap en modales (HistoryPanel + PreferencesPanel)      | Frontend |
+| ✅        | `unsafe-inline` removido de CSP (`script-src` + `style-src`) | Frontend |
+| ✅        | Banner de consentimiento GDPR + Google Consent Mode v2       | Frontend |
+| ✅        | Código duplicado Express/Worker refactoreado                 | Backend  |
+| ✅        | KV Caching en backend (1h TTL)                               | Backend  |
 
 ---
 
 ## 📊 Métricas Técnicas Actuales
 
-| Métrica               | Valor                           |
-| --------------------- | ------------------------------- |
-| Bundle JS principal   | 303 KB                          |
-| Bundle CSS            | 34 KB                           |
-| Locales (lazy-loaded) | 7–25 KB cada uno                |
-| Tests Frontend        | 72 pasando (+15 nuevos)         |
-| Tests Backend         | 17 pasando (+6 nuevos)          |
-| Lenguajes soportados  | 20                              |
-| Países detectables    | 12                              |
-| Historial máximo      | 50 recetas                      |
-| Retry HTTP            | 3 intentos, backoff exponencial |
-| Timeout HTTP          | 8 segundos                      |
+| Métrica                | Valor                           |
+| ---------------------- | ------------------------------- |
+| Bundle JS principal    | 314 KB                          |
+| Bundle CSS             | 34 KB                           |
+| Locales (lazy-loaded)  | 7–25 KB cada uno                |
+| Tests Frontend         | 83 pasando (+26 nuevos)         |
+| Tests Backend          | 29 pasando (+18 nuevos)         |
+| i18n keys consistentes | 20/20 ✅                        |
+| ESLint errors          | 0                               |
+| Historial máximo       | 50 recetas                      |
+| Retry HTTP             | 3 intentos, backoff exponencial |
+| Timeout HTTP           | 8 segundos                      |
 
 ---
 
@@ -127,7 +133,7 @@ Ver [AUDITORIA_2026-05-19.md](../../AUDITORIA_2026-05-19.md) para detalle comple
 - **System prompt:** En inglés para mejor comportamiento multilingüe
 - **Ingredient persistence:** Deliberadamente removida de localStorage por request del usuario
 - **Health check:** `backendReady` ya no bloquea generación — siempre se intenta backend primero, fallback real solo ante error real
-- **AdSense consent:** Postergado. LATAM no requiere CMP para funcionar. Europa limitada sin banner.
+- **AdSense consent:** Implementado. Banner con Google Consent Mode v2. Scripts de GA4/AdSense solo cargan tras consentimiento explícito.
 
 ---
 
@@ -144,4 +150,20 @@ Ver [AUDITORIA_2026-05-19.md](../../AUDITORIA_2026-05-19.md) para detalle comple
 
 ---
 
-_Última actualización: 2026-05-19 | Commit frontend: `81294f0` | Commit backend: `96e1b4b`_
+_Última actualización: 2026-05-20 | Auditoría total completada | Reporte: `AUDITORIA_2026-05-20.md`_
+
+## 📝 Pendientes Post-Auditoría
+
+Ver `AUDITORIA_2026-05-20.md` para detalle completo.
+
+| Prioridad | Tarea                                                   | Proyecto |
+| --------- | ------------------------------------------------------- | -------- |
+| 🔴        | Hacer commit/push de 50 archivos modificados            | Ambos    |
+| 🔴        | Configurar `VITE_GA_MEASUREMENT_ID` en Cloudflare Pages | Frontend |
+| 🟡        | Resolver 3 vulnerabilidades npm audit backend           | Backend  |
+| 🟡        | Reemplazar rate limiter in-memory por KV/DO             | Backend  |
+| 🟡        | Configurar KV ID real en `wrangler.toml`                | Backend  |
+| 🟡        | Refactorizar `App.tsx` (>500 líneas)                    | Frontend |
+| 🟢        | Tests para 9 archivos sin cobertura                     | Frontend |
+| 🟢        | `apple-touch-icon` para iOS PWA                         | Frontend |
+| 🟢        | Agregar HSTS a `_headers`                               | Frontend |

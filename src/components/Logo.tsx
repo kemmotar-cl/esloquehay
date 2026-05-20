@@ -22,14 +22,10 @@ export default function Logo({ size = 'md', showText = true, animated = true }: 
         alt="EsLoQueHay Logo"
         width={s.w}
         height={s.w}
-        className={`drop-shadow-xl object-contain ${animated ? 'group-hover:scale-105 transition-transform duration-300' : ''}`}
-        style={{ imageRendering: 'auto' }}
+        className={`drop-shadow-xl object-contain image-auto ${animated ? 'group-hover:scale-105 transition-transform duration-300' : ''}`}
       />
       {showText && (
-        <span
-          className={`font-bold tracking-tight text-brand-600 ${s.text}`}
-          style={{ fontFamily: 'Georgia, serif' }}
-        >
+        <span className={`font-bold tracking-tight text-brand-600 font-georgia ${s.text}`}>
           EsLoQueHay
         </span>
       )}

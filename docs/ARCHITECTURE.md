@@ -71,7 +71,8 @@ esloquehay/
 ├── src/
 │   ├── assets/                 # Assets procesados por Vite
 │   ├── components/             # Componentes React (PascalCase)
-│   │   ├── AdBanner.tsx        # Banner de AdSense
+│   │   ├── AdBanner.tsx        # Banner de AdSense (lazy-loaded tras consentimiento)
+│   │   ├── ConsentBanner.tsx   # Banner GDPR / Google Consent Mode v2
 │   │   ├── AffiliateLinks.tsx  # Links de afiliados
 │   │   ├── ErrorBoundary.tsx   # Manejo de errores
 │   │   ├── FloatingIngredients.tsx  # Canvas animado de ingredientes
@@ -102,6 +103,8 @@ esloquehay/
 │   │   └── recipes.ts          # Mock recipes + variation mocks
 │   ├── services/               # Lógica de comunicación con APIs
 │   │   ├── analytics.ts        # GA4 event tracking
+│   │   ├── ga4.ts              # Inicialización GA4 + Google Consent Mode v2
+│   │   ├── adsense.ts          # Carga dinámica del script de AdSense
 │   │   ├── api.ts              # Cliente HTTP + retry + timeout
 │   │   └── logger.ts           # Logger centralizado
 │   ├── test/                   # Tests unitarios e integración
@@ -120,7 +123,7 @@ esloquehay/
 │   └── main.tsx                # Punto de entrada React
 ├── .env.example                # Variables de entorno (template)
 ├── .env.production             # Variables de entorno (URL backend)
-├── index.html                  # HTML entry point (CSP + AdSense + GA4 scripts)
+├── index.html                  # HTML entry point (CSP sin unsafe-inline)
 ├── package.json
 ├── vite.config.ts              # Config Vite + PWA
 └── vitest.config.ts            # Config testing
@@ -146,6 +149,8 @@ esloquehay/
    - Se añade al historial con `source: 'mock'`
 5. **RecipeCard.tsx** recibe `recipe` y renderiza
 6. Si la receta viene de `source === 'mock'`, se muestra banner de disclaimer
+7. Al montar, `initGA4('denied')` establece Consent Mode v2 defaults
+8. Si el usuario acepta, `updateConsent('granted')` carga GA4 y AdSense dinámicamente
 
 ### 3.2 Detección de País
 
@@ -214,8 +219,10 @@ esloquehay/
 
 - HTTPS obligatorio en todas las comunicaciones
 - Sin secretos hardcodeados en cliente (API URL en `.env.production`)
-- CSP headers implementados en `index.html` (incluye dominios de ads/analytics)
-- **Pendiente:** Remover `'unsafe-inline'` de `script-src` en CSP
+- CSP headers en `index.html`: sin `'unsafe-inline'` en `script-src` ni `style-src`
+- Google Consent Mode v2 implementado (`ga4.ts`)
+- Carga diferida de AdSense y GA4 según elección del usuario (`adsense.ts`, `ga4.ts`)
+- Banner de consentimiento GDPR en 20 idiomas (`ConsentBanner.tsx`)
 - Sin validación de inputs en backend (solo Zod en frontend responses) — **gap crítico**
 - CORS wildcard (`*`) en backend — **gap crítico**
 - `X-Session-ID` header para trazabilidad de requests

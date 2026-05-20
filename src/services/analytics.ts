@@ -6,16 +6,10 @@ import { logger } from './logger';
  * Fallback a logger si gtag no está disponible.
  */
 
-declare global {
-  interface Window {
-    gtag?: (...args: unknown[]) => void;
-  }
-}
-
 const GA_ID = import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined;
 
 function sendToGA(event: string, properties?: Record<string, unknown>) {
-  if (typeof window !== 'undefined' && window.gtag && GA_ID) {
+  if (typeof window !== 'undefined' && typeof window.gtag === 'function' && GA_ID) {
     window.gtag('event', event, properties ?? {});
   }
 }
@@ -37,7 +31,7 @@ export const analytics = {
    */
   pageView(path: string) {
     logger.debug('analytics', `PageView: ${path}`);
-    if (typeof window !== 'undefined' && window.gtag && GA_ID) {
+    if (typeof window !== 'undefined' && typeof window.gtag === 'function' && GA_ID) {
       window.gtag('config', GA_ID, { page_path: path });
     }
   },

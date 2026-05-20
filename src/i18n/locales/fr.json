@@ -106,7 +106,8 @@
   },
   "footer": {
     "motto": "Nous créons des moments, pas seulement des repas",
-    "tagline": "Fabriqué avec curiosité et soif de créer"
+    "tagline": "Fabriqué avec curiosité et soif de créer",
+    "manageConsent": "Gérer le consentement"
   },
   "toast": {
     "variationReady": "Variation prête !",
@@ -325,5 +326,11 @@
   },
   "mock": {
     "disclaimer": "C'est une recette démo. Le contenu peut être en espagnol."
+  },
+  "consent": {
+    "title": "Votre vie privée compte",
+    "description": "Nous utilisons des cookies pour analyser le trafic avec Google Analytics et afficher des annonces personnalisées avec Google AdSense. Nous détectons également votre localisation pour suggérer des recettes locales. Vos préférences sont enregistrées uniquement dans votre navigateur.",
+    "acceptAll": "Tout accepter",
+    "essentialOnly": "Essentiels uniquement"
   }
 }

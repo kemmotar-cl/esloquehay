@@ -106,7 +106,8 @@
   },
   "footer": {
     "motto": "Chúng tôi tạo ra những khoảnh khắc, không chỉ là những bữa ăn",
-    "tagline": "Được thực hiện với sự tò mò và khao khát sáng tạo"
+    "tagline": "Được thực hiện với sự tò mò và khao khát sáng tạo",
+    "manageConsent": "Quản lý đồng ý"
   },
   "toast": {
     "variationReady": "Biến thể đã sẵn sàng!",
@@ -325,5 +326,11 @@
   },
   "mock": {
     "disclaimer": "Đây là một công thức thử nghiệm. Nội dung có thể là tiếng Tây Ban Nha."
+  },
+  "consent": {
+    "title": "Quyền riêng tư của bạn quan trọng",
+    "description": "Chúng tôi sử dụng cookie để phân tích lưu lượng với Google Analytics và hiển thị quảng cáo được cá nhân hóa với Google AdSense. Chúng tôi cũng phát hiện vị trí của bạn để đề xuất công thức nấu ăn địa phương. Tùy chọn của bạn chỉ được lưu trong trình duyệt của bạn.",
+    "acceptAll": "Chấp nhận tất cả",
+    "essentialOnly": "Chỉ thiết yếu"
   }
 }

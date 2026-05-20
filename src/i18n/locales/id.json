@@ -106,7 +106,8 @@
   },
   "footer": {
     "motto": "Kami menciptakan momen, bukan hanya makanan",
-    "tagline": "Dibuat dengan rasa ingin tahu dan rasa lapar untuk berkreasi"
+    "tagline": "Dibuat dengan rasa ingin tahu dan rasa lapar untuk berkreasi",
+    "manageConsent": "Kelola persetujuan"
   },
   "toast": {
     "variationReady": "Variasi sudah siap!",
@@ -325,5 +326,11 @@
   },
   "mock": {
     "disclaimer": "Ini adalah resep demo. Konten mungkin dalam bahasa Spanyol."
+  },
+  "consent": {
+    "title": "Privasi Anda penting",
+    "description": "Kami menggunakan cookie untuk menganalisis lalu lintas dengan Google Analytics dan menampilkan iklan yang dipersonalisasi dengan Google AdSense. Kami juga mendeteksi lokasi Anda untuk menyarankan resep lokal. Preferensi Anda hanya disimpan di browser Anda.",
+    "acceptAll": "Terima semua",
+    "essentialOnly": "Hanya esensial"
   }
 }

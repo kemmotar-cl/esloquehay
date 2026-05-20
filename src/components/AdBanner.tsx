@@ -71,7 +71,6 @@ export default function AdBanner({ variant = 'horizontal', t, adSlot }: AdBanner
         <ins
           ref={adRef}
           className="adsbygoogle block w-full h-full"
-          style={{ display: 'block' }}
           data-ad-client={ADSENSE_CLIENT}
           data-ad-slot={adSlot}
           data-ad-format="auto"

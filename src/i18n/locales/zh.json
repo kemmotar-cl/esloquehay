@@ -106,7 +106,8 @@
   },
   "footer": {
     "motto": "我们创造时刻，而不仅仅是用餐",
-    "tagline": "充满好奇心和创造欲望"
+    "tagline": "充满好奇心和创造欲望",
+    "manageConsent": "管理同意"
   },
   "toast": {
     "variationReady": "变化准备好了！",
@@ -325,5 +326,11 @@
   },
   "mock": {
     "disclaimer": "这是一个演示食谱。 内容可能是西班牙语。"
+  },
+  "consent": {
+    "title": "您的隐私很重要",
+    "description": "我们使用 Cookie 通过 Google Analytics 分析流量，并通过 Google AdSense 展示个性化广告。我们还会检测您的位置以推荐本地食谱。您的偏好设置仅保存在您的浏览器中。",
+    "acceptAll": "接受全部",
+    "essentialOnly": "仅必要"
   }
 }

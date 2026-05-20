@@ -106,7 +106,8 @@
   },
   "footer": {
     "motto": "Sadece yemek değil, anlar yaratıyoruz",
-    "tagline": "Merakla ve yaratma açlığıyla yapıldı"
+    "tagline": "Merakla ve yaratma açlığıyla yapıldı",
+    "manageConsent": "Onayı yönet"
   },
   "toast": {
     "variationReady": "Varyasyon hazır!",
@@ -325,5 +326,11 @@
   },
   "mock": {
     "disclaimer": "Bu bir demo tarifidir. İçerik İspanyolca olabilir."
+  },
+  "consent": {
+    "title": "Gizliliğiniz önemlidir",
+    "description": "Google Analytics ile trafik analizi yapmak ve Google AdSense ile kişiselleştirilmiş reklamlar göstermek için çerezleri kullanıyoruz. Ayrıca yerel tarifler önermek için konumunuzu tespit ediyoruz. Tercihleriniz yalnızca tarayıcınızda saklanır.",
+    "acceptAll": "Tümünü kabul et",
+    "essentialOnly": "Yalnızca gerekli"
   }
 }

@@ -19,3 +19,32 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* Custom utility classes for CSP compliance (avoid inline styles) */
+.thought-bubble {
+  border-radius: 40% 60% 55% 45% / 55% 45% 55% 45%;
+}
+
+.ingredient-cloud {
+  border-radius: 55% 45% 50% 50% / 45% 55% 45% 55%;
+}
+
+.logo-bg {
+  background-image: url(/logo.png);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 44%;
+}
+
+.image-auto {
+  image-rendering: auto;
+}
+
+.font-georgia {
+  font-family: Georgia, serif;
+}
+
+.cloud-backdrop {
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}

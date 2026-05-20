@@ -106,7 +106,8 @@
   },
   "footer": {
     "motto": "Creamos momentos, no solo comidas",
-    "tagline": "Hecho con curiosidad y hambre de crear"
+    "tagline": "Hecho con curiosidad y hambre de crear",
+    "manageConsent": "Preferencias de privacidad"
   },
   "toast": {
     "variationReady": "¡Variación lista!",
@@ -325,5 +326,11 @@
   },
   "mock": {
     "disclaimer": "Esta es una receta de demostración. El contenido puede estar en español."
+  },
+  "consent": {
+    "title": "Tu privacidad importa",
+    "description": "Usamos cookies para analizar el tráfico con Google Analytics y mostrar anuncios personalizados con Google AdSense. También detectamos tu ubicación para sugerir recetas locales. Tus preferencias se guardan solo en tu navegador.",
+    "acceptAll": "Aceptar todo",
+    "essentialOnly": "Solo esenciales"
   }
 }

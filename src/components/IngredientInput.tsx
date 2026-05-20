@@ -73,13 +73,7 @@ export default function IngredientInput({
       </div>
 
       {/* Input area — transparente, forma de burbuja de pensamiento */}
-      <div
-        className="relative p-6 mb-4"
-        style={{
-          background: 'transparent',
-          borderRadius: '40% 60% 55% 45% / 55% 45% 55% 45%',
-        }}
-      >
+      <div className="relative p-6 mb-4 bg-transparent thought-bubble">
         {/* Decoración de burbuja de pensamiento */}
         <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1 opacity-40">
           <div className="w-3 h-3 rounded-full bg-brand-300" />

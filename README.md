@@ -17,7 +17,7 @@ EsLoQueHay es una PWA (Progressive Web App) que genera recetas inteligentes con 
 - **🎛️ Preferencias:** Perfil de sabor, nivel de cocina, presupuesto, comensales y tiempo máximo.
 - **📜 Historial:** Guarda las últimas 50 recetas generadas en tu dispositivo.
 - **📤 Compartir:** Usa la Web Share API para enviar recetas por WhatsApp, Telegram, etc.
-- **💰 Monetización:** Google AdSense integrado (en revisión) + GA4 Analytics.
+- **💰 Monetización:** Google AdSense (carga diferida tras consentimiento) + GA4 Analytics con Consent Mode v2.
 
 ---
 
@@ -53,7 +53,7 @@ esloquehay/
 │   ├── App.tsx         # Componente raíz
 │   └── main.tsx        # Punto de entrada
 ├── .github/workflows/  # CI/CD
-├── index.html          # HTML entry point (CSP + AdSense + GA4)
+├── index.html          # HTML entry point (CSP estricto sin unsafe-inline)
 ├── package.json
 ├── vite.config.ts
 └── vitest.config.ts
@@ -94,6 +94,7 @@ Copiar `.env.example` a `.env` y configurar:
 ```
 VITE_API_URL=https://esloquehay-backend.jorge-labbe-a.workers.dev
 VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX           # Google Analytics 4
+VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX           # Google Analytics 4 Measurement ID
 VITE_ADSENSE_CLIENT=ca-pub-XXXXXXXXXXXXXXXX   # Google AdSense Publisher ID
 VITE_ADSENSE_SLOT_TOP=XXXXXXXXXX              # Ad Unit: top banner
 VITE_ADSENSE_SLOT_BOTTOM=XXXXXXXXXX           # Ad Unit: bottom banner

@@ -106,7 +106,8 @@
   },
   "footer": {
     "motto": "私たちは食事だけではない瞬間を創造します",
-    "tagline": "好奇心と創作意欲で作られました"
+    "tagline": "好奇心と創作意欲で作られました",
+    "manageConsent": "同意の管理"
   },
   "toast": {
     "variationReady": "バリエーションも準備完了！",
@@ -325,5 +326,11 @@
   },
   "mock": {
     "disclaimer": "デモレシピです。 コンテンツはスペイン語でご覧いただけます。"
+  },
+  "consent": {
+    "title": "プライバシーは大切です",
+    "description": "Google Analyticsでトラフィックを分析し、Google AdSenseでパーソナライズされた広告を表示するためにCookieを使用しています。また、現地のレシピを提案するために位置情報を検出しています。設定はブラウザにのみ保存されます。",
+    "acceptAll": "すべて許可",
+    "essentialOnly": "必要なもののみ"
   }
 }

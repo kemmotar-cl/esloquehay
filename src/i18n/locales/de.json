@@ -106,7 +106,8 @@
   },
   "footer": {
     "motto": "Wir schaffen Momente, nicht nur Mahlzeiten",
-    "tagline": "Hergestellt mit Neugier und Kreativitätshunger"
+    "tagline": "Hergestellt mit Neugier und Kreativitätshunger",
+    "manageConsent": "Zustimmung verwalten"
   },
   "toast": {
     "variationReady": "Variation bereit!",
@@ -325,5 +326,11 @@
   },
   "mock": {
     "disclaimer": "Das ist ein Demo-Rezept. Inhalt kann auf Spanisch sein."
+  },
+  "consent": {
+    "title": "Ihre Privatsphäre ist uns wichtig",
+    "description": "Wir verwenden Cookies, um den Traffic mit Google Analytics zu analysieren und personalisierte Anzeigen mit Google AdSense zu zeigen. Wir erkennen auch Ihren Standort, um lokale Rezepte vorzuschlagen. Ihre Präferenzen werden nur in Ihrem Browser gespeichert.",
+    "acceptAll": "Alle akzeptieren",
+    "essentialOnly": "Nur Essenzielle"
   }
 }

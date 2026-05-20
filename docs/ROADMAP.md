@@ -2,7 +2,7 @@
 
 > **Producto:** EsLoQueHay — Recetas inteligentes con IA  
 > **Slogan:** _"Abrí la heladera. Nosotros pensamos el resto."_  
-> **Fecha de actualización:** 2026-05-19  
+> **Fecha de actualización:** 2026-05-20  
 > **Versión:** 1.3 (pre-launch)
 
 ---
@@ -136,7 +136,9 @@ Ser la app de recetas más usada en Latinoamérica para resolver la pregunta dia
 - [x] Backend: refactor código duplicado Express/Worker
 - [x] Backend: caching con Cloudflare KV
 - [x] CSP: remover unsafe-inline de script-src
-- [ ] CSP: remover unsafe-inline de style-src (postergado — inline styles React)
+- [x] CSP: remover unsafe-inline de style-src (inline styles convertidos a Tailwind/custom CSS)
+- [x] Privacy: banner de consentimiento GDPR + Google Consent Mode v2
+- [x] Privacy: carga diferida de GA4 y AdSense según consentimiento del usuario
 
 ### Fase 3: Autenticación y Persistencia (Q3 2026)
 

@@ -279,8 +279,7 @@ export default function FloatingIngredients({
         onClick={handleClick}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className="absolute inset-0 w-full h-full cursor-pointer"
-        style={{ touchAction: 'none' }}
+        className="absolute inset-0 w-full h-full cursor-pointer touch-none"
       />
     </div>
   );

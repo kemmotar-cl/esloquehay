@@ -106,7 +106,8 @@
   },
   "footer": {
     "motto": "Creiamo momenti, non solo pasti",
-    "tagline": "Fatto con curiosità e fame di creare"
+    "tagline": "Fatto con curiosità e fame di creare",
+    "manageConsent": "Gestisci il consenso"
   },
   "toast": {
     "variationReady": "Variazione pronta!",
@@ -268,5 +269,11 @@
   ],
   "mock": {
     "disclaimer": "Questa è una ricetta demo. I contenuti possono essere in spagnolo."
+  },
+  "consent": {
+    "title": "La tua privacy conta",
+    "description": "Utilizziamo i cookie per analizzare il traffico con Google Analytics e mostrare annunci personalizzati con Google AdSense. Rileviamo anche la tua posizione per suggerire ricette locali. Le tue preferenze vengono salvate solo nel tuo browser.",
+    "acceptAll": "Accetta tutto",
+    "essentialOnly": "Solo essenziali"
   }
 }
