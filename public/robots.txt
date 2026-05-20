@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://esloquehay.pages.dev/sitemap.xml

@@ -1,92 +1,92 @@
 {
   "app": {
-    "detectingLocation": "Detecting your location...",
-    "iaActive": "AI active",
+    "detectingLocation": "Rilevamento della tua posizione...",
+    "iaActive": "IA attiva",
     "demoMode": "Demo",
-    "skipLink": "Skip to main content",
-    "offlineBanner": "No internet connection",
-    "languageTitle": "Language",
+    "skipLink": "Salta al contenuto principale",
+    "offlineBanner": "Nessuna connessione internet",
+    "languageTitle": "Lingua",
     "footerBrand": "EsLoQueHay © 2026"
   },
   "floatingIngredients": {
-    "hint": "Tap the floating ingredients or type your own"
+    "hint": "Tocca gli ingredienti fluttuanti o scrivi i tuoi"
   },
   "input": {
-    "label": "What else do you have?",
-    "placeholder": "Type or tap the ingredients above...",
-    "add": "Add ingredient",
-    "remove": "Remove ingredient",
-    "countryTitle": "Recipe country"
+    "label": "Cosa altro hai?",
+    "placeholder": "Scrivi o tocca gli ingredienti sopra...",
+    "add": "Aggiungi ingrediente",
+    "remove": "Rimuovi ingrediente",
+    "countryTitle": "Paese della ricetta"
   },
   "button": {
-    "history": "History",
-    "preferences": "Preferences",
-    "generate": "Generate",
-    "economicRecipe": "Budget recipe"
+    "history": "Cronologia",
+    "preferences": "Preferenze",
+    "generate": "Genera",
+    "economicRecipe": "Ricetta economica"
   },
   "history": {
-    "title": "History",
-    "exportJSON": "Export JSON",
-    "exportCSV": "Export CSV",
-    "clear": "Clear",
-    "empty": "You haven't generated anything yet",
-    "emptyHint": "Your experiences will appear here",
+    "title": "Cronologia",
+    "exportJSON": "Esporta JSON",
+    "exportCSV": "Esporta CSV",
+    "clear": "Svuota",
+    "empty": "Non hai ancora generato nulla",
+    "emptyHint": "Le tue esperienze appariranno qui",
     "source": {
-      "ia": "AI",
+      "ia": "IA",
       "mock": "Demo",
-      "variation": "Variation"
+      "variation": "Variazione"
     }
   },
   "preferences": {
-    "title": "Your Preferences",
-    "flavorProfile": "Preferred flavor profile",
-    "additionalIngredient": "Ingredient you always have",
-    "additionalIngredientPlaceholder": "Eg: eggs, garlic, olive oil...",
-    "additionalIngredientHint": "We'll always include it in recipes",
-    "skillLevel": "Cooking level",
-    "skillBeginner": "Beginner",
-    "skillIntermediate": "Intermediate",
-    "skillAdvanced": "Advanced",
+    "title": "Le tue preferenze",
+    "flavorProfile": "Profilo di sapore preferito",
+    "additionalIngredient": "Ingrediente che hai sempre",
+    "additionalIngredientPlaceholder": "Es: uova, aglio, olio d'oliva...",
+    "additionalIngredientHint": "Lo includeremo sempre nelle ricette",
+    "skillLevel": "Livello di cucina",
+    "skillBeginner": "Principiante",
+    "skillIntermediate": "Intermedio",
+    "skillAdvanced": "Avanzato",
     "budget": "Budget",
-    "servings": "Servings",
-    "particleSpeed": "Ingredient energy",
-    "particleSlow": "Slow",
-    "particleNormal": "Normal",
-    "particleChaotic": "Chaotic",
-    "particleHint": "Controls how fast ingredients collide and move",
-    "maxPrepTime": "Max prep time",
+    "servings": "Porzioni",
+    "particleSpeed": "Energia degli ingredienti",
+    "particleSlow": "Lenta",
+    "particleNormal": "Normale",
+    "particleChaotic": "Caotica",
+    "particleHint": "Controlla quanto velocemente gli ingredienti si muovono",
+    "maxPrepTime": "Tempo max di preparazione",
     "time5min": "5 min",
-    "time1day": "1 day",
-    "time2days": "2 days",
-    "maxPrepTimeHint": "Slow stews and braises are worth it",
-    "reset": "Reset",
-    "save": "Save"
+    "time1day": "1 giorno",
+    "time2days": "2 giorni",
+    "maxPrepTimeHint": "Gli stufati lenti ne valgono la pena",
+    "reset": "Reimposta",
+    "save": "Salva"
   },
   "recipe": {
-    "ingredients": "Ingredients",
-    "preparation": "Preparation",
-    "servings": "{count} people",
-    "gourmetVersion": "Gourmet Version",
-    "gourmetSubtitle": "Professional tips to elevate this dish to restaurant level",
-    "plating": "Plating",
-    "pairing": "Pairing",
-    "otherExperiences": "Other Experiences",
-    "variationsHint": "Same ingredients, a completely different result. Tap to generate.",
+    "ingredients": "Ingredienti",
+    "preparation": "Preparazione",
+    "servings": "{count} persone",
+    "gourmetVersion": "Versione Gourmet",
+    "gourmetSubtitle": "Consigli professionali per elevare questo piatto a livello ristorante",
+    "plating": "Impiattamento",
+    "pairing": "Abbinamento",
+    "otherExperiences": "Altre esperienze",
+    "variationsHint": "Stessi ingredienti, un risultato completamente diverso. Tocca per generare.",
     "difficulty": {
-      "easy": "Easy",
-      "medium": "Medium",
-      "hard": "Hard"
+      "easy": "Facile",
+      "medium": "Media",
+      "hard": "Difficile"
     },
     "time": {
       "min": "{n} min",
       "hourMin": "{h}h {m}m",
-      "dayHour": "{d}d {h}h"
+      "dayHour": "{d}g {h}h"
     }
   },
   "ad": {
-    "label": "Ad",
-    "placeholder": "Ad space",
-    "category": "Cooking & Gourmet"
+    "label": "Pubblicità",
+    "placeholder": "Spazio pubblicitario",
+    "category": "Cucina & Gourmet"
   },
   "affiliate": {
     "ollaName": "Pentola in ghisa",
@@ -98,83 +98,83 @@
     "especiasName": "Spezie gourmet importate",
     "especiasDesc": "Curry, zaatar, sumac. Porta i tuoi piatti in un altro continente."
   },
-  "scrollIndicator": "Your experience is ready",
+  "scrollIndicator": "La tua esperienza è pratica",
   "errorBoundary": {
-    "title": "Something went wrong",
-    "message": "An unexpected error occurred. Try reloading the page.",
-    "reload": "Reload"
+    "title": "Qualcosa è andato storto",
+    "message": "Si è verificato un errore imprevisto. Prova a ricaricare la pagina.",
+    "reload": "Ricarica"
   },
   "footer": {
-    "motto": "We create moments, not just meals",
-    "tagline": "Made with curiosity and hunger to create"
+    "motto": "Creiamo momenti, non solo pasti",
+    "tagline": "Fatto con curiosità e fame di creare"
   },
   "toast": {
-    "variationReady": "Variation ready!",
-    "recipeReady": "Recipe generated!",
-    "fallbackMode": "Demo mode active — this is a sample recipe",
-    "demoMode": "Demo mode — connect the backend for real recipes",
-    "offlineError": "No connection. Connect to the internet to generate recipes."
+    "variationReady": "Variazione pronta!",
+    "recipeReady": "Ricetta generata!",
+    "fallbackMode": "Modalità demo attiva — questa è una ricetta di esempio",
+    "demoMode": "Modalità demo — connetti il backend per ricette reali",
+    "offlineError": "Nessuna connessione. Connettiti a internet per generare ricette."
   },
   "loading": {
-    "checkingPantry": "Checking your virtual pantry...",
-    "consultingChef": "Consulting with the chef...",
-    "findingCombination": "Finding the perfect combination...",
-    "analyzingFlavors": "Analyzing compatible flavors...",
-    "creatingExperience": "Creating your gastronomic experience...",
-    "imaginingTextures": "Imagining textures and aromas...",
-    "connectingIngredients": "Connecting ingredients with magic...",
-    "designingDinner": "Designing your ideal dinner...",
-    "calculatingTimes": "Calculating times and techniques...",
-    "preparingSurprise": "Preparing something that will surprise you..."
+    "checkingPantry": "Controllo della tua dispensa virtuale...",
+    "consultingChef": "Consultazione con lo chef...",
+    "findingCombination": "Ricerca della combinazione perfetta...",
+    "analyzingFlavors": "Analisi dei sapori compatibili...",
+    "creatingExperience": "Creazione della tua esperienza gastronomica...",
+    "imaginingTextures": "Immaginazione di texture e aromi...",
+    "connectingIngredients": "Connessione degli ingredienti con magia...",
+    "designingDinner": "Progettazione della tua cena ideale...",
+    "calculatingTimes": "Calcolo di tempi e tecniche...",
+    "preparingSurprise": "Preparazione di qualcosa che ti sorprenderà..."
   },
-  "visitCounter": "Visits: {count}",
+  "visitCounter": "Visite: {count}",
   "countries": {
-    "chile": "Chile",
+    "chile": "Cile",
     "argentina": "Argentina",
-    "mexico": "Mexico",
+    "mexico": "Messico",
     "colombia": "Colombia",
-    "peru": "Peru",
-    "espana": "Spain",
+    "peru": "Perù",
+    "espana": "Spagna",
     "venezuela": "Venezuela",
     "ecuador": "Ecuador",
     "bolivia": "Bolivia",
     "uruguay": "Uruguay",
     "paraguay": "Paraguay",
     "costa_rica": "Costa Rica",
-    "panama": "Panama",
+    "panama": "Panamá",
     "guatemala": "Guatemala",
     "nicaragua": "Nicaragua",
     "honduras": "Honduras",
     "el_salvador": "El Salvador",
     "cuba": "Cuba",
-    "republica_dominicana": "Dominican Republic",
-    "puerto_rico": "Puerto Rico"
+    "republica_dominicana": "Repubblica Dominicana",
+    "puerto_rico": "Porto Rico"
   },
   "flavors": {
-    "traditional": "Traditional",
-    "spicy": "Spicy",
-    "sweet": "Sweet",
-    "sour": "Sour",
+    "traditional": "Tradizionale",
+    "spicy": "Piccante",
+    "sweet": "Dolce",
+    "sour": "Acido",
     "umami": "Umami",
-    "mild": "Mild",
-    "herbal": "Herbal",
-    "smoky": "Smoky",
-    "citrus": "Citrus"
+    "mild": "Delicato",
+    "herbal": "Erbaceo",
+    "smoky": "Affumicato",
+    "citrus": "Agrumato"
   },
   "budgets": {
-    "low": "Budget — few ingredients, lots of flavor",
-    "medium": "Balanced",
-    "high": "No limit"
+    "low": "Economico — pochi ingredienti, tanto sapore",
+    "medium": "Bilanciato",
+    "high": "Senza limiti"
   },
   "dietary": {
-    "none": "None",
-    "vegetarian": "Vegetarian",
-    "vegan": "Vegan",
-    "gluten_free": "Gluten-free",
-    "dairy_free": "Dairy-free",
+    "none": "Nessuna",
+    "vegetarian": "Vegetariana",
+    "vegan": "Vegana",
+    "gluten_free": "Senza glutine",
+    "dairy_free": "Senza latticini",
     "keto": "Keto",
-    "low_sodium": "Low sodium",
-    "diabetic": "Diabetic"
+    "low_sodium": "Basso contenuto di sodio",
+    "diabetic": "Diabetica"
   },
   "share": {
     "servingsLabel": "persone",
@@ -193,7 +193,7 @@
     "leche": "latte",
     "limon": "limone",
     "zanahoria": "carota",
-    "papa": "papà",
+    "papa": "patata",
     "pimiento": "pepe",
     "picante": "piccante",
     "aguacate": "avocado",
