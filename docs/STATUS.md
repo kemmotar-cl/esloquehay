@@ -116,7 +116,7 @@ Ver [AUDITORIA_2026-05-19.md](../../AUDITORIA_2026-05-19.md) para detalle comple
 | Bundle JS principal    | 314 KB                          |
 | Bundle CSS             | 34 KB                           |
 | Locales (lazy-loaded)  | 7–25 KB cada uno                |
-| Tests Frontend         | 83 pasando (+26 nuevos)         |
+| Tests Frontend         | 97 pasando (+40 nuevos)         |
 | Tests Backend          | 29 pasando (+18 nuevos)         |
 | i18n keys consistentes | 20/20 ✅                        |
 | ESLint errors          | 0                               |

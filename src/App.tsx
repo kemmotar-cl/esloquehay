@@ -17,31 +17,22 @@ import { useHistory } from './hooks/useHistory';
 import { useToast } from './hooks/useToast';
 import { useOnlineStatus } from './hooks/useOnlineStatus';
 import { useVisitCounter } from './hooks/useVisitCounter';
+import { useConsent } from './hooks/useConsent';
+import { useRecipeGenerator } from './hooks/useRecipeGenerator';
+import { useAppInit } from './hooks/useAppInit';
 import { getRandomPhrase } from './data/phrases';
-import { generateRecipe, checkHealth } from './services/api';
-import { logger } from './services/logger';
 import { analytics } from './services/analytics';
 import { updateConsent } from './services/ga4';
 import { loadAdSense } from './services/adsense';
-import { useConsent } from './hooks/useConsent';
-import type { Recipe } from './types/recipe';
 import type { UserPreferences, Country } from './types/preferences';
 import { DEFAULT_PREFERENCES } from './types/preferences';
 import { userPreferencesSchema } from './types/schemas';
-import {
-  useI18n,
-  loadTranslations,
-  LANGUAGE_NAMES,
-  LANGUAGE_FLAGS,
-  type LanguageCode,
-} from './i18n';
+import { useI18n, LANGUAGE_NAMES, LANGUAGE_FLAGS, type LanguageCode } from './i18n';
 
 const HistoryPanel = lazy(() => import('./components/HistoryPanel'));
 const PreferencesPanel = lazy(() => import('./components/PreferencesPanel'));
 
 function App() {
-  const [recipe, setRecipe] = useState<Recipe | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [showPrefs, setShowPrefs] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const { history, addToHistory, clearHistory, removeFromHistory, exportToJSON, exportToCSV } =
@@ -65,14 +56,6 @@ function App() {
     }
   }, [consent]);
 
-  const [sessionId] = useState(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
-      return crypto.randomUUID();
-    }
-    return Math.random().toString(36).slice(2) + Date.now().toString(36);
-  });
-  const [backendReady, setBackendReady] = useState<boolean | null>(null);
   const [preferences, setPreferences] = useLocalStorage<UserPreferences>(
     'esloquehay-prefs',
     DEFAULT_PREFERENCES,
@@ -85,18 +68,7 @@ function App() {
   const [recipeCountryOverride, setRecipeCountryOverride] = useState<Country | null>(null);
   const recipeCountry = recipeCountryOverride ?? country;
 
-  // Clear persisted ingredients from previous sessions (no longer desired)
-  useEffect(() => {
-    localStorage.removeItem('esloquehay-ingredients');
-  }, []);
-
-  // Initialize language from saved preferences
-  useEffect(() => {
-    void loadTranslations(preferences.language).then(() => {
-      void switchLanguage(preferences.language);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { sessionId, backendReady } = useAppInit(preferences.language);
 
   // React to language preference changes
   useEffect(() => {
@@ -105,16 +77,23 @@ function App() {
     }
   }, [preferences.language, lang, switchLanguage]);
 
+  // Clear persisted ingredients from previous sessions
   useEffect(() => {
-    void checkHealth(sessionId).then((h) => {
-      setBackendReady(h.keyConfigured);
-    });
-  }, [sessionId]);
-
-  // Track page view on mount
-  useEffect(() => {
-    analytics.pageView('/');
+    localStorage.removeItem('esloquehay-ingredients');
   }, []);
+
+  const { recipe, isLoading, setRecipe, handleGenerate, handleGenerateVariation } =
+    useRecipeGenerator({
+      ingredients,
+      recipeCountry,
+      preferences,
+      sessionId,
+      backendReady,
+      isOnline,
+      addToast,
+      t,
+      addToHistory,
+    });
 
   const tagline = useMemo(() => {
     return getRandomPhrase(ta('taglines'));
@@ -135,124 +114,14 @@ function App() {
     [setIngredients]
   );
 
-  const handleGenerate = useCallback(
-    async (
-      variationName?: string,
-      _extraIngredients?: string[],
-      budgetOverride?: UserPreferences['budget']
-    ) => {
-      if (!isOnline) {
-        addToast({
-          message: t('offline.error', 'Sin conexión. Conectate a internet para generar recetas.'),
-          type: 'warning',
-        });
-        return;
-      }
-      setIsLoading(true);
-      analytics.track('recipe_generate_start', {
-        ingredientCount: ingredients.length,
-        country: recipeCountry,
-        variation: variationName,
-      });
-
-      if (variationName !== undefined) {
-        const { variationMocks } = await import('./mocks/recipes');
-        if (variationName in variationMocks) {
-          await new Promise((resolve) => setTimeout(resolve, 800));
-          const result = { ...variationMocks[variationName], source: 'variation' as const };
-          setRecipe(result);
-          addToHistory({
-            recipe: result,
-            timestamp: Date.now(),
-            ingredients: [...ingredients],
-            preferencesSnapshot: { ...preferences },
-            source: 'variation',
-            sessionId,
-          });
-          analytics.track('recipe_generate_success', { source: 'variation', variationName });
-          addToast({ message: t('toast.variation_ready', '¡Variación lista!'), type: 'success' });
-          setIsLoading(false);
-          return;
-        }
-      }
-
-      try {
-        const result = await generateRecipe(
-          {
-            ingredients,
-            country: recipeCountry,
-            flavorProfile: preferences.flavorProfile,
-            skillLevel: preferences.skillLevel,
-            servings: preferences.servings,
-            maxPrepTime: preferences.maxPrepTime,
-            additionalIngredient: preferences.additionalIngredient,
-            budget: budgetOverride ?? preferences.budget,
-            language: preferences.language,
-            dietaryRestrictions:
-              preferences.dietaryRestriction !== 'none'
-                ? [preferences.dietaryRestriction]
-                : undefined,
-            experienceMode: false,
-          },
-          sessionId
-        );
-        setRecipe({ ...result, source: 'ia' as const });
-        addToHistory({
-          recipe: { ...result, source: 'ia' as const },
-          timestamp: Date.now(),
-          ingredients: [...ingredients],
-          preferencesSnapshot: { ...preferences },
-          source: 'ia',
-          sessionId,
-        });
-        analytics.track('recipe_generate_success', { source: 'ia' });
-        addToast({ message: t('toast.recipe_ready', '¡Receta generada!'), type: 'success' });
-      } catch (e) {
-        logger.error('App', 'generateRecipe failed, falling back to mock', e);
-        analytics.track('recipe_generate_fallback', {
-          reason: backendReady ? 'api_error' : 'backend_unavailable',
-        });
-        const { mockRecipe } = await import('./mocks/recipes');
-        const mocked = { ...mockRecipe, source: 'mock' as const };
-        setRecipe(mocked);
-        addToHistory({
-          recipe: mocked,
-          timestamp: Date.now(),
-          ingredients: [...ingredients],
-          preferencesSnapshot: { ...preferences },
-          source: 'mock',
-          sessionId,
-        });
-        addToast({
-          message: t('toast.fallback_mode', 'Modo demo activado — la receta es de ejemplo'),
-          type: 'warning',
-          duration: 6000,
-        });
-      }
-      setIsLoading(false);
-    },
-    [
-      backendReady,
-      ingredients,
-      recipeCountry,
-      preferences,
-      addToHistory,
-      sessionId,
-      isOnline,
-      addToast,
-      t,
-    ]
-  );
-
-  const handleGenerateVariation = useCallback(
+  const handleGenerateVariationWithIngredients = useCallback(
     (variationName: string, extraIngredients: string[]) => {
       extraIngredients.forEach((ing) => {
         addIngredient(ing.toLowerCase());
       });
-      void handleGenerate(variationName, extraIngredients);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      handleGenerateVariation(variationName, extraIngredients);
     },
-    [addIngredient, handleGenerate]
+    [addIngredient, handleGenerateVariation]
   );
 
   if (countryLoading) {
@@ -278,7 +147,7 @@ function App() {
         >
           {t('app.skipLink', 'Saltar al contenido principal')}
         </a>
-        {/* Logo de fondo — chef kawaii, 3/4 pantalla, 50% transparencia */}
+        {/* Logo de fondo */}
         <div className="fixed inset-0 pointer-events-none z-0 logo-bg opacity-50" />
         {/* Toast notifications */}
         <ToastContainer toasts={toasts} onRemove={removeToast} />
@@ -316,7 +185,7 @@ function App() {
             )}
           </div>
           <div className="flex items-center gap-2">
-            {/* Language selector — visible always */}
+            {/* Language selector */}
             <div className="relative">
               <span className="absolute left-2 top-1/2 -translate-y-1/2 text-sm pointer-events-none z-10">
                 {LANGUAGE_FLAGS[preferences.language]}
@@ -361,7 +230,7 @@ function App() {
           </div>
         </div>
 
-        {/* Floating Ingredients Cloud — forma de nube */}
+        {/* Floating Ingredients Cloud */}
         <div className="relative z-10 max-w-2xl mx-auto py-4 px-2 bg-white/15 ingredient-cloud cloud-backdrop">
           <FloatingIngredients
             country={country}
@@ -403,7 +272,7 @@ function App() {
           </button>
         </div>
 
-        {/* Ad Banner — debajo del botón generar */}
+        {/* Ad Banner */}
         <div className="relative z-10">
           <AdBanner
             variant="horizontal"
@@ -453,7 +322,7 @@ function App() {
           </Suspense>
         )}
 
-        {/* Scroll indicator cuando la receta está lista */}
+        {/* Scroll indicator */}
         <ScrollIndicator visible={!!recipe && !isLoading} t={t} />
 
         {/* Recipe Result */}
@@ -471,7 +340,11 @@ function App() {
                 {t('button.history', 'Historial')}
               </button>
             </div>
-            <RecipeCard recipe={recipe} onGenerateVariation={handleGenerateVariation} t={t} />
+            <RecipeCard
+              recipe={recipe}
+              onGenerateVariation={handleGenerateVariationWithIngredients}
+              t={t}
+            />
             <AffiliateLinks recipeCategory={recipe.category ?? recipe.title.split(' ')[0]} t={t} />
             <AdBanner
               variant="horizontal"

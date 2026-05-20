@@ -55,13 +55,13 @@
 
 ### Pendiente Frontend
 
-| #   | Tarea                                        | Prioridad |
-| --- | -------------------------------------------- | --------- |
-| 1   | Refactorizar `App.tsx` (>500 líneas)         | Media     |
-| 2   | Tests para 9 archivos sin cobertura          | Media     |
-| 3   | `apple-touch-icon` para iOS PWA              | Baja      |
-| 4   | Lighthouse scan (requiere Chrome)            | Baja      |
-| 5   | Remover `@testing-library/user-event` unused | Baja      |
+| #   | Tarea                                         | Prioridad |
+| --- | --------------------------------------------- | --------- |
+| 1   | ~~Refactorizar `App.tsx`~~ (551 → 421 líneas) | Media ✅  |
+| 2   | ~~Tests para 9 archivos sin cobertura~~ (+8)  | Media ✅  |
+| 3   | ~~`apple-touch-icon` para iOS PWA~~           | Baja ✅   |
+| 4   | Lighthouse scan (requiere Chrome)             | Baja ⏳   |
+| 5   | ~~Remover `@testing-library/user-event`~~     | Baja ✅   |
 
 ---
 
@@ -135,12 +135,12 @@
 
 ### IMPORTANTE
 
-| #   | Tarea                                         | Proyecto |
-| --- | --------------------------------------------- | -------- |
-| 3   | Resolver 3 vulnerabilidades npm audit backend | Backend  |
-| 4   | Reemplazar rate limiter in-memory por KV/DO   | Backend  |
-| 5   | Configurar KV ID real en `wrangler.toml`      | Backend  |
-| 6   | Refactorizar `App.tsx` (>500 líneas)          | Frontend |
+| #   | Tarea                                         | Proyecto    |
+| --- | --------------------------------------------- | ----------- |
+| 3   | Resolver 3 vulnerabilidades npm audit backend | Backend     |
+| 4   | Reemplazar rate limiter in-memory por KV/DO   | Backend     |
+| 5   | Configurar KV ID real en `wrangler.toml`      | Backend     |
+| 6   | ~~Refactorizar `App.tsx`~~ (551 → 421 líneas) | Frontend ✅ |
 
 ### MEJORA
 
