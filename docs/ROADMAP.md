@@ -130,9 +130,13 @@ Ser la app de recetas más usada en Latinoamérica para resolver la pregunta dia
 - [x] Backend: logging estructurado en Worker
 - [x] Backend: status codes diferenciados (400/422/429/502)
 - [x] a11y: focus trap en modales
-- [ ] a11y: labels en selects y sliders (postergado)
-- [ ] Backend: tests de endpoints HTTP (postergado)
-- [ ] SEO: JSON-LD Recipe schema dinámico (postergado)
+- [x] a11y: labels en selects y sliders
+- [x] Backend: tests de endpoints HTTP (handlers.test.ts)
+- [x] SEO: JSON-LD Recipe schema dinámico
+- [x] Backend: refactor código duplicado Express/Worker
+- [x] Backend: caching con Cloudflare KV
+- [x] CSP: remover unsafe-inline de script-src
+- [ ] CSP: remover unsafe-inline de style-src (postergado — inline styles React)
 
 ### Fase 3: Autenticación y Persistencia (Q3 2026)
 

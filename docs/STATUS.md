@@ -111,7 +111,7 @@ Ver [AUDITORIA_2026-05-19.md](../../AUDITORIA_2026-05-19.md) para detalle comple
 | Bundle CSS            | 34 KB                           |
 | Locales (lazy-loaded) | 7–25 KB cada uno                |
 | Tests Frontend        | 72 pasando (+15 nuevos)         |
-| Tests Backend         | 11 pasando                      |
+| Tests Backend         | 17 pasando (+6 nuevos)          |
 | Lenguajes soportados  | 20                              |
 | Países detectables    | 12                              |
 | Historial máximo      | 50 recetas                      |
@@ -144,4 +144,4 @@ Ver [AUDITORIA_2026-05-19.md](../../AUDITORIA_2026-05-19.md) para detalle comple
 
 ---
 
-_Última actualización: 2026-05-19 | Commit frontend: `ba9f5ae` | Commit backend: `1f3a51a`_
+_Última actualización: 2026-05-19 | Commit frontend: `81294f0` | Commit backend: `96e1b4b`_
