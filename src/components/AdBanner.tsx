@@ -6,7 +6,8 @@ interface AdBannerProps {
   adSlot?: string;
 }
 
-const ADSENSE_CLIENT = import.meta.env.VITE_ADSENSE_CLIENT as string | undefined;
+const ADSENSE_CLIENT =
+  (import.meta.env.VITE_ADSENSE_CLIENT as string | undefined) ?? 'ca-pub-4542438722420744';
 
 declare global {
   interface Window {
