@@ -30,20 +30,20 @@
 
 ### Score por Categoría
 
-| #   | Categoría     | Estado     | Detalle                                                        |
-| --- | ------------- | ---------- | -------------------------------------------------------------- |
-| 1   | TypeScript    | ✅ OK      | `tsc --noEmit` 0 errores                                       |
-| 2   | ESLint        | ✅ OK      | 0 errores, 0 warnings                                          |
-| 3   | Estructura    | ⚠️ Warning | `App.tsx` 551 líneas (monolito), `Logo.tsx` sin usar           |
-| 4   | Seguridad     | ✅ OK      | CSP estricto, carga diferida de scripts                        |
-| 5   | Performance   | ⚠️ Warning | Bundle 314KB, sin Lighthouse (requiere Chrome)                 |
-| 6   | SEO           | ✅ OK      | Open Graph, Twitter Cards, JSON-LD, robots.txt, sitemap        |
-| 7   | Accesibilidad | ✅ OK      | Focus trap, aria labels, skip link                             |
-| 8   | i18n          | ✅ OK      | 20 idiomas, 0 keys faltantes                                   |
-| 9   | PWA           | ⚠️ Warning | Sin `apple-touch-icon`, manifest inyectado por vite-plugin-pwa |
-| 10  | Testing       | ⚠️ Warning | 83 tests, 9 archivos sin cobertura                             |
-| 11  | Ads/Analytics | ✅ OK      | Consent Mode v2, carga diferida                                |
-| 12  | Build         | ✅ OK      | Build limpio, PWA precache 41 entries                          |
+| #   | Categoría     | Estado     | Detalle                                                             |
+| --- | ------------- | ---------- | ------------------------------------------------------------------- |
+| 1   | TypeScript    | ✅ OK      | `tsc --noEmit` 0 errores                                            |
+| 2   | ESLint        | ✅ OK      | 0 errores, 0 warnings                                               |
+| 3   | Estructura    | ⚠️ Warning | `App.tsx` 551 líneas (monolito), `Logo.tsx` sin usar                |
+| 4   | Seguridad     | ✅ OK      | CSP estricto, carga diferida de scripts                             |
+| 5   | Performance   | ⚠️ Warning | Bundle 314KB, sin Lighthouse (requiere Chrome)                      |
+| 6   | SEO           | ✅ OK      | Open Graph, Twitter Cards, JSON-LD, robots.txt, sitemap             |
+| 7   | Accesibilidad | ✅ OK      | Focus trap, aria labels, skip link                                  |
+| 8   | i18n          | ✅ OK      | 20 idiomas, 0 keys faltantes                                        |
+| 9   | PWA           | ✅ OK      | `apple-touch-icon` agregado, manifest inyectado por vite-plugin-pwa |
+| 10  | Testing       | ⚠️ Warning | 83 tests, 9 archivos sin cobertura                                  |
+| 11  | Ads/Analytics | ✅ OK      | Consent Mode v2, carga diferida                                     |
+| 12  | Build         | ✅ OK      | Build limpio, PWA precache 41 entries                               |
 
 **Score:** 8 ✅ | 3 ⚠️ | 0 ❌
 
@@ -146,9 +146,10 @@
 
 | #   | Tarea                                        | Proyecto |
 | --- | -------------------------------------------- | -------- |
-| 7   | Tests para 9 archivos sin cobertura          | Frontend |
-| 8   | `apple-touch-icon` para iOS PWA              | Frontend |
-| 9   | Agregar HSTS a `_headers`                    | Frontend |
+| 7   | ~~Tests para 9 archivos sin cobertura~~ ✅   | Frontend |
+| 8   | ~~`apple-touch-icon` para iOS PWA~~ ✅       | Frontend |
+| 9   | ~~Agregar HSTS a `_headers`~~ ✅             | Frontend |
+| 10  | ~~Remover `@testing-library/user-event`~~ ✅ | Frontend |
 | 10  | Tests para `services/ai.ts`                  | Backend  |
 | 11  | Remover `@testing-library/user-event` unused | Frontend |
 

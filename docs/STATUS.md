@@ -158,12 +158,13 @@ Ver `AUDITORIA_2026-05-20.md` para detalle completo.
 
 | Prioridad | Tarea                                                   | Proyecto |
 | --------- | ------------------------------------------------------- | -------- |
-| 🔴        | Hacer commit/push de 50 archivos modificados            | Ambos    |
+| ✅        | Hacer commit/push de cambios                            | Ambos    |
 | 🔴        | Configurar `VITE_GA_MEASUREMENT_ID` en Cloudflare Pages | Frontend |
 | 🟡        | Resolver 3 vulnerabilidades npm audit backend           | Backend  |
 | 🟡        | Reemplazar rate limiter in-memory por KV/DO             | Backend  |
 | 🟡        | Configurar KV ID real en `wrangler.toml`                | Backend  |
 | 🟡        | Refactorizar `App.tsx` (>500 líneas)                    | Frontend |
-| 🟢        | Tests para 9 archivos sin cobertura                     | Frontend |
-| 🟢        | `apple-touch-icon` para iOS PWA                         | Frontend |
-| 🟢        | Agregar HSTS a `_headers`                               | Frontend |
+| ✅        | Tests para archivos sin cobertura (+8 nuevos)           | Frontend |
+| ✅        | `apple-touch-icon` para iOS PWA                         | Frontend |
+| ✅        | Agregar HSTS a `_headers`                               | Frontend |
+| ✅        | Remover `@testing-library/user-event` unused            | Frontend |
