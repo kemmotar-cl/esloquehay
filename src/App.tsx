@@ -157,61 +157,42 @@ function App() {
         }
       }
 
-      if (backendReady) {
-        try {
-          const result = await generateRecipe(
-            {
-              ingredients,
-              country: recipeCountry,
-              flavorProfile: preferences.flavorProfile,
-              skillLevel: preferences.skillLevel,
-              servings: preferences.servings,
-              maxPrepTime: preferences.maxPrepTime,
-              additionalIngredient: preferences.additionalIngredient,
-              budget: budgetOverride ?? preferences.budget,
-              language: preferences.language,
-              dietaryRestrictions:
-                preferences.dietaryRestriction !== 'none'
-                  ? [preferences.dietaryRestriction]
-                  : undefined,
-              experienceMode: false,
-            },
-            sessionId
-          );
-          setRecipe({ ...result, source: 'ia' as const });
-          addToHistory({
-            recipe: { ...result, source: 'ia' as const },
-            timestamp: Date.now(),
-            ingredients: [...ingredients],
-            preferencesSnapshot: { ...preferences },
-            source: 'ia',
-            sessionId,
-          });
-          analytics.track('recipe_generate_success', { source: 'ia' });
-          addToast({ message: t('toast.recipe_ready', '¡Receta generada!'), type: 'success' });
-        } catch (e) {
-          logger.error('App', 'generateRecipe failed, falling back to mock', e);
-          analytics.track('recipe_generate_fallback', { reason: 'api_error' });
-          const { mockRecipe } = await import('./mocks/recipes');
-          const mocked = { ...mockRecipe, source: 'mock' as const };
-          setRecipe(mocked);
-          addToHistory({
-            recipe: mocked,
-            timestamp: Date.now(),
-            ingredients: [...ingredients],
-            preferencesSnapshot: { ...preferences },
-            source: 'mock',
-            sessionId,
-          });
-          addToast({
-            message: t('toast.fallback_mode', 'Modo demo activado — la receta es de ejemplo'),
-            type: 'warning',
-            duration: 6000,
-          });
-        }
-      } else {
-        analytics.track('recipe_generate_fallback', { reason: 'backend_unavailable' });
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+      try {
+        const result = await generateRecipe(
+          {
+            ingredients,
+            country: recipeCountry,
+            flavorProfile: preferences.flavorProfile,
+            skillLevel: preferences.skillLevel,
+            servings: preferences.servings,
+            maxPrepTime: preferences.maxPrepTime,
+            additionalIngredient: preferences.additionalIngredient,
+            budget: budgetOverride ?? preferences.budget,
+            language: preferences.language,
+            dietaryRestrictions:
+              preferences.dietaryRestriction !== 'none'
+                ? [preferences.dietaryRestriction]
+                : undefined,
+            experienceMode: false,
+          },
+          sessionId
+        );
+        setRecipe({ ...result, source: 'ia' as const });
+        addToHistory({
+          recipe: { ...result, source: 'ia' as const },
+          timestamp: Date.now(),
+          ingredients: [...ingredients],
+          preferencesSnapshot: { ...preferences },
+          source: 'ia',
+          sessionId,
+        });
+        analytics.track('recipe_generate_success', { source: 'ia' });
+        addToast({ message: t('toast.recipe_ready', '¡Receta generada!'), type: 'success' });
+      } catch (e) {
+        logger.error('App', 'generateRecipe failed, falling back to mock', e);
+        analytics.track('recipe_generate_fallback', {
+          reason: backendReady ? 'api_error' : 'backend_unavailable',
+        });
         const { mockRecipe } = await import('./mocks/recipes');
         const mocked = { ...mockRecipe, source: 'mock' as const };
         setRecipe(mocked);
@@ -224,8 +205,8 @@ function App() {
           sessionId,
         });
         addToast({
-          message: t('toast.demo_mode', 'Modo demo — conectá el backend para recetas reales'),
-          type: 'info',
+          message: t('toast.fallback_mode', 'Modo demo activado — la receta es de ejemplo'),
+          type: 'warning',
           duration: 6000,
         });
       }
