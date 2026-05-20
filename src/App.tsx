@@ -402,7 +402,11 @@ function App() {
 
         {/* Ad Banner — debajo del botón generar */}
         <div className="relative z-10">
-          <AdBanner variant="horizontal" t={t} />
+          <AdBanner
+            variant="horizontal"
+            t={t}
+            adSlot={import.meta.env.VITE_ADSENSE_SLOT_TOP as string | undefined}
+          />
         </div>
 
         {showHistory && (
@@ -466,7 +470,11 @@ function App() {
             </div>
             <RecipeCard recipe={recipe} onGenerateVariation={handleGenerateVariation} t={t} />
             <AffiliateLinks recipeCategory={recipe.category ?? recipe.title.split(' ')[0]} t={t} />
-            <AdBanner variant="horizontal" t={t} />
+            <AdBanner
+              variant="horizontal"
+              t={t}
+              adSlot={import.meta.env.VITE_ADSENSE_SLOT_BOTTOM as string | undefined}
+            />
           </div>
         )}
 

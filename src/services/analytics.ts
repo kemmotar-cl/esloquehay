@@ -1,9 +1,24 @@
 import { logger } from './logger';
 
 /**
- * Stub de analytics para EsLoQueHay.
- * En produccion, reemplazar por integracion real (Plausible, PostHog, etc.).
+ * Analytics para EsLoQueHay.
+ * Integra Google Analytics 4 (gtag) como backend principal.
+ * Fallback a logger si gtag no está disponible.
  */
+
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
+const GA_ID = import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined;
+
+function sendToGA(event: string, properties?: Record<string, unknown>) {
+  if (typeof window !== 'undefined' && window.gtag && GA_ID) {
+    window.gtag('event', event, properties ?? {});
+  }
+}
 
 export const analytics = {
   /**
@@ -13,7 +28,7 @@ export const analytics = {
    */
   track(event: string, properties?: Record<string, unknown>) {
     logger.debug('analytics', `Track: ${event}`, properties ?? {});
-    // TODO: Enviar a servicio de analytics real
+    sendToGA(event, properties);
   },
 
   /**
@@ -22,6 +37,8 @@ export const analytics = {
    */
   pageView(path: string) {
     logger.debug('analytics', `PageView: ${path}`);
-    // TODO: Enviar a servicio de analytics real
+    if (typeof window !== 'undefined' && window.gtag && GA_ID) {
+      window.gtag('config', GA_ID, { page_path: path });
+    }
   },
 };
