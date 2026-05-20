@@ -109,11 +109,15 @@ export default function PreferencesPanel({
 
           {/* Ingrediente adicional */}
           <div>
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="additional-ingredient"
+              className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2"
+            >
               <ChefHat className="w-4 h-4 text-brand-500" />
               {t?.('preferences.additionalIngredient', 'Ingrediente que siempre tenés')}
             </label>
             <input
+              id="additional-ingredient"
               type="text"
               value={local.additionalIngredient}
               onChange={(e) => {
@@ -192,11 +196,15 @@ export default function PreferencesPanel({
 
           {/* Comensales */}
           <div>
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="servings-range"
+              className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2"
+            >
               <Users className="w-4 h-4 text-brand-500" />
               {t?.('preferences.servings', 'Comensales')}: {local.servings}
             </label>
             <input
+              id="servings-range"
               type="range"
               min={1}
               max={10}
@@ -215,12 +223,16 @@ export default function PreferencesPanel({
 
           {/* Velocidad de partículas */}
           <div>
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="particle-speed"
+              className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2"
+            >
               <Zap className="w-4 h-4 text-brand-500" />
               {t?.('preferences.particleSpeed', 'Energía de los ingredientes')}:{' '}
               {local.particleSpeed.toFixed(1)}x
             </label>
             <input
+              id="particle-speed"
               type="range"
               min={0.2}
               max={3.0}
@@ -246,11 +258,15 @@ export default function PreferencesPanel({
 
           {/* Tiempo máximo */}
           <div>
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="max-prep-time"
+              className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2"
+            >
               <Clock className="w-4 h-4 text-brand-500" />
               {t?.('preferences.maxPrepTime', 'Tiempo máximo')}: {formatTime(local.maxPrepTime, t)}
             </label>
             <input
+              id="max-prep-time"
               type="range"
               min={5}
               max={2880}

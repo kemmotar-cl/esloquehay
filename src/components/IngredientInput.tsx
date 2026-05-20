@@ -87,12 +87,19 @@ export default function IngredientInput({
           <div className="w-1.5 h-1.5 rounded-full bg-brand-100" />
         </div>
         <div className="flex items-center justify-between mb-2">
-          <label className="text-sm font-semibold text-gray-800 drop-shadow-sm">
+          <label
+            htmlFor="ingredient-input"
+            className="text-sm font-semibold text-gray-800 drop-shadow-sm"
+          >
             {t?.('input.label', '¿Qué más tienes?')}
           </label>
           <div className="flex items-center gap-1">
             <Globe className="w-3.5 h-3.5 text-gray-400" />
+            <label htmlFor="country-select" className="sr-only">
+              {t?.('input.countryTitle', 'País de la receta')}
+            </label>
             <select
+              id="country-select"
               value={country}
               onChange={(e) => {
                 onCountryChange(e.target.value as Country);
@@ -110,6 +117,7 @@ export default function IngredientInput({
         </div>
         <div className="flex gap-2">
           <input
+            id="ingredient-input"
             type="text"
             value={inputValue}
             onChange={(e) => {

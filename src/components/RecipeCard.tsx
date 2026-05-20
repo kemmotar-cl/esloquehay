@@ -10,7 +10,7 @@ import {
   Wand2,
   AlertTriangle,
 } from 'lucide-react';
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 import type { Recipe } from '../types/recipe';
 
 interface RecipeCardProps {
@@ -28,6 +28,40 @@ export default function RecipeCard({ recipe, onGenerateVariation, t }: RecipeCar
     }),
     []
   );
+
+  useEffect(() => {
+    const scriptId = 'recipe-ld-json';
+    let script = document.getElementById(scriptId) as HTMLScriptElement | null;
+    if (!script) {
+      script = document.createElement('script');
+      script.id = scriptId;
+      script.type = 'application/ld+json';
+      document.head.appendChild(script);
+    }
+    const ld = {
+      '@context': 'https://schema.org',
+      '@type': 'Recipe',
+      name: recipe.title,
+      description: recipe.description,
+      image: 'https://esloquehay.pages.dev/logo.png',
+      recipeIngredient: recipe.ingredients,
+      recipeInstructions: recipe.steps.map((step, i) => ({
+        '@type': 'HowToStep',
+        position: i + 1,
+        text: step,
+      })),
+      prepTime: `PT${String(recipe.prepTime)}M`,
+      cookTime: `PT${String(recipe.cookTime)}M`,
+      totalTime: `PT${String(recipe.prepTime + recipe.cookTime)}M`,
+      recipeYield: `${String(recipe.servings)} porciones`,
+      recipeCategory: recipe.category ?? 'Plato principal',
+      ...(recipe.winePairing ? { suitableForDiet: recipe.winePairing } : {}),
+    };
+    script.textContent = JSON.stringify(ld);
+    return () => {
+      script.remove();
+    };
+  }, [recipe]);
 
   const timeText = useMemo(() => {
     const totalTime = recipe.prepTime + recipe.cookTime;
