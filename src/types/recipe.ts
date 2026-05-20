@@ -16,16 +16,18 @@ export interface Recipe {
   title: string;
   description: string;
   experience: string;
+  category?: string;
   ingredients: string[];
   steps: string[];
   prepTime: number;
   cookTime: number;
-  difficulty: 'Fácil' | 'Medio' | 'Difícil';
+  difficulty: 'easy' | 'medium' | 'hard';
   servings: number;
   gourmetTips: GourmetTip[];
   variations: RecipeVariation[];
   winePairing?: string;
   platingTip?: string;
+  source?: 'ia' | 'mock' | 'variation';
 }
 
 export interface RecipeRequest {

@@ -4,9 +4,10 @@ import { ChevronDown } from 'lucide-react';
 
 interface ScrollIndicatorProps {
   visible: boolean;
+  t?: (path: string, fallback?: string) => string;
 }
 
-export default function ScrollIndicator({ visible }: ScrollIndicatorProps) {
+export default function ScrollIndicator({ visible, t }: ScrollIndicatorProps) {
   const [dismissed, setDismissed] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -44,7 +45,9 @@ export default function ScrollIndicator({ visible }: ScrollIndicatorProps) {
         }}
         className="w-full py-3 bg-brand-50 hover:bg-brand-100 rounded-xl border border-brand-200 text-brand-700 font-medium text-sm flex items-center justify-center gap-2 transition-colors"
       >
-        <span>✨ Tu experiencia está lista</span>
+        <span>
+          ✨ {t?.('scrollIndicator', 'Tu experiencia está lista') ?? 'Tu experiencia está lista'}
+        </span>
         <ChevronDown className="w-4 h-4" />
       </button>
     </div>

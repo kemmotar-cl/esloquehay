@@ -1,30 +1,53 @@
 import { useState } from 'react';
 import { Flame, ChefHat, Users, Clock, Zap, X, Settings2, Wallet } from 'lucide-react';
 import type { UserPreferences } from '../types/preferences';
-import { FLAVOR_LABELS, BUDGET_LABELS, DEFAULT_PREFERENCES } from '../types/preferences';
+import { DEFAULT_PREFERENCES } from '../types/preferences';
 
 interface PreferencesPanelProps {
   preferences: UserPreferences;
   onChange: (prefs: UserPreferences) => void;
   onClose: () => void;
+  t?: (path: string, fallback?: string) => string;
 }
 
-function formatTime(minutes: number): string {
-  if (minutes < 60) return `${String(minutes)} min`;
+function formatTime(minutes: number, t?: (path: string, fallback?: string) => string): string {
+  if (minutes < 60)
+    return `${String(minutes)} ${t?.('recipe.time.min', 'min').replace('{n}', '') ?? 'min'}`;
   if (minutes < 1440) {
     const h = Math.floor(minutes / 60);
     const m = minutes % 60;
-    return m > 0 ? `${String(h)}h ${String(m)}m` : `${String(h)}h`;
+    return m > 0
+      ? (t?.('recipe.time.hourMin', '{h}h {m}m')
+          .replace('{h}', String(h))
+          .replace('{m}', String(m)) ?? `${String(h)}h ${String(m)}m`)
+      : `${String(h)}h`;
   }
   const d = Math.floor(minutes / 1440);
   const h = Math.floor((minutes % 1440) / 60);
-  return h > 0 ? `${String(d)}d ${String(h)}h` : `${String(d)}d`;
+  return h > 0
+    ? (t?.('recipe.time.dayHour', '{d}d {h}h')
+        .replace('{d}', String(d))
+        .replace('{h}', String(h)) ?? `${String(d)}d ${String(h)}h`)
+    : `${String(d)}d`;
 }
+
+const FLAVOR_KEYS = [
+  'traditional',
+  'spicy',
+  'sweet',
+  'sour',
+  'umami',
+  'mild',
+  'herbal',
+  'smoky',
+  'citrus',
+] as const;
 
 export default function PreferencesPanel({
   preferences,
   onChange,
   onClose,
+  t,
 }: PreferencesPanelProps) {
   const [local, setLocal] = useState<UserPreferences>(preferences);
 
@@ -35,13 +58,20 @@ export default function PreferencesPanel({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 p-0 sm:p-4">
+    <div
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 p-0 sm:p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="prefs-title"
+    >
       <div className="bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl w-full max-w-md max-h-[85vh] sm:max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
           <div className="flex items-center gap-2">
             <Settings2 className="w-5 h-5 text-brand-600" />
-            <h2 className="text-lg font-bold text-gray-900">Tus Preferencias</h2>
+            <h2 id="prefs-title" className="text-lg font-bold text-gray-900">
+              {t?.('preferences.title', 'Tus Preferencias')}
+            </h2>
           </div>
           <button onClick={onClose} className="p-1 hover:bg-gray-100 rounded-lg transition-colors">
             <X className="w-5 h-5 text-gray-500" />
@@ -53,14 +83,14 @@ export default function PreferencesPanel({
           <div>
             <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
               <Flame className="w-4 h-4 text-brand-500" />
-              Perfil de sabor preferido
+              {t?.('preferences.flavorProfile', 'Perfil de sabor preferido')}
             </label>
             <div className="grid grid-cols-3 gap-2">
-              {Object.entries(FLAVOR_LABELS).map(([key, label]) => (
+              {FLAVOR_KEYS.map((key) => (
                 <button
                   key={key}
                   onClick={() => {
-                    update('flavorProfile', key as UserPreferences['flavorProfile']);
+                    update('flavorProfile', key);
                   }}
                   className={`px-3 py-2 rounded-xl text-xs font-medium transition-colors ${
                     local.flavorProfile === key
@@ -68,7 +98,7 @@ export default function PreferencesPanel({
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
-                  {label}
+                  {t?.(`flavors.${key}`, key)}
                 </button>
               ))}
             </div>
@@ -78,7 +108,7 @@ export default function PreferencesPanel({
           <div>
             <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
               <ChefHat className="w-4 h-4 text-brand-500" />
-              Ingrediente que siempre tenés
+              {t?.('preferences.additionalIngredient', 'Ingrediente que siempre tenés')}
             </label>
             <input
               type="text"
@@ -86,24 +116,29 @@ export default function PreferencesPanel({
               onChange={(e) => {
                 update('additionalIngredient', e.target.value);
               }}
-              placeholder="Ej: huevos, ajo, aceite de oliva..."
+              placeholder={t?.(
+                'preferences.additionalIngredientPlaceholder',
+                'Ej: huevos, ajo, aceite de oliva...'
+              )}
               className="w-full px-3 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm"
             />
-            <p className="text-xs text-gray-400 mt-1">Lo incluiremos siempre en las recetas</p>
+            <p className="text-xs text-gray-400 mt-1">
+              {t?.('preferences.additionalIngredientHint', 'Lo incluiremos siempre en las recetas')}
+            </p>
           </div>
 
           {/* Nivel de habilidad */}
           <div>
             <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
               <ChefHat className="w-4 h-4 text-brand-500" />
-              Nivel de cocina
+              {t?.('preferences.skillLevel', 'Nivel de cocina')}
             </label>
             <div className="flex gap-2">
               {[
-                { key: 'beginner' as const, label: 'Principiante' },
-                { key: 'intermediate' as const, label: 'Intermedio' },
-                { key: 'advanced' as const, label: 'Avanzado' },
-              ].map(({ key, label }) => (
+                { key: 'beginner' as const, labelKey: 'preferences.skillBeginner' },
+                { key: 'intermediate' as const, labelKey: 'preferences.skillIntermediate' },
+                { key: 'advanced' as const, labelKey: 'preferences.skillAdvanced' },
+              ].map(({ key, labelKey }) => (
                 <button
                   key={key}
                   onClick={() => {
@@ -115,7 +150,7 @@ export default function PreferencesPanel({
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
-                  {label}
+                  {t?.(labelKey, key)}
                 </button>
               ))}
             </div>
@@ -125,16 +160,16 @@ export default function PreferencesPanel({
           <div>
             <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
               <Wallet className="w-4 h-4 text-brand-500" />
-              Presupuesto
+              {t?.('preferences.budget', 'Presupuesto')}
             </label>
             <div className="flex gap-2">
               {(
                 [
-                  { key: 'low' as const, label: BUDGET_LABELS.low },
-                  { key: 'medium' as const, label: BUDGET_LABELS.medium },
-                  { key: 'high' as const, label: BUDGET_LABELS.high },
+                  { key: 'low' as const, labelKey: 'budgets.low' },
+                  { key: 'medium' as const, labelKey: 'budgets.medium' },
+                  { key: 'high' as const, labelKey: 'budgets.high' },
                 ] as const
-              ).map(({ key, label }) => (
+              ).map(({ key, labelKey }) => (
                 <button
                   key={key}
                   onClick={() => {
@@ -146,7 +181,7 @@ export default function PreferencesPanel({
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
-                  {label}
+                  {t?.(labelKey, key)}
                 </button>
               ))}
             </div>
@@ -156,7 +191,7 @@ export default function PreferencesPanel({
           <div>
             <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
               <Users className="w-4 h-4 text-brand-500" />
-              Comensales: {local.servings}
+              {t?.('preferences.servings', 'Comensales')}: {local.servings}
             </label>
             <input
               type="range"
@@ -179,7 +214,8 @@ export default function PreferencesPanel({
           <div>
             <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
               <Zap className="w-4 h-4 text-brand-500" />
-              Energía de los ingredientes: {local.particleSpeed.toFixed(1)}x
+              {t?.('preferences.particleSpeed', 'Energía de los ingredientes')}:{' '}
+              {local.particleSpeed.toFixed(1)}x
             </label>
             <input
               type="range"
@@ -193,12 +229,15 @@ export default function PreferencesPanel({
               className="w-full accent-brand-600"
             />
             <div className="flex justify-between text-xs text-gray-400 mt-1">
-              <span>Lento</span>
-              <span>Normal</span>
-              <span>Caótico</span>
+              <span>{t?.('preferences.particleSlow', 'Lento')}</span>
+              <span>{t?.('preferences.particleNormal', 'Normal')}</span>
+              <span>{t?.('preferences.particleChaotic', 'Caótico')}</span>
             </div>
             <p className="text-xs text-gray-400 mt-1">
-              Controla qué tan rápido chocan y se mueven los ingredientes
+              {t?.(
+                'preferences.particleHint',
+                'Controla qué tan rápido chocan y se mueven los ingredientes'
+              )}
             </p>
           </div>
 
@@ -206,7 +245,7 @@ export default function PreferencesPanel({
           <div>
             <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
               <Clock className="w-4 h-4 text-brand-500" />
-              Tiempo máximo: {formatTime(local.maxPrepTime)}
+              {t?.('preferences.maxPrepTime', 'Tiempo máximo')}: {formatTime(local.maxPrepTime, t)}
             </label>
             <input
               type="range"
@@ -220,12 +259,12 @@ export default function PreferencesPanel({
               className="w-full accent-brand-600"
             />
             <div className="flex justify-between text-xs text-gray-400 mt-1">
-              <span>5 min</span>
-              <span>1 día</span>
-              <span>2 días</span>
+              <span>{t?.('preferences.time5min', '5 min')}</span>
+              <span>{t?.('preferences.time1day', '1 día')}</span>
+              <span>{t?.('preferences.time2days', '2 días')}</span>
             </div>
             <p className="text-xs text-gray-400 mt-1">
-              Los estofados y guisos lentos valen la pena
+              {t?.('preferences.maxPrepTimeHint', 'Los estofados y guisos lentos valen la pena')}
             </p>
           </div>
         </div>
@@ -239,13 +278,13 @@ export default function PreferencesPanel({
             }}
             className="flex-1 px-4 py-2.5 border border-gray-200 text-gray-700 rounded-xl text-sm font-medium hover:bg-gray-50 transition-colors"
           >
-            Restaurar
+            {t?.('preferences.reset', 'Restaurar')}
           </button>
           <button
             onClick={onClose}
             className="flex-1 px-4 py-2.5 bg-brand-600 text-white rounded-xl text-sm font-medium hover:bg-brand-700 transition-colors"
           >
-            Guardar
+            {t?.('preferences.save', 'Guardar')}
           </button>
         </div>
       </div>

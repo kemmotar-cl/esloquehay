@@ -46,6 +46,29 @@ export const LANGUAGE_NAMES: Record<LanguageCode, string> = {
   ko: '한국어',
 };
 
+export const LANGUAGE_FLAGS: Record<LanguageCode, string> = {
+  es: '🇪🇸',
+  en: '🇬🇧',
+  zh: '🇨🇳',
+  hi: '🇮🇳',
+  ar: '🇸🇦',
+  fr: '🇫🇷',
+  bn: '🇧🇩',
+  pt: '🇧🇷',
+  ru: '🇷🇺',
+  ur: '🇵🇰',
+  id: '🇮🇩',
+  de: '🇩🇪',
+  ja: '🇯🇵',
+  vi: '🇻🇳',
+  tr: '🇹🇷',
+  yo: '🇳🇬',
+  mr: '🇮🇳',
+  te: '🇮🇳',
+  ta: '🇮🇳',
+  ko: '🇰🇷',
+};
+
 const loaded: Partial<Record<LanguageCode, Record<string, unknown>>> = {};
 
 export function getLanguageName(code: LanguageCode): string {
@@ -101,5 +124,24 @@ export function useI18n() {
     [dict]
   );
 
-  return { lang, switchLanguage, t };
+  const ta = useCallback(
+    (path: string, fallback?: string[]): string[] => {
+      const keys = path.split('.');
+      let current: unknown = dict;
+      for (const k of keys) {
+        if (current && typeof current === 'object' && k in current) {
+          current = (current as Record<string, unknown>)[k];
+        } else {
+          return fallback ?? [];
+        }
+      }
+      if (Array.isArray(current)) {
+        return current.filter((item): item is string => typeof item === 'string');
+      }
+      return fallback ?? [];
+    },
+    [dict]
+  );
+
+  return { lang, switchLanguage, t, ta };
 }

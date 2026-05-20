@@ -1,0 +1,7 @@
+timestamp,sesion_id,usuario_accion,accion,modulo,datos_antes,datos_despues,contexto,origen,error_trace
+2026-05-19T15:00:00Z,ses-abc-123,sistema,APP_INIT,main.tsx,,,version:1.0.0;lang:es;backend:online,cliente,
+2026-05-19T15:01:00Z,ses-abc-123,usuario,GENERATE_RECIPE,App.tsx,"{ingredients:[pollo,arroz],prefs:{}}","{recipe_id:xyz,source:ia}",request_id:req-001;backend:200,cliente,
+2026-05-19T15:02:00Z,ses-abc-123,usuario,CHANGE_LANGUAGE,i18n/index.ts,es,en,trigger:selector_ui,cliente,
+2026-05-19T15:03:00Z,ses-abc-123,usuario,UPDATE_PREFERENCES,PreferencesPanel.tsx,"{servings:2}","{servings:4}",trigger:slider_ui,cliente,
+2026-05-19T15:04:00Z,ses-abc-123,sistema,API_ERROR,api.ts,"{ingredients:[pollo,arroz]}","{recipe_id:mock-1,source:mock}",error:timeout;fallback_activated,true,cliente,Error: AbortError at fetchWithTimeout
+2026-05-19T15:05:00Z,ses-abc-123,usuario,CLEAR_HISTORY,useHistory.ts,"[{recipe_id:xyz}]",[],trigger:button_ui,cliente,

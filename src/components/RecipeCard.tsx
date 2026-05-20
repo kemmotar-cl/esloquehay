@@ -8,28 +8,52 @@ import {
   Palette,
   ArrowRight,
   Wand2,
+  AlertTriangle,
 } from 'lucide-react';
+import { useMemo } from 'react';
 import type { Recipe } from '../types/recipe';
 
 interface RecipeCardProps {
   recipe: Recipe;
   onGenerateVariation?: (variationName: string, extraIngredients: string[]) => void;
+  t?: (path: string, fallback?: string) => string;
 }
 
-export default function RecipeCard({ recipe, onGenerateVariation }: RecipeCardProps) {
-  const difficultyColor = {
-    Fácil: 'bg-green-100 text-green-700',
-    Medio: 'bg-yellow-100 text-yellow-700',
-    Difícil: 'bg-red-100 text-red-700',
-  };
+export default function RecipeCard({ recipe, onGenerateVariation, t }: RecipeCardProps) {
+  const difficultyColor = useMemo(
+    () => ({
+      easy: 'bg-green-100 text-green-700',
+      medium: 'bg-yellow-100 text-yellow-700',
+      hard: 'bg-red-100 text-red-700',
+    }),
+    []
+  );
 
-  const totalTime = recipe.prepTime + recipe.cookTime;
-  const timeText =
-    totalTime >= 1440
-      ? `${String(Math.floor(totalTime / 1440))}d ${String(Math.floor((totalTime % 1440) / 60))}h`
-      : totalTime >= 60
-        ? `${String(Math.floor(totalTime / 60))}h ${String(totalTime % 60)}m`
-        : `${String(totalTime)} min`;
+  const timeText = useMemo(() => {
+    const totalTime = recipe.prepTime + recipe.cookTime;
+    if (totalTime >= 1440) {
+      const d = Math.floor(totalTime / 1440);
+      const h = Math.floor((totalTime % 1440) / 60);
+      return (
+        t?.('recipe.time.dayHour', '{d}d {h}h')
+          .replace('{d}', String(d))
+          .replace('{h}', String(h)) ?? `${String(d)}d ${String(h)}h`
+      );
+    }
+    if (totalTime >= 60) {
+      const h = Math.floor(totalTime / 60);
+      const m = totalTime % 60;
+      return (
+        t?.('recipe.time.hourMin', '{h}h {m}m')
+          .replace('{h}', String(h))
+          .replace('{m}', String(m)) ?? `${String(h)}h ${String(m)}m`
+      );
+    }
+    return (
+      t?.('recipe.time.min', '{n} min').replace('{n}', String(totalTime)) ??
+      `${String(totalTime)} min`
+    );
+  }, [recipe.prepTime, recipe.cookTime, t]);
 
   return (
     <div className="w-full max-w-2xl mx-auto space-y-6">
@@ -46,6 +70,18 @@ export default function RecipeCard({ recipe, onGenerateVariation }: RecipeCardPr
           )}
         </div>
 
+        {recipe.source === 'mock' && (
+          <div className="bg-amber-50 border-b border-amber-100 px-4 sm:px-6 py-3 flex items-start gap-2">
+            <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+            <p className="text-amber-800 text-xs sm:text-sm font-medium">
+              {t?.(
+                'mock.disclaimer',
+                'Esta es una receta de demostración. El contenido puede estar en español.'
+              )}
+            </p>
+          </div>
+        )}
+
         <div className="p-4 sm:p-6">
           {/* Meta info */}
           <div className="flex flex-wrap gap-3 mb-6">
@@ -53,7 +89,7 @@ export default function RecipeCard({ recipe, onGenerateVariation }: RecipeCardPr
               className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium ${difficultyColor[recipe.difficulty]}`}
             >
               <Flame className="w-3.5 h-3.5" />
-              {recipe.difficulty}
+              {t?.(`difficulty.${recipe.difficulty}`, recipe.difficulty) ?? recipe.difficulty}
             </span>
             <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">
               <Clock className="w-3.5 h-3.5" />
@@ -61,7 +97,10 @@ export default function RecipeCard({ recipe, onGenerateVariation }: RecipeCardPr
             </span>
             <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">
               <Users className="w-3.5 h-3.5" />
-              {recipe.servings} personas
+              {t?.('recipe.servings', '{count} personas').replace(
+                '{count}',
+                String(recipe.servings)
+              ) ?? `${String(recipe.servings)} personas`}
             </span>
           </div>
 
@@ -69,7 +108,7 @@ export default function RecipeCard({ recipe, onGenerateVariation }: RecipeCardPr
           <div className="mb-6">
             <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-3 flex items-center gap-2">
               <ChefHat className="w-4 h-4 text-brand-600" />
-              Ingredientes
+              {t?.('recipe.ingredients', 'Ingredientes')}
             </h3>
             <ul className="space-y-1.5">
               {recipe.ingredients.map((ing, i) => (
@@ -84,7 +123,7 @@ export default function RecipeCard({ recipe, onGenerateVariation }: RecipeCardPr
           {/* Steps */}
           <div>
             <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-3">
-              Preparación
+              {t?.('recipe.preparation', 'Preparación')}
             </h3>
             <ol className="space-y-4">
               {recipe.steps.map((step, i) => (
@@ -105,10 +144,15 @@ export default function RecipeCard({ recipe, onGenerateVariation }: RecipeCardPr
         <div className="bg-amber-50 px-4 sm:px-6 py-3 sm:py-4 border-b border-amber-100">
           <div className="flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-amber-600" />
-            <h3 className="text-lg font-bold text-amber-900">Versión Gourmet</h3>
+            <h3 className="text-lg font-bold text-amber-900">
+              {t?.('recipe.gourmetVersion', 'Versión Gourmet')}
+            </h3>
           </div>
           <p className="text-amber-700 text-sm mt-1">
-            Consejos profesionales para elevar este plato a restaurante
+            {t?.(
+              'recipe.gourmetSubtitle',
+              'Consejos profesionales para elevar este plato a restaurante'
+            )}
           </p>
         </div>
         <div className="p-4 sm:p-6 space-y-4">
@@ -133,7 +177,9 @@ export default function RecipeCard({ recipe, onGenerateVariation }: RecipeCardPr
             <div className="mt-4 pt-4 border-t border-gray-100 flex gap-3">
               <Palette className="w-5 h-5 text-amber-500 flex-shrink-0" />
               <div>
-                <h4 className="font-semibold text-gray-900 text-sm">Emplatado</h4>
+                <h4 className="font-semibold text-gray-900 text-sm">
+                  {t?.('recipe.plating', 'Emplatado')}
+                </h4>
                 <p className="text-gray-600 text-sm mt-0.5">{recipe.platingTip}</p>
               </div>
             </div>
@@ -143,7 +189,9 @@ export default function RecipeCard({ recipe, onGenerateVariation }: RecipeCardPr
             <div className="mt-4 pt-4 border-t border-gray-100 flex gap-3">
               <Wine className="w-5 h-5 text-amber-500 flex-shrink-0" />
               <div>
-                <h4 className="font-semibold text-gray-900 text-sm">Maridaje</h4>
+                <h4 className="font-semibold text-gray-900 text-sm">
+                  {t?.('recipe.pairing', 'Maridaje')}
+                </h4>
                 <p className="text-gray-600 text-sm mt-0.5">{recipe.winePairing}</p>
               </div>
             </div>
@@ -156,10 +204,15 @@ export default function RecipeCard({ recipe, onGenerateVariation }: RecipeCardPr
         <div className="bg-brand-50 px-4 sm:px-6 py-3 sm:py-4 border-b border-brand-100">
           <div className="flex items-center gap-2">
             <ArrowRight className="w-5 h-5 text-brand-600" />
-            <h3 className="text-lg font-bold text-brand-900">Otras Experiencias</h3>
+            <h3 className="text-lg font-bold text-brand-900">
+              {t?.('recipe.otherExperiences', 'Otras Experiencias')}
+            </h3>
           </div>
           <p className="text-brand-700 text-sm mt-1">
-            Los mismos ingredientes, un resultado completamente diferente. Tocá para generar.
+            {t?.(
+              'recipe.variationsHint',
+              'Los mismos ingredientes, un resultado completamente diferente. Tocá para generar.'
+            )}
           </p>
         </div>
         <div className="p-4 sm:p-6 space-y-4">

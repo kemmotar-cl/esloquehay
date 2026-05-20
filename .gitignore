@@ -22,3 +22,16 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+*.kate-swp
+*.swo
+Thumbs.db
+
+# Auditoria output
+auditoria-/
+
+# Temporary translation / dev files
+.transvenv/
+translate_log.txt
+translate_priority.py
+cleanup.sh
+Prompt_Auditoria_*.txt

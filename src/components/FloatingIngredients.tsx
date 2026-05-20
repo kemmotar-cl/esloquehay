@@ -5,7 +5,7 @@ import { getIngredientsForCountry } from '../data/phrases';
 interface Particle {
   id: number;
   emoji: string;
-  label: string;
+  key: string;
   x: number;
   y: number;
   vx: number;
@@ -50,7 +50,7 @@ function createParticles(
     particles.push({
       id: i,
       emoji: ingredients[i].emoji,
-      label: ingredients[i].label,
+      key: ingredients[i].key,
       x,
       y,
       vx: Math.cos(angle) * speed,
@@ -113,13 +113,13 @@ export default function FloatingIngredients({
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
 
-        // Mouse repulsion
+        // Mouse attraction
         if (mouseRef.current.active) {
-          const dx = p.x - mouseRef.current.x;
-          const dy = p.y - mouseRef.current.y;
+          const dx = mouseRef.current.x - p.x;
+          const dy = mouseRef.current.y - p.y;
           const dist = Math.hypot(dx, dy);
-          if (dist < 80 && dist > 0) {
-            const force = ((80 - dist) / 80) * 0.8;
+          if (dist < 120 && dist > 0) {
+            const force = ((120 - dist) / 120) * 0.5;
             p.vx += (dx / dist) * force;
             p.vy += (dy / dist) * force;
           }
@@ -199,7 +199,8 @@ export default function FloatingIngredients({
         }
 
         // Draw
-        const isSelected = selected.includes(p.label);
+        const label = t?.(`ingredients.${p.key}`, p.key) ?? p.key;
+        const isSelected = selected.includes(p.key);
         ctx.globalAlpha = isSelected ? 0.2 : 0.85;
         ctx.font = `${String(p.radius * 1.4)}px serif`;
         ctx.textAlign = 'center';
@@ -211,7 +212,7 @@ export default function FloatingIngredients({
           ctx.globalAlpha = 0.35;
           ctx.font = '10px sans-serif';
           ctx.fillStyle = '#6b7280';
-          ctx.fillText(p.label, p.x, p.y + p.radius + 10);
+          ctx.fillText(label, p.x, p.y + p.radius + 10);
           ctx.fillStyle = '#000';
         }
       }
@@ -224,7 +225,7 @@ export default function FloatingIngredients({
     return () => {
       cancelAnimationFrame(animRef.current);
     };
-  }, [selected]);
+  }, [selected, t]);
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -236,8 +237,8 @@ export default function FloatingIngredients({
 
       for (const p of particlesRef.current) {
         const dist = Math.hypot(p.x - x, p.y - y);
-        if (dist < p.radius * 1.5 && !selected.includes(p.label)) {
-          onSelect(p.label);
+        if (dist < p.radius * 1.5 && !selected.includes(p.key)) {
+          onSelect(p.key);
           // Give it a little kick — refs are mutable by design
           // eslint-disable-next-line react-hooks/immutability
           p.vx += (Math.random() - 0.5) * 2;

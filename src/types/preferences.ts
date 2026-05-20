@@ -12,7 +12,13 @@ export type Country =
   | 'paraguay'
   | 'costa_rica'
   | 'panama'
-  | 'guatemala';
+  | 'guatemala'
+  | 'nicaragua'
+  | 'honduras'
+  | 'el_salvador'
+  | 'cuba'
+  | 'republica_dominicana'
+  | 'puerto_rico';
 
 export type FlavorProfile =
   | 'traditional'
@@ -80,6 +86,12 @@ export const COUNTRY_LABELS: Record<Country, string> = {
   costa_rica: 'Costa Rica',
   panama: 'Panamá',
   guatemala: 'Guatemala',
+  nicaragua: 'Nicaragua',
+  honduras: 'Honduras',
+  el_salvador: 'El Salvador',
+  cuba: 'Cuba',
+  republica_dominicana: 'República Dominicana',
+  puerto_rico: 'Puerto Rico',
 };
 
 export const BUDGET_LABELS: Record<Budget, string> = {

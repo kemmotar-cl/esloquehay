@@ -1,24 +1,23 @@
 import { describe, it, expect } from 'vitest';
-import { getRandomTagline, getRandomLoadingPhrase } from '../data/phrases';
+import { getRandomPhrase } from '../data/phrases';
 
 describe('phrases', () => {
-  it('getRandomTagline should return a non-empty string', () => {
-    const tagline = getRandomTagline();
-    expect(typeof tagline).toBe('string');
-    expect(tagline.length).toBeGreaterThan(0);
+  it('getRandomPhrase should return a string from the array', () => {
+    const phrases = ['one', 'two', 'three'];
+    const result = getRandomPhrase(phrases);
+    expect(typeof result).toBe('string');
+    expect(phrases).toContain(result);
   });
 
-  it('getRandomTagline should return different values on multiple calls', () => {
-    const t1 = getRandomTagline();
-    const t2 = getRandomTagline();
-    const t3 = getRandomTagline();
-    // At least one should be different (probabilísticamente casi seguro)
-    expect(t1 !== t2 || t2 !== t3).toBe(true);
+  it('getRandomPhrase should return undefined for empty array', () => {
+    expect(getRandomPhrase([])).toBeUndefined();
   });
 
-  it('getRandomLoadingPhrase should return a non-empty string', () => {
-    const phrase = getRandomLoadingPhrase();
-    expect(typeof phrase).toBe('string');
-    expect(phrase.length).toBeGreaterThan(0);
+  it('getRandomPhrase should return different values on multiple calls', () => {
+    const phrases = ['a', 'b', 'c', 'd', 'e'];
+    const results = Array.from({ length: 20 }, () => getRandomPhrase(phrases));
+    const unique = new Set(results);
+    // Probabilistically should get more than 1 unique value with 20 draws from 5 options
+    expect(unique.size).toBeGreaterThan(1);
   });
 });

@@ -1,75 +1,114 @@
-# React + TypeScript + Vite
+# 🍳 EsLoQueHay
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> **Abrí la heladera. Nosotros pensamos el resto.**
 
-Currently, two official plugins are available:
+EsLoQueHay es una PWA (Progressive Web App) que genera recetas inteligentes con IA a partir de los ingredientes que ya tenés en casa. Funciona en cualquier celular sin necesidad de instalar una app.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## ✨ Características
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **🧠 IA Generativa:** Conectada a Cloudflare Workers AI (Kimi K2.6) para crear recetas personalizadas.
+- **🌍 20 Idiomas:** Español, inglés, chino, hindi, árabe, francés, bengalí, portugués, ruso, urdu, indonesio, alemán, japonés, vietnamita, turco, yoruba, marathi, telugu, tamil y coreano.
+- **📍 Localización Latinoamericana:** Detecta tu país automáticamente y adapta ingredientes y expresiones (Chile, Argentina, México, Colombia, Perú, España y más).
+- **⚡ PWA:** Instalable, funciona offline con fallback, y tiene service worker con auto-update.
+- **🎛️ Preferencias:** Perfil de sabor, nivel de cocina, presupuesto, comensales y tiempo máximo.
+- **📜 Historial:** Guarda las últimas 50 recetas generadas en tu dispositivo.
+- **📤 Compartir:** Usa la Web Share API para enviar recetas por WhatsApp, Telegram, etc.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚀 Stack Tecnológico
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+| Capa     | Tecnología                        |
+| -------- | --------------------------------- |
+| Frontend | React 19 + Vite + TypeScript      |
+| Estilos  | Tailwind CSS v4                   |
+| Backend  | Cloudflare Workers + Workers AI   |
+| Testing  | Vitest + React Testing Library    |
+| CI/CD    | GitHub Actions → Cloudflare Pages |
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+## 📁 Estructura del Proyecto
+
+```
+esloquehay/
+├── docs/               # Documentación oficial (ROADMAP, ARCHITECTURE, API)
+├── public/             # Assets estáticos (logo, favicon, manifest PWA)
+├── src/
+│   ├── components/     # Componentes React
+│   ├── data/           # Datos estáticos y frases localizadas
+│   ├── hooks/          # Custom hooks (estado, país, localStorage)
+│   ├── i18n/           # Sistema de internacionalización (20 idiomas)
+│   ├── services/       # Cliente HTTP y API
+│   ├── test/           # Tests unitarios
+│   ├── types/          # Definiciones TypeScript
+│   ├── App.tsx         # Componente raíz
+│   └── main.tsx        # Punto de entrada
+├── .github/workflows/  # CI/CD
+├── index.html
+├── package.json
+├── vite.config.ts
+└── vitest.config.ts
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
+## 🛠️ Scripts Disponibles
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```bash
+# Desarrollo local
+npm run dev
+
+# Build de producción
+npm run build
+
+# Tests
+npm run test
+npm run test:run
+npm run test:coverage
+
+# Lint y formato
+npm run lint
+npm run lint:fix
+npm run format
+npm run format:check
+
+# Preview del build
+npm run preview
 ```
 
-# EsLoQueHay
+---
+
+## 🌐 API Backend
+
+- **Base URL:** `https://esloquehay-backend.jorge-labbe-a.workers.dev`
+- **Endpoints:**
+  - `GET /api/health` — Estado del backend
+  - `POST /api/recipe` — Generar receta
+
+Ver documentación completa en [`docs/API.md`](./docs/API.md).
+
+---
+
+## 📋 Roadmap
+
+Ver [`docs/ROADMAP.md`](./docs/ROADMAP.md).
+
+Hitos próximos:
+
+- Estabilización post-auditoría (Fase 2.5)
+- Beta cerrada (Junio 2026)
+- Auth + Sync cross-device (Q3 2026)
+- Monetización (Q4 2026)
+
+---
+
+## 📄 Licencia
+
+Código propietario — EsLoQueHay © 2026
+
+---
+
+_Hecho con curiosidad y hambre de crear._

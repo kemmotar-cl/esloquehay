@@ -4,10 +4,16 @@ import type { Recipe } from '../types/recipe';
 interface ShareButtonProps {
   recipe: Recipe;
   variant?: 'button' | 'icon';
+  t?: (path: string, fallback?: string) => string;
 }
 
-export default function ShareButton({ recipe, variant = 'button' }: ShareButtonProps) {
-  const shareText = `🍳 ${recipe.title}\n\n${recipe.description}\n\n⏱️ ${String(recipe.prepTime + recipe.cookTime)} min | 👥 ${String(recipe.servings)} personas | 🔥 ${recipe.difficulty}\n\nGenerado con EsLoQueHay ✨`;
+export default function ShareButton({ recipe, variant = 'button', t }: ShareButtonProps) {
+  const difficultyLabel =
+    t?.(`difficulty.${recipe.difficulty}`, recipe.difficulty) ?? recipe.difficulty;
+  const servingsLabel = t?.('share.servingsLabel', 'personas') ?? 'personas';
+  const generatedWith =
+    t?.('share.generatedWith', 'Generado con EsLoQueHay ✨') ?? 'Generado con EsLoQueHay ✨';
+  const shareText = `🍳 ${recipe.title}\n\n${recipe.description}\n\n⏱️ ${String(recipe.prepTime + recipe.cookTime)} min | 👥 ${String(recipe.servings)} ${servingsLabel} | 🔥 ${difficultyLabel}\n\n${generatedWith}`;
 
   const handleShare = async () => {
     if (typeof navigator.share === 'function') {
@@ -33,7 +39,7 @@ export default function ShareButton({ recipe, variant = 'button' }: ShareButtonP
       <button
         onClick={() => void handleShare()}
         className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-        title="Compartir"
+        title={t?.('button.share', 'Compartir') ?? 'Compartir'}
       >
         <Share2 className="w-4 h-4 text-gray-500" />
       </button>
@@ -46,7 +52,7 @@ export default function ShareButton({ recipe, variant = 'button' }: ShareButtonP
       className="inline-flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors"
     >
       <Share2 className="w-4 h-4" />
-      Compartir
+      {t?.('button.share', 'Compartir') ?? 'Compartir'}
     </button>
   );
 }

@@ -1,24 +1,272 @@
 {
+  "app": {
+    "detectingLocation": "Detecting your location...",
+    "iaActive": "AI active",
+    "demoMode": "Demo",
+    "skipLink": "Skip to main content",
+    "offlineBanner": "No internet connection",
+    "languageTitle": "Language",
+    "footerBrand": "EsLoQueHay © 2026"
+  },
   "floatingIngredients": {
-    "hint": "Tocca gli ingredienti fluttuanti o scrivi i tuoi"
+    "hint": "Tap the floating ingredients or type your own"
   },
   "input": {
-    "label": "Cosa altro hai?",
-    "placeholder": "Scrivi o tocca gli ingredienti sopra..."
+    "label": "What else do you have?",
+    "placeholder": "Type or tap the ingredients above...",
+    "add": "Add ingredient",
+    "remove": "Remove ingredient",
+    "countryTitle": "Recipe country"
   },
   "button": {
-    "generate": "Genera"
+    "history": "History",
+    "preferences": "Preferences",
+    "generate": "Generate",
+    "economicRecipe": "Budget recipe"
   },
-  "footer": {
-    "motto": "Creiamo momenti, non solo pasti",
-    "tagline": "Fatto con curiosità e voglia di creare"
+  "history": {
+    "title": "History",
+    "exportJSON": "Export JSON",
+    "exportCSV": "Export CSV",
+    "clear": "Clear",
+    "empty": "You haven't generated anything yet",
+    "emptyHint": "Your experiences will appear here",
+    "source": {
+      "ia": "AI",
+      "mock": "Demo",
+      "variation": "Variation"
+    }
   },
   "preferences": {
-    "title": "Preferenze",
-    "budget": {
-      "low": "Economico — pochi ingredienti, tanto sapore",
-      "medium": "Bilanciato",
-      "high": "Senza limiti"
+    "title": "Your Preferences",
+    "flavorProfile": "Preferred flavor profile",
+    "additionalIngredient": "Ingredient you always have",
+    "additionalIngredientPlaceholder": "Eg: eggs, garlic, olive oil...",
+    "additionalIngredientHint": "We'll always include it in recipes",
+    "skillLevel": "Cooking level",
+    "skillBeginner": "Beginner",
+    "skillIntermediate": "Intermediate",
+    "skillAdvanced": "Advanced",
+    "budget": "Budget",
+    "servings": "Servings",
+    "particleSpeed": "Ingredient energy",
+    "particleSlow": "Slow",
+    "particleNormal": "Normal",
+    "particleChaotic": "Chaotic",
+    "particleHint": "Controls how fast ingredients collide and move",
+    "maxPrepTime": "Max prep time",
+    "time5min": "5 min",
+    "time1day": "1 day",
+    "time2days": "2 days",
+    "maxPrepTimeHint": "Slow stews and braises are worth it",
+    "reset": "Reset",
+    "save": "Save"
+  },
+  "recipe": {
+    "ingredients": "Ingredients",
+    "preparation": "Preparation",
+    "servings": "{count} people",
+    "gourmetVersion": "Gourmet Version",
+    "gourmetSubtitle": "Professional tips to elevate this dish to restaurant level",
+    "plating": "Plating",
+    "pairing": "Pairing",
+    "otherExperiences": "Other Experiences",
+    "variationsHint": "Same ingredients, a completely different result. Tap to generate.",
+    "difficulty": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    },
+    "time": {
+      "min": "{n} min",
+      "hourMin": "{h}h {m}m",
+      "dayHour": "{d}d {h}h"
     }
+  },
+  "ad": {
+    "label": "Ad",
+    "placeholder": "Ad space",
+    "category": "Cooking & Gourmet"
+  },
+  "affiliate": {
+    "ollaName": "Pentola in ghisa",
+    "ollaDesc": "La base di ogni buon stufato. Distribuisce il calore in modo uniforme.",
+    "cuchilloName": "Coltello da chef professionale",
+    "cuchilloDesc": "Un buon taglio cambia il risultato di qualsiasi ricetta.",
+    "aceiteName": "Olio extravergine di oliva",
+    "aceiteDesc": "Il segreto della cucina mediterranea. Direttamente dalla Spagna.",
+    "especiasName": "Spezie gourmet importate",
+    "especiasDesc": "Curry, zaatar, sumac. Porta i tuoi piatti in un altro continente."
+  },
+  "scrollIndicator": "Your experience is ready",
+  "errorBoundary": {
+    "title": "Something went wrong",
+    "message": "An unexpected error occurred. Try reloading the page.",
+    "reload": "Reload"
+  },
+  "footer": {
+    "motto": "We create moments, not just meals",
+    "tagline": "Made with curiosity and hunger to create"
+  },
+  "toast": {
+    "variationReady": "Variation ready!",
+    "recipeReady": "Recipe generated!",
+    "fallbackMode": "Demo mode active — this is a sample recipe",
+    "demoMode": "Demo mode — connect the backend for real recipes",
+    "offlineError": "No connection. Connect to the internet to generate recipes."
+  },
+  "loading": {
+    "checkingPantry": "Checking your virtual pantry...",
+    "consultingChef": "Consulting with the chef...",
+    "findingCombination": "Finding the perfect combination...",
+    "analyzingFlavors": "Analyzing compatible flavors...",
+    "creatingExperience": "Creating your gastronomic experience...",
+    "imaginingTextures": "Imagining textures and aromas...",
+    "connectingIngredients": "Connecting ingredients with magic...",
+    "designingDinner": "Designing your ideal dinner...",
+    "calculatingTimes": "Calculating times and techniques...",
+    "preparingSurprise": "Preparing something that will surprise you..."
+  },
+  "visitCounter": "Visits: {count}",
+  "countries": {
+    "chile": "Chile",
+    "argentina": "Argentina",
+    "mexico": "Mexico",
+    "colombia": "Colombia",
+    "peru": "Peru",
+    "espana": "Spain",
+    "venezuela": "Venezuela",
+    "ecuador": "Ecuador",
+    "bolivia": "Bolivia",
+    "uruguay": "Uruguay",
+    "paraguay": "Paraguay",
+    "costa_rica": "Costa Rica",
+    "panama": "Panama",
+    "guatemala": "Guatemala",
+    "nicaragua": "Nicaragua",
+    "honduras": "Honduras",
+    "el_salvador": "El Salvador",
+    "cuba": "Cuba",
+    "republica_dominicana": "Dominican Republic",
+    "puerto_rico": "Puerto Rico"
+  },
+  "flavors": {
+    "traditional": "Traditional",
+    "spicy": "Spicy",
+    "sweet": "Sweet",
+    "sour": "Sour",
+    "umami": "Umami",
+    "mild": "Mild",
+    "herbal": "Herbal",
+    "smoky": "Smoky",
+    "citrus": "Citrus"
+  },
+  "budgets": {
+    "low": "Budget — few ingredients, lots of flavor",
+    "medium": "Balanced",
+    "high": "No limit"
+  },
+  "dietary": {
+    "none": "None",
+    "vegetarian": "Vegetarian",
+    "vegan": "Vegan",
+    "gluten_free": "Gluten-free",
+    "dairy_free": "Dairy-free",
+    "keto": "Keto",
+    "low_sodium": "Low sodium",
+    "diabetic": "Diabetic"
+  },
+  "share": {
+    "servingsLabel": "persone",
+    "generatedWith": "Generato con EsLoQueHay ✨"
+  },
+  "ingredients": {
+    "tomate": "pomodoro",
+    "cebolla": "cipolla",
+    "ajo": "aglio",
+    "pollo": "pollo",
+    "carne": "carne",
+    "arroz": "riso",
+    "huevo": "uovo",
+    "grasa": "grasso",
+    "queso": "formaggio",
+    "leche": "latte",
+    "limon": "limone",
+    "zanahoria": "carota",
+    "papa": "papà",
+    "pimiento": "pepe",
+    "picante": "piccante",
+    "aguacate": "avocado",
+    "hierbas": "erbe",
+    "hongos": "funghi",
+    "mariscos": "frutti di mare",
+    "pescado": "pesce",
+    "pasta": "pasta",
+    "legumbres": "legumi",
+    "maiz": "mais",
+    "brocoli": "broccoli"
+  },
+  "taglines": [
+    "Apri il frigorifero. Noi pensiamo al resto.",
+    "Il tuo frigorifero ha potenziale. Noi lo scopriamo.",
+    "Con quello che hai, facciamo cena.",
+    "Cucinare non deve essere complicato.",
+    "Trasformiamo quello che hai in qualcosa di buono.",
+    "Il frigorifero non mente. Neppure noi.",
+    "Cucina con quello che hai, senza drammi.",
+    "La tua dispensa è un tesoro. Ti aiutiamo a trovarlo.",
+    "Non sai cosa cucinare? Tranquillo, noi sì.",
+    "Approfitta di tutto. Non sprecare nulla.",
+    "La creatività inizia nel frigorifero.",
+    "Con poco si può fare molto.",
+    "Tre ingredienti? Basta.",
+    "Cucina senza uscire di casa.",
+    "La tua cena è più vicina di quanto pensi.",
+    "Guarda cosa hai. Ora guarda cosa puoi fare.",
+    "La soluzione è in cucina.",
+    "Fai magia con quello che hai.",
+    "Non serve andare al supermercato. Ancora.",
+    "Il frigorifero sorprende quando sai guardare.",
+    "Trasformiamo il comune in qualcosa di speciale.",
+    "Ogni ingrediente racconta una storia.",
+    "Tu hai gli ingredienti. Noi l'ispirazione.",
+    "Cucinare è arte. Il tuo frigorifero è la tela.",
+    "Non ci sono scuse. Ci sono ingredienti.",
+    "La cena non si farà da sola... o forse sì.",
+    "Fame? Guarda cosa hai.",
+    "Semplice, buono, con quello che c'è.",
+    "Dal basico al brillante."
+  ],
+  "loadingPhrases": [
+    "Controllo della tua dispensa virtuale...",
+    "Consultazione con lo chef interno...",
+    "Ricerca della combinazione perfetta...",
+    "Analisi dei sapori compatibili...",
+    "Creazione della tua esperienza gastronomica...",
+    "Immaginazione di texture e aromi...",
+    "Connessione degli ingredienti con magia...",
+    "Progettazione della tua cena ideale...",
+    "Calcolo di tempi e tecniche...",
+    "Preparazione di qualcosa che ti sorprenderà..."
+  ],
+  "buttonPhrases": [
+    "Scioglitra di piacere",
+    "Preparati a volare",
+    "Apri bene la bocca",
+    "Questo sarà epico",
+    "Chiama la famiglia",
+    "Clicca qui, non aver paura",
+    "Magia in corso",
+    "Trasformare il semplice in arte",
+    "La tua cena sta arrivando",
+    "Fai spazio nello stomaco",
+    "Allerta: sapore imminente",
+    "Cucina con anima, non con soldi",
+    "Sveglia lo chef che è in te",
+    "Ingredienti + amore = questo",
+    "Adesso sì, arriva il bello"
+  ],
+  "mock": {
+    "disclaimer": "Questa è una ricetta demo. I contenuti possono essere in spagnolo."
   }
 }
