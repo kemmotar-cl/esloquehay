@@ -117,21 +117,22 @@ Ser la app de recetas más usada en Latinoamérica para resolver la pregunta dia
 - [x] Deploy a producción: push + Cloudflare Pages + Workers
 - [x] Logo size aumentado de 35% a 44%
 
-### Fase 2.7: Auditoría y Remediación 🔄 EN PROGRESO
+### Fase 2.7: Auditoría y Remediación ✅ COMPLETADA
 
-- [ ] Remediación issues críticos de auditoría (ver `AUDITORIA_2026-05-19.md`)
-- [ ] SEO: Open Graph, Twitter Cards, JSON-LD Recipe schema
-- [ ] SEO: `robots.txt`, `sitemap.xml`
-- [ ] i18n: corregir `it.json` (completar keys restantes)
-- [ ] i18n: corregir traducción de "papa" → "potato" en `ja`, `zh`, `ar`, `en`
-- [ ] Performance: optimizar `logo.png` (WebP/SVG)
-- [ ] Backend: Zod validation en inputs
-- [ ] Backend: rate limiting
-- [ ] Backend: CORS restrictivo (allowlist)
-- [ ] Backend: logging estructurado en Worker
-- [ ] Backend: tests de endpoints HTTP
-- [ ] a11y: focus trap en modales
-- [ ] a11y: labels en selects y sliders
+- [x] Remediación issues críticos de auditoría (ver `AUDITORIA_2026-05-19.md`)
+- [x] SEO: Open Graph, Twitter Cards, robots.txt, sitemap.xml
+- [x] i18n: corregir `it.json` (traducir completo al italiano)
+- [x] i18n: corregir traducción de "papa" → "potato" en 18 idiomas
+- [x] Performance: optimizar `logo.png` (325KB → 117KB)
+- [x] Backend: Zod validation en inputs
+- [x] Backend: rate limiting (10 req/min por IP)
+- [x] Backend: CORS restrictivo (allowlist)
+- [x] Backend: logging estructurado en Worker
+- [x] Backend: status codes diferenciados (400/422/429/502)
+- [x] a11y: focus trap en modales
+- [ ] a11y: labels en selects y sliders (postergado)
+- [ ] Backend: tests de endpoints HTTP (postergado)
+- [ ] SEO: JSON-LD Recipe schema dinámico (postergado)
 
 ### Fase 3: Autenticación y Persistencia (Q3 2026)
 

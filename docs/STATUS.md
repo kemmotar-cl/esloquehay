@@ -76,7 +76,7 @@
 
 ### Tareas Técnicas Pendientes
 
-- [ ] Configurar `VITE_GA_MEASUREMENT_ID` en Cloudflare Pages env vars
+- [ ] **Configurar `VITE_GA_MEASUREMENT_ID`** — Seguir `docs/GA4_SETUP.md`
 - [ ] Configurar `VITE_ADSENSE_SLOT_TOP` / `VITE_ADSENSE_SLOT_BOTTOM` cuando estén disponibles
 - [ ] Implementar banner de consentimiento GDPR/CCPA (postergado — no requerido en LATAM)
 
@@ -86,20 +86,20 @@
 
 Ver [AUDITORIA_2026-05-19.md](../../AUDITORIA_2026-05-19.md) para detalle completo.
 
-| Prioridad | Issue                                                                           | Proyecto |
-| --------- | ------------------------------------------------------------------------------- | -------- |
-| 🔴        | SEO ausente total (sin Open Graph, Twitter Cards, JSON-LD, robots.txt, sitemap) | Frontend |
-| 🔴        | `it.json` incompleto y con strings en inglés                                    | Frontend |
-| 🔴        | "papa" traducida como "padre" en `ja`, `zh`, `ar`, `en`                         | Frontend |
-| 🔴        | CORS wildcard (`*`) + sin validación de inputs + sin rate limiting              | Backend  |
-| 🔴        | Prompt injection directo en backend                                             | Backend  |
-| 🔴        | Worker no loguea nada (sin observabilidad)                                      | Backend  |
-| 🔴        | Solo 11 tests backend — 0 de endpoints, 0 de errores                            | Backend  |
-| 🟡        | `logo.png` pesa 325KB sin optimizar                                             | Frontend |
-| 🟡        | Sin focus trap en modales                                                       | Frontend |
-| 🟡        | `unsafe-inline` en CSP                                                          | Frontend |
-| 🟡        | Código duplicado Express/Worker en backend                                      | Backend  |
-| 🟡        | Sin caching en backend (llamadas IA repetidas)                                  | Backend  |
+| Prioridad | Issue                                                   | Proyecto |
+| --------- | ------------------------------------------------------- | -------- |
+| ✅        | SEO: Open Graph, Twitter Cards, robots.txt, sitemap     | Frontend |
+| ✅        | `it.json` traducido completo al italiano                | Frontend |
+| ✅        | "papa" corregida en 18 idiomas                          | Frontend |
+| ✅        | CORS restrictivo + Zod validation + rate limiting       | Backend  |
+| ✅        | Prompt injection detection + sanitización               | Backend  |
+| ✅        | Logging estructurado JSON en Worker                     | Backend  |
+| 🟡        | Solo 11 tests backend — 0 de endpoints HTTP             | Backend  |
+| ✅        | `logo.png` optimizado: 325KB → 117KB                    | Frontend |
+| ✅        | Focus trap en modales (HistoryPanel + PreferencesPanel) | Frontend |
+| 🟡        | `unsafe-inline` en CSP                                  | Frontend |
+| 🟡        | Código duplicado Express/Worker en backend              | Backend  |
+| 🟡        | Sin caching en backend (llamadas IA repetidas)          | Backend  |
 
 ---
 
@@ -110,7 +110,7 @@ Ver [AUDITORIA_2026-05-19.md](../../AUDITORIA_2026-05-19.md) para detalle comple
 | Bundle JS principal   | 303 KB                          |
 | Bundle CSS            | 34 KB                           |
 | Locales (lazy-loaded) | 7–25 KB cada uno                |
-| Tests Frontend        | 57 pasando                      |
+| Tests Frontend        | 72 pasando (+15 nuevos)         |
 | Tests Backend         | 11 pasando                      |
 | Lenguajes soportados  | 20                              |
 | Países detectables    | 12                              |
@@ -144,4 +144,4 @@ Ver [AUDITORIA_2026-05-19.md](../../AUDITORIA_2026-05-19.md) para detalle comple
 
 ---
 
-_Última actualización: 2026-05-19 | Commit frontend: `c119849` | Commit backend: `6b013d7`_
+_Última actualización: 2026-05-19 | Commit frontend: `ba9f5ae` | Commit backend: `1f3a51a`_
