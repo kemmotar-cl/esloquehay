@@ -506,6 +506,26 @@ function App() {
           <p className="text-[10px] text-gray-300 mt-1">
             {t('footer.tagline', 'Hecho con curiosidad y hambre de crear')}
           </p>
+          <div className="flex items-center justify-center gap-3 mt-3 text-[10px] text-gray-300">
+            <a href="/terms-of-service.html" className="hover:text-brand-500 transition-colors">
+              Términos
+            </a>
+            <span>·</span>
+            <a href="/privacy-policy.html" className="hover:text-brand-500 transition-colors">
+              Privacidad
+            </a>
+            <span>·</span>
+            <a href="/cookies-policy.html" className="hover:text-brand-500 transition-colors">
+              Cookies
+            </a>
+            <span>·</span>
+            <a
+              href="/nutritional-disclaimer.html"
+              className="hover:text-brand-500 transition-colors"
+            >
+              Disclaimer
+            </a>
+          </div>
         </footer>
       </div>
     </ErrorBoundary>
