@@ -3,7 +3,7 @@
 > **Producto:** EsLoQueHay — Recetas inteligentes con IA  
 > **Slogan:** _"Abrí la heladera. Nosotros pensamos el resto."_  
 > **Fecha de actualización:** 2026-05-19  
-> **Versión:** 1.2 (pre-launch)
+> **Versión:** 1.3 (pre-launch)
 
 ---
 
@@ -45,7 +45,7 @@ Ser la app de recetas más usada en Latinoamérica para resolver la pregunta dia
 
 ## 2. Stack Tecnológico Consolidado
 
-**Decisión de arquitectura (2026-05-19):** Se mantiene el stack actualmente implementado por ser el más maduro y funcional. El stack alternativo (Zustand, shadcn/ui, Supabase) queda en evaluación para fases posteriores si la complejidad del estado global o la necesidad de backend propio lo justifican.
+**Decisión de arquitectura (2026-05-19):** Se mantiene el stack actualmente implementado por ser el más maduro y funcional.
 
 | Capa              | Tecnología                                             | Estado          | Justificación                                                                         |
 | ----------------- | ------------------------------------------------------ | --------------- | ------------------------------------------------------------------------------------- |
@@ -53,19 +53,20 @@ Ser la app de recetas más usada en Latinoamérica para resolver la pregunta dia
 | **Estilos**       | Tailwind CSS v4 + PostCSS                              | ✅ Implementado | Utility-first, bundle pequeño, responsive.                                            |
 | **Estado**        | React Hooks + localStorage (custom)                    | ✅ Implementado | Suficiente para SPA sin auth. Migración a Zustand/IndexedDB evaluada para Fase 3+.    |
 | **Backend**       | Cloudflare Workers                                     | ✅ Implementado | Edge computing, baja latencia, costo cero en escala inicial.                          |
-| **IA**            | Cloudflare Workers AI (@cf/moonshotai/kimi-k2.6)       | ✅ Implementado | 10K neurons/día gratis, sin API keys gestionadas por cliente.                         |
+| **IA**            | Cloudflare Workers AI (@cf/meta/llama-3.1-8b-instruct) | ✅ Implementado | 10K neurons/día gratis, sin API keys gestionadas por cliente.                         |
 | **Base de datos** | localStorage (cliente)                                 | ✅ Implementado | Historial y preferencias locales. Supabase/PostgreSQL planificado para Fase 3 (sync). |
 | **Auth**          | No aplica (modo anónimo)                               | ✅ Implementado | Sin fricción de registro. OAuth evaluado para Fase 3.                                 |
 | **Pagos**         | Pendiente                                              | ⏳ Fase 4       | Stripe + MercadoPago para monetización.                                               |
 | **Hosting**       | Cloudflare Pages (frontend) + Cloudflare Workers (API) | ✅ Implementado | CDN global, CI/CD integrado via GitHub Actions.                                       |
-| **Analytics**     | Pendiente                                              | ⏳ Fase 1+      | Plausible o PostHog (privacidad-first).                                               |
+| **Analytics**     | Google Analytics 4 + AdSense                           | ✅ Implementado | GA4 tracking + AdSense ads (approval pending)                                         |
 | **Testing**       | Vitest + React Testing Library                         | ✅ Implementado | Unit + integration tests. Playwright evaluado para E2E futuro.                        |
+| **Ads**           | Google AdSense                                         | ⏳ Approval     | Publisher ID configurado, Google revisando sitio                                      |
 
 ---
 
 ## 3. Roadmap Técnico
 
-### Fase 0: Fundamentos (Completado)
+### Fase 0: Fundamentos ✅ COMPLETADA
 
 - [x] Stack tecnológico final definido y funcionando
 - [x] Repositorio Git con CI/CD (GitHub Actions)
@@ -74,7 +75,7 @@ Ser la app de recetas más usada en Latinoamérica para resolver la pregunta dia
 - [x] Testing base: Vitest + React Testing Library
 - [x] PWA: manifest, service worker, offline support
 
-### Fase 1: MVP — Core + Internacionalización (Completado)
+### Fase 1: MVP — Core + Internacionalización ✅ COMPLETADA
 
 - [x] Frontend: Input de ingredientes (texto libre + tags + nube flotante)
 - [x] Backend: Endpoint `/api/recipe` conectado a IA
@@ -84,7 +85,7 @@ Ser la app de recetas más usada en Latinoamérica para resolver la pregunta dia
 - [x] i18n: 20 idiomas con traducción dinámica
 - [x] Detección de país: geolocalización por IP (Cloudflare + ipapi)
 
-### Fase 2: Mejora UX — Onboarding y Personalización (Completado)
+### Fase 2: Mejora UX — Onboarding y Personalización ✅ COMPLETADA
 
 - [x] Sistema de preferencias: perfil de sabor, nivel de habilidad, comensales, presupuesto
 - [x] Restricciones alimentarias: tipo definido en UI (vegetariano, vegano, keto, etc.)
@@ -103,15 +104,34 @@ Ser la app de recetas más usada en Latinoamérica para resolver la pregunta dia
 - [x] Refactor: reducir duplicación en `phrases.ts` (simplificado a helpers puros)
 - [x] Docs: `README.md`, `ARCHITECTURE.md`, `API.md`
 - [x] Fix: ingredientes ya no persisten entre sesiones (solo en memoria)
+- [x] Fix: eliminar gate `backendReady` — siempre intentar backend primero
+- [x] Fix: CORS headers incluyen `X-Session-ID`
 
-### Fase 2.6: Pre-Launch / Pulido Final (Sprint Actual)
+### Fase 2.6: Pre-Launch / Pulido Final ✅ COMPLETADA
 
-- [ ] Revisión de calidad de traducciones en 20 idiomas (validación visual en localhost)
-- [ ] Fix: mock recipes en español → traducir o adaptar a i18n
-- [ ] Fix: verificar completitud de `it.json` (Italiano)
-- [ ] Deploy a producción: push + Cloudflare Pages + Workers
-- [ ] Test end-to-end en producción con múltiples idiomas
-- [ ] Verificar analytics y tracking de eventos post-i18n
+- [x] Fix: mock recipes con disclaimer i18n (banner cuando `source === 'mock'`)
+- [x] Fix: completar `it.json` (Italiano)
+- [x] Integración AdSense: script en `index.html`, componente `AdBanner`
+- [x] Integración GA4: `analytics.ts`, script en `index.html`
+- [x] CSP actualizado para dominios de ads/analytics
+- [x] Deploy a producción: push + Cloudflare Pages + Workers
+- [x] Logo size aumentado de 35% a 44%
+
+### Fase 2.7: Auditoría y Remediación 🔄 EN PROGRESO
+
+- [ ] Remediación issues críticos de auditoría (ver `AUDITORIA_2026-05-19.md`)
+- [ ] SEO: Open Graph, Twitter Cards, JSON-LD Recipe schema
+- [ ] SEO: `robots.txt`, `sitemap.xml`
+- [ ] i18n: corregir `it.json` (completar keys restantes)
+- [ ] i18n: corregir traducción de "papa" → "potato" en `ja`, `zh`, `ar`, `en`
+- [ ] Performance: optimizar `logo.png` (WebP/SVG)
+- [ ] Backend: Zod validation en inputs
+- [ ] Backend: rate limiting
+- [ ] Backend: CORS restrictivo (allowlist)
+- [ ] Backend: logging estructurado en Worker
+- [ ] Backend: tests de endpoints HTTP
+- [ ] a11y: focus trap en modales
+- [ ] a11y: labels en selects y sliders
 
 ### Fase 3: Autenticación y Persistencia (Q3 2026)
 
@@ -208,6 +228,7 @@ Ver documento detallado: [`ARCHITECTURE.md`](./ARCHITECTURE.md)
 - **Afiliados:** Links a ingredientes en MercadoLibre, Amazon
 - **Sponsored recipes:** Marcas de alimentos en sugerencias
 - **API access:** Developers (Fase 5+)
+- **AdSense:** Publicidad display en versión gratuita
 
 ---
 
@@ -224,21 +245,22 @@ Ver documento detallado: [`ARCHITECTURE.md`](./ARCHITECTURE.md)
 
 ### Métricas Técnicas
 
-| Métrica                        | Target       |
-| ------------------------------ | ------------ |
-| Uptime                         | 99.9%        |
-| Tiempo de generación de receta | < 5 segundos |
-| Lighthouse score               | > 90         |
-| Cobertura de tests             | > 70%        |
-| Tiempo de carga inicial        | < 2 segundos |
+| Métrica                        | Target       | Actual |
+| ------------------------------ | ------------ | ------ |
+| Uptime                         | 99.9%        | —      |
+| Tiempo de generación de receta | < 5 segundos | —      |
+| Lighthouse score               | > 90         | —      |
+| Cobertura de tests             | > 70%        | ~30%   |
+| Tiempo de carga inicial        | < 2 segundos | —      |
+| Bundle JS principal            | < 200KB      | 303KB  |
 
 ---
 
 ## 9. Cronograma
 
 ```
-Mayo 2026     : Estabilización post-auditoría (Fase 2.5) + Pulido final (Fase 2.6)
-Junio 2026    : Beta cerrada (50 usuarios)
+Mayo 2026     : Estabilización (Fase 2.5) + Pre-launch (Fase 2.6) + Auditoría (Fase 2.7)
+Junio 2026    : Remediación post-auditoría + Beta cerrada (50 usuarios)
 Julio 2026    : Beta pública (500 usuarios)
 Agosto 2026   : Auth + Sync (Fase 3)
 Septiembre 2026 : Monetización backend (Fase 4)
@@ -249,4 +271,4 @@ Diciembre 2026: Public launch oficial + Marketing paid
 
 ---
 
-_Última actualización: 2026-05-19 | Auditoría Total TEC-ESLOQUEHAY-2026_
+_Última actualización: 2026-05-19 | Versión: 1.3 | Auditoría Total TEC-ESLOQUEHAY-2026_

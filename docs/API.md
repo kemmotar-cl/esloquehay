@@ -1,6 +1,6 @@
 # EsLoQueHay — Documentación de API
 
-**Versión:** 1.0  
+**Versión:** 1.1  
 **Fecha:** 2026-05-19  
 **Base URL:** `https://esloquehay-backend.jorge-labbe-a.workers.dev`
 
@@ -10,21 +10,30 @@
 
 ### 1.1 Health Check
 
-Verifica el estado del backend y si la clave de IA está configurada.
+Verifica el estado del backend y el modelo de IA activo.
 
 ```http
 GET /api/health
+```
+
+**Headers opcionales:**
+
+```http
+X-Session-ID: <uuid-de-sesion>
 ```
 
 **Respuesta exitosa (200 OK):**
 
 ```json
 {
+  "status": "ok",
+  "model": "@cf/meta/llama-3.1-8b-instruct",
+  "source": "cloudflare-workers-ai",
   "keyConfigured": true
 }
 ```
 
-**Respuesta de error (fallback en cliente):**
+**Respuesta de error:**
 
 ```json
 {
@@ -34,8 +43,10 @@ GET /api/health
 
 **Notas:**
 
-- Timeout del cliente: 8000ms (`src/services/api.ts:7`)
-- Si la petición falla por red, el cliente asume `{ keyConfigured: false }` y entra en modo demo.
+- Timeout del cliente: 8000ms
+- Retry automático: 3 intentos con backoff exponencial
+- Si la petición falla por red, el cliente asume `{ keyConfigured: false }`
+- El health check ya **no bloquea** la generación de recetas — solo actualiza un badge visual
 
 ---
 
@@ -46,6 +57,12 @@ Genera una receta personalizada basada en ingredientes y preferencias del usuari
 ```http
 POST /api/recipe
 Content-Type: application/json
+```
+
+**Headers opcionales:**
+
+```http
+X-Session-ID: <uuid-de-sesion>
 ```
 
 **Request Body:**
@@ -130,9 +147,36 @@ interface RecipeRequest {
 **Códigos de estado HTTP:**
 
 - `200`: Éxito
-- `400`: Request inválido (falta campo requerido o formato incorrecto)
+- `400`: Request inválido (falta campo requerido o formato incorrecto) — **pendiente de implementar**
 - `500`: Error interno del servidor o fallo en servicio de IA
-- `524`: Timeout (Cloudflare) — manejado por AbortController del cliente a los 8s
+- `524`: Timeout (Cloudflare) — manejado por retry en cliente
+
+> ⚠️ **Nota técnica:** Actualmente el backend devuelve 500 para casi todos los errores. La diferenciación de status codes está pendiente.
+
+---
+
+### 1.3 Generar Itinerario
+
+Genera un itinerario de viaje basado en preferencias.
+
+```http
+POST /api/itinerary
+Content-Type: application/json
+```
+
+**Request Body:**
+
+```typescript
+interface ItineraryRequest {
+  destination: string;
+  duration: number; // Días
+  budget: 'low' | 'medium' | 'high';
+  interests?: string[];
+  language?: string;
+}
+```
+
+**Respuesta:** Mismo formato que `/api/recipe` (estructura compartida).
 
 ---
 
@@ -156,6 +200,8 @@ interface Recipe {
   variations: RecipeVariation[];
   winePairing?: string;
   platingTip?: string;
+  category?: string;
+  source?: 'ia' | 'mock' | 'variation';
 }
 ```
 
@@ -190,34 +236,37 @@ El cliente se encuentra en `src/services/api.ts`.
 
 - **Base URL:** Variable de entorno `VITE_API_URL` o fallback hardcodeado a producción.
 - **Timeout:** 8000ms via `AbortController`.
-- **Content-Type:** `application/json`
+- **Retry:** 3 intentos con backoff exponencial (300ms × 2^attempt).
+- **Headers:** `Content-Type: application/json`, `X-Session-ID` (si disponible).
 
 ### Funciones Exportadas
 
 ```typescript
-// Genera una receta. Lanza Error si success === false.
-async function generateRecipe(request: RecipeRequest): Promise<Recipe>;
+// Genera una receta. Lanza Error si success === false o schema inválido.
+async function generateRecipe(request: RecipeRequest, sessionId?: string): Promise<Recipe>;
 
 // Verifica estado del backend.
-async function checkHealth(): Promise<{ keyConfigured: boolean }>;
+async function checkHealth(sessionId?: string): Promise<{ keyConfigured: boolean }>;
 ```
 
 ### Manejo de Errores en Cliente
 
-- `generateRecipe` lanza `Error` con mensaje del backend o genérico.
-- `App.tsx` captura el error y muestra `mockRecipe` como fallback.
-- **Pendiente (auditoría F3):** Implementar retry con backoff y logger de errores.
+- `generateRecipe` valida respuesta con Zod schema (`apiRecipeResponseSchema`)
+- Si schema falla → lanza Error con mensaje descriptivo
+- Si `success === false` → lanza Error con mensaje del backend
+- Si red falla después de 3 retries → lanza Error
+- **App.tsx** captura cualquier error y muestra `mockRecipe` como fallback con toast de advertencia
 
 ---
 
 ## 4. Servicios Externos Consumidos por el Cliente
 
-| Servicio         | URL                                        | Propósito                      | Timeout Cliente              |
-| ---------------- | ------------------------------------------ | ------------------------------ | ---------------------------- |
-| Cloudflare Trace | `https://www.cloudflare.com/cdn-cgi/trace` | Detección de país (código ISO) | **Sin timeout (BUG-F3-003)** |
-| ipapi.co         | `https://ipapi.co/json/`                   | Fallback de detección de país  | **Sin timeout (BUG-F3-003)** |
+| Servicio         | URL                                        | Propósito                      | Timeout Cliente |
+| ---------------- | ------------------------------------------ | ------------------------------ | --------------- |
+| Cloudflare Trace | `https://www.cloudflare.com/cdn-cgi/trace` | Detección de país (código ISO) | Sin timeout     |
+| ipapi.co         | `https://ipapi.co/json/`                   | Fallback de detección de país  | Sin timeout     |
 
-**Nota:** Ambos servicios carecen de timeout en la implementación actual. Ver acciones correctivas en auditoría F3.
+> ⚠️ Ambos servicios carecen de timeout en la implementación actual.
 
 ---
 
@@ -230,6 +279,7 @@ async function checkHealth(): Promise<{ keyConfigured: boolean }>;
 
 ## 6. Rate Limiting
 
-- **Límite actual (Cloudflare Workers):** 10 requests/minuto por IP (plan gratuito).
-- **Respuesta al exceder límite:** `429 Too Many Requests`.
-- **Manejo en cliente:** Pendiente de implementar (mostrar mensaje al usuario).
+- **Límite actual (Cloudflare Workers free plan):** 100,000 requests/día
+- **Límite Workers AI:** 10K neurons/día gratis
+- **Respuesta al exceder límite:** `429 Too Many Requests` (Cloudflare nativo)
+- **Manejo en cliente:** Pendiente de implementar (mostrar mensaje al usuario)

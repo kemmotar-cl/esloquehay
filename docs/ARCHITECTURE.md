@@ -1,8 +1,8 @@
 # EsLoQueHay — Arquitectura del Sistema
 
-**Versión:** 1.0  
+**Versión:** 1.1  
 **Fecha:** 2026-05-19  
-**Stack:** React 19 + Vite + TypeScript + Tailwind CSS v4 + Cloudflare Workers
+**Stack:** React 19 + Vite + TypeScript + Tailwind CSS v4 + Cloudflare Workers + Workers AI
 
 ---
 
@@ -15,7 +15,7 @@
 │  │  PWA — React 19 + Vite + TypeScript                 │   │
 │  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐ │   │
 │  │  │   UI Layer  │  │  Hooks      │  │  Services   │ │   │
-│  │  │  (Components)│  │  (State)    │  │  (API)      │ │   │
+│  │  │  (Components)│  │  (State)    │  │  (API/Ads)  │ │   │
 │  │  └─────────────┘  └─────────────┘  └─────────────┘ │   │
 │  │         │                │                │         │   │
 │  │         └────────────────┴────────────────┘         │   │
@@ -37,14 +37,15 @@
 │  │  ┌─────────────┐  ┌─────────────────────────────┐   │    │
 │  │  │  /api/health │  │      /api/recipe            │   │    │
 │  │  │  (GET)       │  │      (POST)                 │   │    │
-│  │  └─────────────┘  │  - Valida request           │   │    │
+│  │  └─────────────┘  │  - Recibe request           │   │    │
 │  │                   │  - Llama a Workers AI       │   │    │
-│  │                   │  - Estructura respuesta     │   │    │
-│  │                   │  - Devuelve JSON            │   │    │
-│  │                   └─────────────────────────────┘   │    │
+│  │  ┌─────────────┐  │  - Parsea JSON de IA        │   │    │
+│  │  │ /api/itinerary│  │  - Devuelve JSON          │   │    │
+│  │  │  (POST)      │  └─────────────────────────────┘   │    │
+│  │  └─────────────┘                                    │    │
 │  └─────────────────────────────────────────────────────┘    │
 │                         │                                    │
-│              Workers AI API (@cf/moonshotai/kimi-k2.6)      │
+│    Workers AI API (@cf/meta/llama-3.1-8b-instruct)          │
 │                         │                                    │
 └─────────────────────────┴────────────────────────────────────┘
 ```
@@ -59,6 +60,7 @@ esloquehay/
 │   ├── ci.yml                  # Lint + Test + Build
 │   └── deploy.yml              # Deploy a Cloudflare Pages
 ├── docs/                       # Documentación del proyecto
+│   ├── STATUS.md               # Snapshot actual del proyecto
 │   ├── ROADMAP.md
 │   ├── ARCHITECTURE.md
 │   └── API.md
@@ -69,47 +71,57 @@ esloquehay/
 ├── src/
 │   ├── assets/                 # Assets procesados por Vite
 │   ├── components/             # Componentes React (PascalCase)
-│   │   ├── AdBanner.tsx
-│   │   ├── AffiliateLinks.tsx
-│   │   ├── FloatingIngredients.tsx
-│   │   ├── HistoryPanel.tsx
-│   │   ├── IngredientInput.tsx
-│   │   ├── Logo.tsx
-│   │   ├── PreferencesPanel.tsx
-│   │   ├── RecipeCard.tsx
-│   │   ├── ScrollIndicator.tsx
-│   │   └── ShareButton.tsx
+│   │   ├── AdBanner.tsx        # Banner de AdSense
+│   │   ├── AffiliateLinks.tsx  # Links de afiliados
+│   │   ├── ErrorBoundary.tsx   # Manejo de errores
+│   │   ├── FloatingIngredients.tsx  # Canvas animado de ingredientes
+│   │   ├── HistoryPanel.tsx    # Panel de historial (lazy-loaded)
+│   │   ├── IngredientInput.tsx # Input principal + tags
+│   │   ├── LanguageSelector.tsx # Selector de idioma
+│   │   ├── LoadingOverlay.tsx  # Overlay de carga
+│   │   ├── Logo.tsx            # Componente de logo
+│   │   ├── PreferencesPanel.tsx # Panel de preferencias (lazy-loaded)
+│   │   ├── RecipeCard.tsx      # Tarjeta de receta generada
+│   │   ├── ScrollIndicator.tsx # Indicador de scroll
+│   │   ├── ShareButton.tsx     # Compartir vía Web Share API
+│   │   └── ToastContainer.tsx  # Notificaciones toast
 │   ├── data/                   # Datos estáticos y constantes
 │   │   └── phrases.ts          # Frases localizadas e ingredientes por país
 │   ├── hooks/                  # Custom React Hooks (camelCase, prefijo use)
 │   │   ├── useCountry.ts       # Detección de país por IP
 │   │   ├── useHistory.ts       # Historial en localStorage
-│   │   └── useLocalStorage.ts  # Generic localStorage hook
+│   │   ├── useI18n.ts          # Sistema de internacionalización
+│   │   ├── useLocalStorage.ts  # Generic localStorage hook con Zod
+│   │   ├── useOnlineStatus.ts  # Detección de conectividad
+│   │   ├── useToast.ts         # Sistema de notificaciones
+│   │   └── useVisitCounter.ts  # Contador de visitas
 │   ├── i18n/                   # Sistema de internacionalización
 │   │   ├── index.ts            # Carga dinámica de traducciones
 │   │   └── locales/            # Archivos JSON por idioma (20 idiomas)
+│   ├── mocks/                  # Datos de demo / fallback
+│   │   └── recipes.ts          # Mock recipes + variation mocks
 │   ├── services/               # Lógica de comunicación con APIs
-│   │   └── api.ts              # Cliente HTTP + endpoints
-│   ├── test/                   # Configuración y tests unitarios
+│   │   ├── analytics.ts        # GA4 event tracking
+│   │   ├── api.ts              # Cliente HTTP + retry + timeout
+│   │   └── logger.ts           # Logger centralizado
+│   ├── test/                   # Tests unitarios e integración
+│   │   ├── api.test.ts
 │   │   ├── phrases.test.ts
 │   │   ├── setup.ts
 │   │   └── useLocalStorage.test.ts
 │   ├── types/                  # Definiciones TypeScript
 │   │   ├── preferences.ts      # Preferencias de usuario + países
 │   │   ├── recipe.ts           # Modelos de receta y request
+│   │   ├── schemas.ts          # Zod schemas para validación
 │   │   └── skin.ts             # Tokens visuales (temas)
-│   ├── App.tsx                 # Componente raíz
+│   ├── App.tsx                 # Componente raíz (~515 líneas)
 │   ├── App.css                 # Estilos globales específicos
 │   ├── index.css               # Tailwind + variables CSS
 │   └── main.tsx                # Punto de entrada React
+├── .env.example                # Variables de entorno (template)
 ├── .env.production             # Variables de entorno (URL backend)
-├── index.html                  # HTML entry point
+├── index.html                  # HTML entry point (CSP + AdSense + GA4 scripts)
 ├── package.json
-├── postcss.config.js
-├── tailwind.config.js          # (implícito en v4 via CSS)
-├── tsconfig.app.json
-├── tsconfig.json
-├── tsconfig.node.json
 ├── vite.config.ts              # Config Vite + PWA
 └── vitest.config.ts            # Config testing
 ```
@@ -122,16 +134,18 @@ esloquehay/
 
 1. **Usuario** ingresa ingredientes → `IngredientInput.tsx`
 2. **App.tsx** recibe evento `onGenerate` → ejecuta `handleGenerate`
-3. Si backend está listo (`backendReady === true`):
-   - `App.tsx` llama a `generateRecipe(request)` en `services/api.ts`
-   - `api.ts` hace `POST /api/recipe` al Cloudflare Worker
-   - Worker valida request → llama a Workers AI (Kimi K2.6)
-   - Worker estructura respuesta → devuelve JSON `{ success, data: Recipe }`
-   - `api.ts` parsea respuesta → devuelve `Recipe` a `App.tsx`
-4. Si backend caído o timeout:
-   - `App.tsx` captura error (catch) → muestra `mockRecipe` como fallback
-   - Se añade al historial
+3. **Siempre intenta backend primero** (no hay gate de health check):
+   - `App.tsx` llama a `generateRecipe(request, sessionId)` en `services/api.ts`
+   - `api.ts` hace `POST /api/recipe` con header `X-Session-ID`
+   - Worker recibe request → validación básica → llama a Workers AI (Llama 3.1)
+   - Worker parsea respuesta JSON → devuelve `{ success, data: Recipe }`
+   - `api.ts` valida con Zod schema → devuelve `Recipe` a `App.tsx`
+4. Si backend falla (catch real, no health check):
+   - `App.tsx` captura error → muestra `mockRecipe` como fallback
+   - Toast de advertencia: "Modo demo activado"
+   - Se añade al historial con `source: 'mock'`
 5. **RecipeCard.tsx** recibe `recipe` y renderiza
+6. Si la receta viene de `source === 'mock'`, se muestra banner de disclaimer
 
 ### 3.2 Detección de País
 
@@ -145,11 +159,13 @@ esloquehay/
 
 ### 3.3 Persistencia Local
 
-| Dato                 | Key                      | Tipo              | Límite   |
-| -------------------- | ------------------------ | ----------------- | -------- |
-| Preferencias         | `esloquehay-prefs`       | `UserPreferences` | N/A      |
-| Ingredientes activos | `esloquehay-ingredients` | `string[]`        | N/A      |
-| Historial            | `esloquehay-history`     | `HistoryEntry[]`  | 50 items |
+| Dato                 | Key                      | Tipo              | Límite   | Persistencia         |
+| -------------------- | ------------------------ | ----------------- | -------- | -------------------- |
+| Preferencias         | `esloquehay-prefs`       | `UserPreferences` | N/A      | ✅ Sí                |
+| Historial            | `esloquehay-history`     | `HistoryEntry[]`  | 50 items | ✅ Sí                |
+| Ingredientes activos | `esloquehay-ingredients` | `string[]`        | N/A      | ❌ No (session-only) |
+
+> **Nota:** Los ingredientes activos se limpian de localStorage al montar App.tsx. Solo viven en `useState`.
 
 ---
 
@@ -180,15 +196,29 @@ esloquehay/
 - **Decisión:** `vite-plugin-pwa` con `registerType: 'autoUpdate'`.
 - **Consecuencias:** Service worker generado automáticamente. Requiere validar cache en cada deploy.
 
+### ADR-005: Siempre intentar backend primero
+
+- **Contexto:** Health check previo bloqueaba generación aunque backend estuviera vivo.
+- **Decisión:** Eliminar gate `backendReady`. Siempre llamar backend primero, fallback real solo ante error genuino.
+- **Consecuencias:** Menos falsos negativos. Badge de estado sigue mostrándose para UX pero no bloquea.
+
+### ADR-006: Ingredients session-only
+
+- **Contexto:** Usuario pidió que ingredientes no persistan entre sesiones.
+- **Decisión:** Cambiar de `useLocalStorage` a `useState` para ingredientes. Limpiar key en localStorage al montar.
+- **Consecuencias:** Mejor UX para usuarios recurrentes. Historial y preferencias siguen persistiendo.
+
 ---
 
 ## 5. Seguridad
 
 - HTTPS obligatorio en todas las comunicaciones
 - Sin secretos hardcodeados en cliente (API URL en `.env.production`)
-- CSP headers pendientes de implementación (ver auditoría F4)
-- Rate limiting por IP gestionado en Cloudflare Workers (10 req/min free)
-- Sanitización de inputs: trim + lowercase en cliente. Validación adicional en Worker.
+- CSP headers implementados en `index.html` (incluye dominios de ads/analytics)
+- **Pendiente:** Remover `'unsafe-inline'` de `script-src` en CSP
+- Sin validación de inputs en backend (solo Zod en frontend responses) — **gap crítico**
+- CORS wildcard (`*`) en backend — **gap crítico**
+- `X-Session-ID` header para trazabilidad de requests
 
 ---
 
@@ -199,4 +229,5 @@ esloquehay/
 | Historial local       | 50 items (localStorage) | Migrar a IndexedDB (Fase 3)               |
 | Recetas/mes (IA)      | 10K neurons gratis/día  | Plan de pago Cloudflare                   |
 | Usuarios concurrentes | Ilimitado (stateless)   | Cloudflare Workers escala automáticamente |
-| Bundle JS             | ~150KB estimado         | Code-splitting por ruta si crece          |
+| Bundle JS             | ~303KB (principal)      | Code-splitting adicional si crece         |
+| Logo                  | 325KB PNG               | Optimizar a WebP/SVG                      |
